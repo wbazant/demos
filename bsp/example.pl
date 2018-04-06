@@ -60,7 +60,7 @@ Smp_000110
 Smp_000370/;
 for my $gene (@genes) {
   my @homologous_species = get_homologous_species($gene);
-  my $has_japonica = grep "caenorhabditis_japonica_prjna12591", @homologous_species;
-  my $has_haematobium = grep "schistosoma_haematobium_prjna78265", @homologous_species;
+  my $has_japonica = grep /caenorhabditis_japonica_prjna12591/, @homologous_species;
+  my $has_haematobium = grep /schistosoma_haematobium_prjna78265/, @homologous_species;
   print "$gene\n" if $has_japonica and $has_haematobium;
 }
