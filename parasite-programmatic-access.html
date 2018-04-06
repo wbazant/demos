@@ -10,21 +10,16 @@
 
 <body class="stackedit">
   <div class="stackedit__html"><h1 id="api-and-programmatic-access-to-parasite">API and programmatic access to ParaSite</h1>
-<h2 id="good-for">Good for:</h2>
-<h3 id="automating-website-usage">Automating website usage</h3>
-<ul>
-<li>Instead of genome browser: programmatically look for overlapping genes, search the flanking sequence, etc.</li>
-</ul>
-<h3 id="hops-in-multi-step-workflows">Hops in multi-step workflows</h3>
-<ul>
-<li>given a gene, get its orthologs, then check if they preserve a certain protein domain</li>
-</ul>
-<h3 id="having-a-different-data-format">Having a different data format</h3>
-<ul>
-<li>Get all the gene models as we structured them, instead of downloading the annotation file</li>
-<li>Discover what data gets returned for endpoints that seem helpful, instead of looking through attributes in BioMart</li>
-</ul>
-<h2 id="when-biomart-is-better">When BioMart is better:</h2>
+<h2 id="use-cases">Use cases</h2>
+<h3 id="automate-website-usage">Automate website usage</h3>
+<p><em>look for overlapping genes, search the flanking sequence, etc.</em></p>
+<h3 id="connect-programmatic-workflows">Connect programmatic workflows</h3>
+<p><em>given a gene, get its orthologs, then check if they preserve a certain protein domain</em></p>
+<h3 id="want-a-different-data-format">Want a different data format</h3>
+<p><em>Get all the gene models as we structured them (instead of GFF3)</em></p>
+<h3 id="discover-what-data-parasite-has">Discover what data ParaSite has</h3>
+<p><em>Browse through endpoints, see what can be helpful</em></p>
+<h2 id="when-biomart-is-better">When BioMart is better</h2>
 <ul>
 <li>bulk retrieval of the data</li>
 <li>everything that fits into “filters and attributes” framework</li>
@@ -32,8 +27,7 @@
 <p>There’s an R package <code>biomaRt</code> if you need programmatic access.</p>
 <h2 id="how-to-use">How to use</h2>
 <p><em>You’re visiting a webpage that returns data instead of showing images on the browser.</em></p>
-<p>Documentation:  <a href="http://parasite.wormbase.org/rest/">http://parasite.wormbase.org/rest/</a><br>
-( There’s a link on the main page)</p>
+<p>Documentation here:  <a href="http://parasite.wormbase.org/rest/">http://parasite.wormbase.org/rest/</a></p>
 <h3 id="find-endpoint-in-the-documentation">Find endpoint in the documentation</h3>
 <p><em>We will have a full walkthrough later.</em></p>
 <h3 id="make-the-right-address">Make the right address</h3>
@@ -41,7 +35,7 @@
 <li>
 <p>Either: choose value of each parameter</p>
 <ul>
-<li>Let the optional parameters be default for a start, you’ll know when you need them</li>
+<li>Keep the optional parameters as default for a start</li>
 </ul>
 </li>
 <li>
@@ -53,6 +47,19 @@
 <h3 id="integrate-into-larger-program">Integrate into larger program</h3>
 <p>You’re programming so you can do anything!</p>
 <h2 id="walk-through">Walk-through</h2>
+<h3 id="our-example">Our example</h3>
+<pre><code>We have a list of genes. 
+We want to see if any of their protein sequences contain, in order: 
+"B", "S", and "P"
+</code></pre>
+<p><em>Actually B stands for “asparagine or aspartic acid” - when one can’t distinguish N and D - so we might fail.</em></p>
+<ul>
+<li>Go to documentation</li>
+<li>Find the right endpoint</li>
+<li>Make the right address</li>
+<li>Get example response</li>
+<li>Integrate into larger program <em>(left as exercise)</em></li>
+</ul>
 </div>
 </body>
 
