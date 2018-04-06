@@ -59,7 +59,7 @@ You’re programming so you can do anything!</p>
 <em>Sequence</em></p>
 <h2 id="practical-example">Practical example</h2>
 <h3 id="our-example">Our example</h3>
-<p>We have a list of S. mansoni genes, <a href="https://wbazant.github.io/demos/bsp/genes.txt">here</a><br>
+<p>We have a list of S. mansoni genes, <a href="ftp://ftp.ebi.ac.uk/pub/databases/wormbase/STAFF/fr7/BSP_2018/S.mansoni_gene_list.txt">here</a><br>
 Find those that have orthologs in S.haematobium and S.japonica.</p>
 <h3 id="the-plan">The plan</h3>
 <ul>
@@ -71,15 +71,14 @@ Find those that have orthologs in S.haematobium and S.japonica.</p>
 </ul>
 <h3 id="a-few-points-to-help-us">A few points to help us</h3>
 <ul>
-<li>
-<p>The two species are called <code>caenorhabditis_japonica_prjna12591</code> and <code>schistosoma_haematobium_prjna78265</code>. I have found this out by searching here:<br>
-<a href="http://parasite.wormbase.org/rest-10/info/genomes/?content-type=text/xml">http://parasite.wormbase.org/rest-10/info/genomes/?content-type=text/xml</a></p>
-</li>
-<li>
-<p>There is a section on comparative genomics, and an endpoint which gives you all the orthologs.</p>
-</li>
+<li>The two species are called <code>caenorhabditis_japonica_prjna12591</code> and <code>schistosoma_haematobium_prjna78265</code>. I have found these by searching here:<br>
+<a href="http://parasite.wormbase.org/rest-10/info/genomes/?content-type=text/xml">http://parasite.wormbase.org/rest-10/info/genomes/?content-type=text/xml</a></li>
+<li>There is a link to the API documentation on the main page of ParaSite</li>
+<li>It has a section on comparative genomics, and an endpoint which gives you all the orthologs</li>
 </ul>
-<h3 id="model-program">Model program</h3>
+<h3 id="model-answers">Model answers</h3>
+<p><a href="./example.py">Python</a></p>
+<p><a href="./example.pl">Perl</a></p>
 </div>
 </body>
 
