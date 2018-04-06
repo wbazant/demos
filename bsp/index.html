@@ -4,27 +4,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BSP</title>
+  <title>ParaSite programmatic access</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
 <body class="stackedit">
   <div class="stackedit__html"><h1 id="api-and-programmatic-access-to-parasite">API and programmatic access to ParaSite</h1>
 <h2 id="use-cases">Use cases</h2>
+<h3 id="create-multi-step-workflows">Create multi-step workflows</h3>
+<p><em>given a gene, get its orthologs, then check if the orthologs a certain protein domain</em></p>
 <h3 id="automate-website-usage">Automate website usage</h3>
-<p><em>look for overlapping genes, search the flanking sequence, etc.</em></p>
-<h3 id="connect-programmatic-workflows">Connect programmatic workflows</h3>
-<p><em>given a gene, get its orthologs, then check if they preserve a certain protein domain</em></p>
+<p><em>look for genes in a region, search the flanking sequence, etc.</em></p>
 <h3 id="want-a-different-data-format">Want a different data format</h3>
-<p><em>Get all the gene models as we structured them (instead of GFF3)</em></p>
+<p><em>Get all the gene models in JSON/XML (instead of GFF3)</em></p>
 <h3 id="discover-what-data-parasite-has">Discover what data ParaSite has</h3>
 <p><em>Browse through endpoints, see what can be helpful</em></p>
 <h2 id="when-biomart-is-better">When BioMart is better</h2>
 <ul>
+<li>when you can do it in BioMart :)</li>
 <li>bulk retrieval of the data</li>
 <li>everything that fits into “filters and attributes” framework</li>
 </ul>
-<p>There’s an R package <code>biomaRt</code> if you need programmatic access.</p>
+<p>There’s an R package <code>biomaRt</code> if you need programmatic access to it.</p>
 <h2 id="how-to-use">How to use</h2>
 <p><em>You’re visiting a webpage that returns data instead of showing images on the browser.</em></p>
 <p>Documentation here:  <a href="http://parasite.wormbase.org/rest/">http://parasite.wormbase.org/rest/</a></p>
@@ -43,16 +44,25 @@
 </li>
 </ul>
 <h3 id="get-example-response">Get example response</h3>
-<p>use the browser, <code>curl</code> , or write a small program</p>
+<p>Use the browser, <code>curl</code> , or take our example program</p>
 <h3 id="integrate-into-larger-program">Integrate into larger program</h3>
-<p>You’re programming so you can do anything!</p>
-<h2 id="walk-through">Walk-through</h2>
+<p>Extract bits of the response you need, pass on to another program, etc.<br>
+You’re programming so you can do anything!</p>
+<h2 id="documentation-walk-through">Documentation walk-through</h2>
+<p><em>Comparative Genomics</em><br>
+<em>Cross References</em><br>
+<em>Information</em><br>
+<em>Lookup</em><br>
+<em>Mapping</em><br>
+<em>Ontologies and Taxonomy</em><br>
+<em>Overlap</em><br>
+<em>Sequence</em></p>
+<h2 id="practical-example">Practical example</h2>
 <h3 id="our-example">Our example</h3>
-<pre><code>We have a list of genes. 
-We want to see if any of their protein sequences contain, in order: 
-"B", "S", and "P"
+<pre><code>We have a list of S. mansoni genes. 
+Find those that have orthologs in S.haematobium or S.japonica.
 </code></pre>
-<p><em>Actually B stands for “asparagine or aspartic acid” - when one can’t distinguish N and D - so we might fail.</em></p>
+<h3 id="the-plan">The plan</h3>
 <ul>
 <li>Go to documentation</li>
 <li>Find the right endpoint</li>
@@ -60,6 +70,7 @@ We want to see if any of their protein sequences contain, in order:
 <li>Get example response</li>
 <li>Integrate into larger program <em>(left as exercise)</em></li>
 </ul>
+<h3 id="model-program">Model program</h3>
 </div>
 </body>
 
