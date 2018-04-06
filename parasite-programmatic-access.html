@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSP</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="api-and-programmatic-access-to-parasite">API and programmatic access to ParaSite</h1>
+<h2 id="good-for">Good for:</h2>
+<h3 id="automating-website-usage">Automating website usage</h3>
+<ul>
+<li>Instead of genome browser: programmatically look for overlapping genes, search the flanking sequence, etc.</li>
+</ul>
+<h3 id="hops-in-multi-step-workflows">Hops in multi-step workflows</h3>
+<ul>
+<li>given a gene, get its orthologs, then check if they preserve a certain protein domain</li>
+</ul>
+<h3 id="having-a-different-data-format">Having a different data format</h3>
+<ul>
+<li>Get all the gene models as we structured them, instead of downloading the annotation file</li>
+<li>Discover what data gets returned for endpoints that seem helpful, instead of looking through attributes in BioMart</li>
+</ul>
+<h2 id="when-biomart-is-better">When BioMart is better:</h2>
+<ul>
+<li>bulk retrieval of the data</li>
+<li>everything that fits into “filters and attributes” framework</li>
+</ul>
+<p>There’s an R package <code>biomaRt</code> if you need programmatic access.</p>
+<h2 id="how-to-use">How to use</h2>
+<p><em>You’re visiting a webpage that returns data instead of showing images on the browser.</em></p>
+<p>Documentation:  <a href="http://parasite.wormbase.org/rest/">http://parasite.wormbase.org/rest/</a><br>
+( There’s a link on the main page)</p>
+<h3 id="find-endpoint-in-the-documentation">Find endpoint in the documentation</h3>
+<p><em>We will have a full walkthrough later.</em></p>
+<h3 id="make-the-right-address">Make the right address</h3>
+<ul>
+<li>
+<p>Either: choose value of each parameter</p>
+<ul>
+<li>Let the optional parameters be default for a start, you’ll know when you need them</li>
+</ul>
+</li>
+<li>
+<p>Or: pick an example provided, then modify</p>
+</li>
+</ul>
+<h3 id="get-example-response">Get example response</h3>
+<p>use the browser, <code>curl</code> , or write a small program</p>
+<h3 id="integrate-into-larger-program">Integrate into larger program</h3>
+<p>You’re programming so you can do anything!</p>
+<h2 id="walk-through">Walk-through</h2>
+</div>
+</body>
+
+</html>
