@@ -59,16 +59,25 @@ You’re programming so you can do anything!</p>
 <em>Sequence</em></p>
 <h2 id="practical-example">Practical example</h2>
 <h3 id="our-example">Our example</h3>
-<pre><code>We have a list of S. mansoni genes. 
-Find those that have orthologs in S.haematobium or S.japonica.
-</code></pre>
+<p>We have a list of S. mansoni genes, <a href="https://wbazant.github.io/demos/bsp/genes.txt">here</a><br>
+Find those that have orthologs in S.haematobium and S.japonica.</p>
 <h3 id="the-plan">The plan</h3>
 <ul>
 <li>Go to documentation</li>
 <li>Find the right endpoint</li>
 <li>Make the right address</li>
 <li>Get example response</li>
-<li>Integrate into larger program <em>(left as exercise)</em></li>
+<li>Integrate into larger program</li>
+</ul>
+<h3 id="a-few-points-to-help-us">A few points to help us</h3>
+<ul>
+<li>
+<p>The two species are called <code>caenorhabditis_japonica_prjna12591</code> and <code>schistosoma_haematobium_prjna78265</code>. I have found this out by searching here:<br>
+<a href="http://parasite.wormbase.org/rest-10/info/genomes/?content-type=text/xml">http://parasite.wormbase.org/rest-10/info/genomes/?content-type=text/xml</a></p>
+</li>
+<li>
+<p>There is a section on comparative genomics, and an endpoint which gives you all the orthologs.</p>
+</li>
 </ul>
 <h3 id="model-program">Model program</h3>
 </div>
