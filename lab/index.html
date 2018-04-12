@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab meeting 17.04.2018</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="wbps10-and-plans-for-wbps11">WBPS10 and plans for WBPS11</h1>
+<p>Lab meeting, 17.04.2018</p>
+<h2 id="we-have-released-wbps10">We have released WBPS10</h2>
+<h3 id="new-genomes-and-updates">New genomes and updates</h3>
+<ul>
+<li>two Diploscapter species - free-living nematodes, studied in the context of reproduction</li>
+<li><em>Ascaridae</em> from U.C. Denver
+<ul>
+<li>much better assembly of <em>Ascaris suum</em>, and new assembly: <em>Parascaris univalens</em></li>
+<li>annotation had errors, we’ll have another update</li>
+</ul>
+</li>
+<li><em>Echinococcus canadensis</em> that was going to be published in July 2017 and wasn’t</li>
+<li>minor stuff from Wormbase</li>
+</ul>
+<h3 id="new-features">New features</h3>
+<ul>
+<li>None really</li>
+</ul>
+<h3 id="software-updates">Software updates</h3>
+<ul>
+<li>Ensembl 89</li>
+</ul>
+<h3 id="what-i-had-to-do">What I had to do</h3>
+<h4 id="dependent-on-release-size">Dependent on release size</h4>
+<ul>
+<li>New genomes and updates</li>
+<li>New features</li>
+</ul>
+<h4 id="constant-overhead">Constant overhead</h4>
+<ul>
+<li>Boring stuff
+<ul>
+<li>Make the environment</li>
+<li>Install new software</li>
+<li>etc.</li>
+</ul>
+</li>
+<li>All-species pipeline runs
+<ul>
+<li>Compara</li>
+<li>Protein features</li>
+<li>BioMart</li>
+<li>FTP site</li>
+</ul>
+</li>
+</ul>
+<h4 id="should-not-be-needed-next-time">Should not be needed next time</h4>
+<ul>
+<li>Find my way around the project</li>
+<li>Fill holes in documentation</li>
+<li>Fix biomart :)</li>
+<li>Babysit running jobs so much</li>
+</ul>
+<h2 id="plans-for-wbps11">Plans for WBPS11</h2>
+<h3 id="new-genomes-and-updates-1">New genomes and updates</h3>
+<h4 id="wtsi">WTSI</h4>
+<h5 id="ready-for-me-to-process">Ready for me to process</h5>
+<ul>
+<li>Trichuris muris (WS 264)</li>
+</ul>
+<h5 id="if-theyre-ready-by-mid-may">If they’re ready by mid-May</h5>
+<ul>
+<li>Schistosoma mansoni</li>
+<li>Haemonchus contortus</li>
+<li>Hymenolepis microstoma<br>
+More?</li>
+</ul>
+<h4 id="submitters-i-know-about">Submitters I know about</h4>
+<ul>
+<li>UC Denver Ascaridae fix</li>
+<li>Liverpool: F. hepatica, being submitted to an archive now</li>
+</ul>
+<h4 id="current-backlog">Current backlog</h4>
+<ul>
+<li>Oschieus tipulae</li>
+<li>Onchocerca flexulosus</li>
+<li>Five species of Meloydogyne</li>
+<li>C. latens</li>
+<li>C. remanei</li>
+<li>N. brasiliensis</li>
+<li>S. mediterranea</li>
+</ul>
+<h4 id="catch-up">Catch up</h4>
+<ul>
+<li>Search the whole list of published assemblies in NCBI and ENA</li>
+<li>Write to frequent submitters (Edinburgh?)</li>
+</ul>
+<h3 id="new-features-1">New features</h3>
+<h4 id="rnaseq-data">RNASeq data</h4>
+<p>Target #1: have (almost) all public data available as tracks</p>
+<ul>
+<li>write an import pipeline from RNASeq-er
+<ul>
+<li>take processed track files and host them from Sanger
+<ul>
+<li>TODO: check how much space it will take etc.</li>
+</ul>
+</li>
+<li>create track descriptions
+<ul>
+<li>semi-manually, sadly</li>
+</ul>
+</li>
+<li>run a JBrowse script to have it included and displayed</li>
+</ul>
+</li>
+</ul>
+<h5 id="add-comments-to-parasite">Add comments to ParaSite</h5>
+<p>…maybe not now</p>
+<h5 id="programmatic-access-to-protein-stats">Programmatic access to protein stats</h5>
+<ul>
+<li>things like: isoelectric point</li>
+<li>displayable on the website, but not accessible programmatically</li>
+<li>add them to API or BioMart</li>
+<li>doesn’t fit too elegantly in any API section</li>
+<li>in general: niche, but easily doable and requested</li>
+</ul>
+<h3 id="planned-software-updates-and-fixes">Planned software updates and fixes</h3>
+<ul>
+<li>Ensembl 92</li>
+<li>new xref pipeline from Ensembl</li>
+<li>New version of JBrowse (we’re on a year old version)</li>
+<li>Kevin and Faye found a BioMart bug, I’ll fix it</li>
+</ul>
+</div>
+</body>
+
+</html>
