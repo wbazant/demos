@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab meeting July 2018</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h3 id="wbps11-status">WBPS11 status</h3>
+<h4 id="new-species-and-updates">New species and updates</h4>
+<h5 id="largest-updates">Largest updates:</h5>
+<pre><code>- S. mansoni and H. contortus, our assemblies
+- T. muris as a new Wormbase core species
+- Fasciola hepatica from Liverpool
+</code></pre>
+<h5 id="also">Also:</h5>
+<pre><code>- Plectus sambesii
+- Three species of Meloidogyne (INRA)
+- Macrostomum lignano, new assembly
+- Caenorhabditis sp. 34 (T. Kikuchi)
+- Oschieus tipulae
+- Caenorhabditis latens and remanei from Oregon
+- 4 other (annotation updates)
+</code></pre>
+<h4 id="all-species-pipelines">All-species pipelines</h4>
+<p>Almost finished now! Reran for all species:</p>
+<ul>
+<li>RNA features (CMScan)</li>
+<li>Cross-references (more description of this pipeline to follow)</li>
+</ul>
+<h4 id="rnaseq-tracks">RNASeq tracks</h4>
+<ul>
+<li>New assemblies and annotations passed to EBI RNASeq-er team, they’re aligning</li>
+<li>Code for importing and curating metadata (more description to follow)</li>
+</ul>
+<h4 id="web-dev-by-tuan">Web dev: by Tuan</h4>
+<p>Comments in ParaSite gene pages: working already!</p>
+<h3 id="wbps-11-plans-hopes-and-dreams">WBPS 11 plans, hopes, and dreams</h3>
+<p>Check everything ran fine<br>
+Data for the website: populate analyses descriptions, pick example gene pages, etc.<br>
+Finish production: BioMart, FTP site<br>
+RNASeq tracks: move data into place, curate descriptions</p>
+<h4 id="species-statistics-viewed-around-the-taxonomic-tree">Species statistics viewed around the taxonomic tree</h4>
+<p>By James Cotton: code, copy number duplication vis. in 50 Helminths paper<br>
+Comparative genomics pages?<br>
+New page with per-release summary of our data?</p>
+<h2 id="cross-references-pipeline">Cross-references pipeline</h2>
+<p>Connects our gene pages with other resources:</p>
+<p><strong>WBGene00001135</strong><br>
+<em>Probable vesicular glutamate transporter eat-4 [Source:UniProtKB/Swiss-Prot;Acc:<a href="http://www.uniprot.org/uniprot/P34644">P34644</a>]</em></p>
+
+<table>
+<thead>
+<tr>
+<th>External database</th>
+<th>database identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UniGene</td>
+<td>Cel.19624</td>
+</tr>
+<tr>
+<td>EntrezGene</td>
+<td>Probable vesicular glutamate transporter eat-4</td>
+</tr>
+</tbody>
+</table><h3 id="pipeline-overview">Pipeline overview</h3>
+<ul>
+<li>Download the sources</li>
+<li>Parse the sources and pick relevant parts</li>
+<li>Map to our genes</li>
+<li>Extract results</li>
+<li>Used to be: per species, in <code>ensembl/ensembl/misc-scripts</code></li>
+<li>Draft version: an eHive pipeline in <code>ensembl/ensembl-production</code></li>
+</ul>
+<h3 id="kinds-of-references">Kinds of references</h3>
+<h4 id="direct-through-ids">Direct (through IDs)</h4>
+<p>e.g.  RefSeq</p>
+<pre><code>LOCUS       NP_499023                576 aa            linear   INV 05-JUN-2018
+DEFINITION  Probable vesicular glutamate transporter eat-4 [Caenorhabditis
+            elegans].
+ACCESSION   NP_499023
+...
+ [CDS](https://www.ncbi.nlm.nih.gov/nuccore/NM_066622.4?from=1&amp;to=1731)             1..576
+...
+                     /db_xref="WormBase:[WBGene00001135](https://www.wormbase.org/search/gene/WBGene00001135)"
+</code></pre>
+<h4 id="checksum">Checksum</h4>
+<p>UniParc, RNACentral</p>
+<pre><code>URS0000000001	6bba097c8c39ed9a0fdf02273ee1c79a
+URS0000000002	1fe2f0e3c3a2d6d708ac98e9bfb1d7a8
+URS0000000003	7bb11d0572ff6bb42427ce74450ba564
+...
+</code></pre>
+<h4 id="sequence-match">Sequence match</h4>
+<p>E.g. UniProt</p>
+<pre><code>&gt;sp|P34644
+MSSWNEAWDRGKQMVGEPLAKMTAAAASATGAAPPQQMQEEGNENPMQMHSNKVLQVMEQ
+TWIGKCRKRWLLAILANMGFMISFGIRCNFGAAKTHMYKNYTDPYGKVHMHEFNWTIDEL
+...
+</code></pre>
+<h4 id="dependent--transitive">Dependent / transitive</h4>
+<p>E.g. RefSeq also mentions WikiGene ids</p>
+<h2 id="rnaseq-tracks-1">RNASeq tracks</h2>
+<h4 id="currently-in-production">Currently in production</h4>
+<p><a href="http://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=Smp.Chr_1%3A2559064..2581510&amp;tracks=DNA%2CLow_Complexity_Region_(Dust)%2C010_ERS017679&amp;highlight=">JBrowse installed</a><br>
+A few chosen tracks aligned with Ensembl Genomes code<br>
+Collaboration with EBI Functional Genomics team</p>
+<h4 id="plan-for-wbps11">Plan for WBPS11</h4>
+<p>Link tracks with aligned reads from <a href="https://www.ebi.ac.uk/fg/rnaseq/api/">RNASeq-er</a> and our genome sequences through <a href="http://jbrowse.org/code/JBrowse-1.14.2/index.html?data=sample_data/json/modencode">JBrowse faceted display</a>, aiming to create gateway to almost all public RNASeq data</p>
+<h4 id="available-data">Available data</h4>
+<p>EBI ENA: descriptions of studies<br>
+EBI FG: tracks aligned with our genomes, metadata on ENA runs<br>
+EBI ArrayExpress: curated metadata (sometimes)</p>
+<h4 id="my-work-so-far">My work so far</h4>
+<p>Get relevant ENA, RNASeq-er, ArrayExpress data 🐫🐪<br>
+make local copies 🐫🐫🐪🐪🐫<br>
+arrange per run 🐫🐫🐫🐫🐫🐪🐪🐫<br>
+decide what the “factors” are 🐫🐫🐪🐪</p>
+<p>All in Perl :)  🐪🐫🐫🐫🐫🐫🐫🐫🐫🐫🐫🐫🐫🐪</p>
+<h5 id="factors">Factors</h5>
+<p>Characteristics essential to difference between the runs<br>
+Potentially: all sample characteristics<br>
+Some heuristics to get ones that matter, then I have to curate them</p>
+<pre><code>---
+# - Drug resistance
+- Sample Name
+# - biomaterial provider
+- dev stage
+# - geographic location
+# - host
+- isolate
+# - synonym
+</code></pre>
+<h5 id="locallycachedresource.pm"><code>LocallyCachedResource.pm</code></h5>
+<p>Work around patchy availability of RNASeq-er, let me develop faster, allow hand-editing data</p>
+<pre><code>package GenomeBrowser::LocallyCachedResource;
+use YAML;
+use File::Path qw(make_path);
+
+sub new {
+    my ($class,$root_dir,$species, @other_args) = @_;
+    my $dir = "$root_dir/$species";
+    my $path_to_local_copy = "$dir/$class";
+    make_path $dir;
+
+    YAML::DumpFile($path_to_local_copy,
+       $class-&gt;_fetch($species, @other_args)
+    ) unless -f $path_to_local_copy;
+
+    return bless YAML::LoadFile($path_to_local_copy), $class;
+}
+</code></pre>
+<h5 id="what-i-got-from-this-all">What I got from this all</h5>
+<p>Lots of metadata, to be further structured into descriptions and links<br>
+Efficient way to pick labels and selection categories per species<br>
+Structure on (sometimes hundreds) of runs</p>
+<pre><code>  ERR576952:
+    ENA first public: 2014-11-12
+    ENA last update: 2016-04-19
+    PubMed references: 25887684
+    Sample Name: ERS524693
+    Study description: 'RNA from eggs, metacercariae, newly emerged juveniles, 21 day juveniles and adults were sequenced in order to examine changes in expression through development. This study was led by Prof John Dalton, University of McGill, Canada.'
+    Study title: RNAseq analysis of the liver fluke Fasciola hepatica
+    dev stage: adult
+    label: 'ERR576952: adult'
+    urlTemplate: http://ngs.sanger.ac.uk/production/parasites/wormbase/RNASeq_alignments/fasciola_hepatica_prjeb25283/ERR576952.bw
+  SRR4039330:
+    ENA first public: 2017-09-25
+    ENA last update: 2017-09-25
+    Organism: Fasciola hepatica
+    Sample Name: 'TCBZ - ABZ susceptible Fasciola hepatica'
+    Sex: hermaphrodite
+    Study title: Transcriptomic analysis of F. hepatica Southamerican drug resistant isolates
+    biomaterial provider: Hugo Solana. Universidad de Tandil
+    colection date: 2014
+    development stage: Adult
+    geographic location: Mexico
+    host: Ovis aries
+    isolate: Cenapa
+    label: 'SRR4039330: TCBZ - ABZ susceptible Fasciola hepatica, Cenapa'
+    model: Invertebrate
+    organism part: Whole worm
+    package: Invertebrate.1.0
+    synonym: Cenapa1
+    urlTemplate: http://ngs.sanger.ac.uk/production/parasites/wormbase/RNASeq_alignments/fasciola_hepatica_prjeb25283/SRR4039330.bw
+    
+</code></pre>
+</div>
+</body>
+
+</html>
