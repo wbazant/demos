@@ -26,29 +26,24 @@
 - 4 other (annotation updates)
 </code></pre>
 <h4 id="all-species-pipelines">All-species pipelines</h4>
-<p>Almost finished now! Reran for all species:</p>
+<h5 id="reran-for-all-species">Reran for all species:</h5>
 <ul>
-<li>RNA features (CMScan)</li>
-<li>Cross-references (more description of this pipeline to follow)</li>
+<li>CMScan (noncoding RNAs): to avoid inconsistency over versions</li>
+<li>Cross-references ( we have a better pipeline now, more description of this pipeline to follow)</li>
+</ul>
+<h5 id="also-as-usual">Also, as usual:</h5>
+<ul>
+<li>Compara</li>
+<li>InterProScan etc.</li>
 </ul>
 <h4 id="rnaseq-tracks">RNASeq tracks</h4>
-<ul>
-<li>New assemblies and annotations passed to EBI RNASeq-er team, they’re aligning</li>
-<li>Code for importing and curating metadata (more description to follow)</li>
-</ul>
+<p>(described later)</p>
 <h4 id="web-dev-by-tuan">Web dev: by Tuan</h4>
-<p>Comments in ParaSite gene pages: working already!</p>
-<h3 id="wbps-11-plans-hopes-and-dreams">WBPS 11 plans, hopes, and dreams</h3>
-<p>Check everything ran fine<br>
-Data for the website: populate analyses descriptions, pick example gene pages, etc.<br>
-Finish production: BioMart, FTP site<br>
-RNASeq tracks: move data into place, curate descriptions</p>
-<h4 id="species-statistics-viewed-around-the-taxonomic-tree">Species statistics viewed around the taxonomic tree</h4>
-<p>By James Cotton: code, copy number duplication vis. in 50 Helminths paper<br>
-Comparative genomics pages?<br>
-New page with per-release summary of our data?</p>
+<p>Comments in ParaSite gene pages + more</p>
+<h4 id="releasing-wbps-11">Releasing WBPS 11</h4>
+<p>No planned date yet, but soon. BioMart build needs to finish.</p>
 <h2 id="cross-references-pipeline">Cross-references pipeline</h2>
-<p>Connects our gene pages with other resources:</p>
+<p>It connects our gene IDs with IDs from other resources. Desired result:</p>
 <p><strong>WBGene00001135</strong><br>
 <em>Probable vesicular glutamate transporter eat-4 [Source:UniProtKB/Swiss-Prot;Acc:<a href="http://www.uniprot.org/uniprot/P34644">P34644</a>]</em></p>
 
@@ -75,9 +70,9 @@ New page with per-release summary of our data?</p>
 <li>Parse the sources and pick relevant parts</li>
 <li>Map to our genes</li>
 <li>Extract results</li>
-<li>Used to be: per species, in <code>ensembl/ensembl/misc-scripts</code></li>
-<li>Draft version: an eHive pipeline in <code>ensembl/ensembl-production</code></li>
 </ul>
+<h3 id="gains-from-using-the-new-pipeline">Gains from using the new pipeline</h3>
+<p>Fresh data for all species. Connected us to more resources (RNACentral). Better gene descriptions. Code/process to keep these benefits in future releases.</p>
 <h3 id="kinds-of-references">Kinds of references</h3>
 <h4 id="direct-through-ids">Direct (through IDs)</h4>
 <p>e.g.  RefSeq</p>
@@ -107,59 +102,29 @@ TWIGKCRKRWLLAILANMGFMISFGIRCNFGAAKTHMYKNYTDPYGKVHMHEFNWTIDEL
 <h4 id="dependent--transitive">Dependent / transitive</h4>
 <p>E.g. RefSeq also mentions WikiGene ids</p>
 <h2 id="rnaseq-tracks-1">RNASeq tracks</h2>
-<h4 id="currently-in-production">Currently in production</h4>
-<p><a href="http://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=Smp.Chr_1%3A2559064..2581510&amp;tracks=DNA%2CLow_Complexity_Region_(Dust)%2C010_ERS017679&amp;highlight=">JBrowse installed</a><br>
-A few chosen tracks aligned with Ensembl Genomes code<br>
-Collaboration with EBI Functional Genomics team</p>
-<h4 id="plan-for-wbps11">Plan for WBPS11</h4>
-<p>Link tracks with aligned reads from <a href="https://www.ebi.ac.uk/fg/rnaseq/api/">RNASeq-er</a> and our genome sequences through <a href="http://jbrowse.org/code/JBrowse-1.14.2/index.html?data=sample_data/json/modencode">JBrowse faceted display</a>, aiming to create gateway to almost all public RNASeq data</p>
-<h4 id="available-data">Available data</h4>
-<p>EBI ENA: descriptions of studies<br>
-EBI FG: tracks aligned with our genomes, metadata on ENA runs<br>
-EBI ArrayExpress: curated metadata (sometimes)</p>
-<h4 id="my-work-so-far">My work so far</h4>
-<p>Get relevant ENA, RNASeq-er, ArrayExpress data 🐫🐪<br>
-make local copies 🐫🐫🐪🐪🐫<br>
-arrange per run 🐫🐫🐫🐫🐫🐪🐪🐫<br>
-decide what the “factors” are 🐫🐫🐪🐪</p>
-<p>All in Perl :)  🐪🐫🐫🐫🐫🐫🐫🐫🐫🐫🐫🐫🐫🐪</p>
-<h5 id="factors">Factors</h5>
-<p>Characteristics essential to difference between the runs<br>
-Potentially: all sample characteristics<br>
-Some heuristics to get ones that matter, then I have to curate them</p>
-<pre><code>---
-# - Drug resistance
-- Sample Name
-# - biomaterial provider
-- dev stage
-# - geographic location
-# - host
-- isolate
-# - synonym
-</code></pre>
-<h5 id="locallycachedresource.pm"><code>LocallyCachedResource.pm</code></h5>
-<p>Work around patchy availability of RNASeq-er, let me develop faster, allow hand-editing data</p>
-<pre><code>package GenomeBrowser::LocallyCachedResource;
-use YAML;
-use File::Path qw(make_path);
-
-sub new {
-    my ($class,$root_dir,$species, @other_args) = @_;
-    my $dir = "$root_dir/$species";
-    my $path_to_local_copy = "$dir/$class";
-    make_path $dir;
-
-    YAML::DumpFile($path_to_local_copy,
-       $class-&gt;_fetch($species, @other_args)
-    ) unless -f $path_to_local_copy;
-
-    return bless YAML::LoadFile($path_to_local_copy), $class;
-}
-</code></pre>
-<h5 id="what-i-got-from-this-all">What I got from this all</h5>
-<p>Lots of metadata, to be further structured into descriptions and links<br>
-Efficient way to pick labels and selection categories per species<br>
-Structure on (sometimes hundreds) of runs</p>
+<p>We have some RNASeq tracks but not as useful as they could be:<br>
+<a href="http://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=Smp.Chr_1%3A2559064..2581510&amp;tracks=DNA%2CLow_Complexity_Region_(Dust)%2C010_ERS017679&amp;highlight=">JBrowse installed</a>, and a few chosen tracks aligned with Ensembl Genomes code</p>
+<h4 id="rnaseq-er"><a href="https://www.ebi.ac.uk/fg/rnaseq/api/">RNASeq-er</a></h4>
+<p>Gets data from ENA, aligns the reads, then does quantification.</p>
+<h4 id="plan">Plan</h4>
+<ul>
+<li>take the reads, provided as BigWig files</li>
+<li>serve them from Sanger’s NGS server</li>
+<li>get metadata about runs from various places
+<ul>
+<li>ENA: descriptions of studies</li>
+<li>RNASeq-er: how well they aligned</li>
+<li>ArrayExpress: curated metadata</li>
+</ul>
+</li>
+<li>assemble metadata into categories</li>
+<li>make nice JBrowse displays</li>
+<li>serve through EBI FTP server, link from gene pages</li>
+</ul>
+<h4 id="project-status">Project status</h4>
+<p>It’s working :) Not all data has deployed yet, the displays are still rough.</p>
+<h4 id="demo">DEMO</h4>
+<h4 id="metadata-example">Metadata example</h4>
 <pre><code>  ERR576952:
     ENA first public: 2014-11-12
     ENA last update: 2016-04-19
@@ -191,6 +156,30 @@ Structure on (sometimes hundreds) of runs</p>
     urlTemplate: http://ngs.sanger.ac.uk/production/parasites/wormbase/RNASeq_alignments/fasciola_hepatica_prjeb25283/SRR4039330.bw
     
 </code></pre>
+<h4 id="factors">Factors</h4>
+<p>“Characteristics essential to difference between the runs”. I want to identify these factors to make good JBrowse track selectors.</p>
+<h5 id="current-approach">Current approach</h5>
+<ul>
+<li>Take characteristic types that change value</li>
+<li>Curate manually :(</li>
+</ul>
+<h5 id="example-f.-hepatica-studies">Example: f. hepatica studies</h5>
+<pre><code>---
+# - Drug resistance
+- Sample Name
+# - biomaterial provider
+- dev stage
+# - geographic location
+# - host
+- isolate
+# - synonym
+</code></pre>
+<p>Some ideas:</p>
+<ul>
+<li>maintain a list of characteristics that probably aren’t going to be good for no species, like <code>synonym</code></li>
+<li>rank the types somehow</li>
+<li>?</li>
+</ul>
 </div>
 </body>
 
