@@ -12,7 +12,7 @@
   <div class="stackedit__html"><h3 id="wbps11-status">WBPS11 status</h3>
 <h4 id="new-species-and-updates">New species and updates</h4>
 <h5 id="largest-updates">Largest updates:</h5>
-<pre><code>- S. mansoni and H. contortus, our assemblies  
+<pre><code>- our assemblies S. mansoni and H. contortus  
 - T. muris as a new Wormbase core species  
 - Fasciola hepatica from Liverpool  
 </code></pre>
@@ -45,7 +45,7 @@
 <h2 id="cross-references-pipeline">Cross-references pipeline</h2>
 <p>It connects our gene IDs with IDs from other resources. Desired result:</p>
 <p><strong>WBGene00001135</strong><br>
-<em>Probable vesicular glutamate transporter eat-4 [Source:UniProtKB/Swiss-Prot;Acc:<a href="%5Bhttp://www.uniprot.org/uniprot/P34644">P34644</a>]</em>](<a href="http://www.uniprot.org/uniprot/P34644">http://www.uniprot.org/uniprot/P34644</a>)%5D*)</p>
+<em>Probable vesicular glutamate transporter eat-4 [Source:UniProtKB/Swiss-Prot;Acc:<a href="%5Bhttp://www.uniprot.org/uniprot/P34644%5D(http://www.uniprot.org/uniprot/P34644%5D*)">P34644</a>]</em></p>
 
 <table>
 <thead>
@@ -66,13 +66,11 @@
 </tbody>
 </table><h3 id="pipeline-overview">Pipeline overview</h3>
 <ul>
-<li>Download the sources</li>
-<li>Parse the sources and pick relevant parts</li>
+<li>Download the sources from other resources</li>
+<li>Parse the source files and pick relevant parts</li>
 <li>Map to our genes</li>
 <li>Extract results</li>
 </ul>
-<h3 id="gains-from-using-the-new-pipeline">Gains from using the new pipeline</h3>
-<p>Fresh data for all species. Connected us to more resources (RNACentral). Better gene descriptions. Code/process to keep these benefits in future releases.</p>
 <h3 id="kinds-of-references">Kinds of references</h3>
 <h4 id="direct-through-ids">Direct (through IDs)</h4>
 <p>e.g. RefSeq</p>
@@ -101,6 +99,8 @@ TWIGKCRKRWLLAILANMGFMISFGIRCNFGAAKTHMYKNYTDPYGKVHMHEFNWTIDEL
 </code></pre>
 <h4 id="dependent--transitive">Dependent / transitive</h4>
 <p>E.g. RefSeq also mentions WikiGene ids</p>
+<h3 id="gains-from-using-the-new-pipeline">Gains from using the new pipeline</h3>
+<p>Fresh data for all species. Connected us to more resources (RNACentral). Better gene descriptions. Code/process to maintain these benefits in future releases.</p>
 <h2 id="rnaseq-tracks-1">RNASeq tracks</h2>
 <p>We have some RNASeq tracks but not as useful as they could be:<br>
 <a href="%5Bhttp://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=Smp.Chr_1%3A2559064..2581510&amp;tracks=DNA%2CLow_Complexity_Region_(Dust)%2C010_ERS017679&amp;highlight=%5D(http://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=Smp.Chr_1%3A2559064..2581510&amp;tracks=DNA%2CLow_Complexity_Region_(Dust)%2C010_ERS017679&amp;highlight=)">JBrowse installed</a>, and a few chosen tracks aligned with Ensembl Genomes code</p>
@@ -125,6 +125,10 @@ TWIGKCRKRWLLAILANMGFMISFGIRCNFGAAKTHMYKNYTDPYGKVHMHEFNWTIDEL
 <h4 id="project-status">Project status</h4>
 <p>It’s working :) Not all data has deployed yet, the displays are still rough.</p>
 <h4 id="demo">DEMO</h4>
+<p><a href="http://test.parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fancylostoma_ceylanicum_prjna231479%2Fdata&amp;loc=Acey_s0033_scaf%3A1293721..1312920&amp;tracks=RNASeq%2FSRR1124985%2CDNA%2CGene_Models&amp;highlight=">A. ceylanicum</a><br>
+<a href="http://test.parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fbrugia_malayi_prjna10729%2Fdata&amp;loc=Bm_v4_ChrX_scaffold_001%3A148901..168100&amp;tracks=DNA%2CGene_Models%2CRNASeq%2FSRR5099149%2CRNASeq%2FSRR2225859%2CRNASeq%2FSRR2225861&amp;highlight=">Brugia malayi</a><br>
+<a href="http://test.parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fglobodera_pallida_prjeb123%2Fdata&amp;loc=pathogens_Gpal_scaffold_8%3A193249..224995&amp;tracks=DNA%2CGene_Models%2CRNASeq%2FERR202485%2CRNASeq%2FERR202429%2CRNASeq%2FERR202442&amp;highlight=">Globodera pallida</a><br>
+<a href="http://test.parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fascaris_suum_prjna62057%2Fdata&amp;loc=AgB01%3A7549874..7566220&amp;tracks=DNA%2CGene_Models&amp;highlight=">Ascaris suum</a></p>
 <h4 id="metadata-example">Metadata example</h4>
 <pre><code>ERR576952:  
 ENA first public: 2014-11-12  
