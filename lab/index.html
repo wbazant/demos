@@ -9,165 +9,177 @@
 </head>
 
 <body class="stackedit">
-  <div class="stackedit__html"><h1 id="wbps10-and-plans-for-wbps11">WBPS10 and plans for WBPS11</h1>
-<p>Lab meeting, 17.04.2018</p>
-<h2 id="we-have-released-wbps10">We have released WBPS10</h2>
-<h3 id="new-genomes-and-updates">New genomes and updates</h3>
+  <div class="stackedit__html"><h3 id="wbps11-status">WBPS11 status</h3>
+<h4 id="new-species-and-updates">New species and updates</h4>
+<h5 id="largest-updates">Largest updates:</h5>
+<pre><code>- S. mansoni and H. contortus, our assemblies  
+- T. muris as a new Wormbase core species  
+- Fasciola hepatica from Liverpool  
+</code></pre>
+<h5 id="also">Also:</h5>
+<pre><code>- Plectus sambesii  
+- Three species of Meloidogyne (INRA)  
+- Macrostomum lignano, new assembly  
+- Caenorhabditis sp. 34 (T. Kikuchi)  
+- Oschieus tipulae  
+- Caenorhabditis latens and remanei from Oregon  
+- 4 other (annotation updates)  
+</code></pre>
+<h4 id="all-species-pipelines">All-species pipelines</h4>
+<h5 id="reran-for-all-species">Reran for all species:</h5>
 <ul>
-<li>two Diploscapter species - free-living nematodes, studied in the context of reproduction</li>
-<li><em>Ascaridae</em> from U.C. Denver
-<ul>
-<li>much better assembly of <em>Ascaris suum</em>, and new assembly: <em>Parascaris univalens</em></li>
-<li>annotation had errors, we’ll have another update</li>
+<li>CMScan (noncoding RNAs): to avoid inconsistency over versions</li>
+<li>Cross-references ( we have a better pipeline now, more description of this pipeline to follow)</li>
 </ul>
-</li>
-<li><em>Echinococcus canadensis</em> that was going to be published in July 2017 and wasn’t</li>
-<li>minor stuff from Wormbase</li>
-</ul>
-<h3 id="new-features">New features</h3>
-<ul>
-<li>None really</li>
-</ul>
-<h3 id="software-updates">Software updates</h3>
-<ul>
-<li>Ensembl 89</li>
-</ul>
-<h3 id="what-each-release-takes">What each release takes</h3>
-<h4 id="dependent-on-release-size">Dependent on release size</h4>
-<ul>
-<li>New genomes and updates</li>
-<li>New features</li>
-</ul>
-<h4 id="constant-overhead">Constant overhead</h4>
-<ul>
-<li>Dev ops
-<ul>
-<li>Prepare the environment</li>
-<li>Install new software</li>
-<li>etc.</li>
-</ul>
-</li>
-<li>All-species pipeline runs
+<h5 id="also-as-usual">Also, as usual:</h5>
 <ul>
 <li>Compara</li>
-<li>Protein features</li>
-<li>BioMart</li>
-<li>FTP site</li>
+<li>InterProScan etc.</li>
 </ul>
-</li>
-</ul>
-<h4 id="should-not-be-needed-next-time">Should not be needed next time</h4>
+<h4 id="rnaseq-tracks">RNASeq tracks</h4>
+<p>(described later)</p>
+<h4 id="web-dev-by-tuan">Web dev: by Tuan</h4>
+<p>Comments in ParaSite gene pages + more</p>
+<h4 id="releasing-wbps-11">Releasing WBPS 11</h4>
+<p>No planned date yet, but soon. BioMart build needs to finish.</p>
+<h2 id="cross-references-pipeline">Cross-references pipeline</h2>
+<p>It connects our gene IDs with IDs from other resources. Desired result:</p>
+<p><strong>WBGene00001135</strong><br>
+<em>Probable vesicular glutamate transporter eat-4 [Source:UniProtKB/Swiss-Prot;Acc:<a href="%5Bhttp://www.uniprot.org/uniprot/P34644">P34644</a>]</em>](<a href="http://www.uniprot.org/uniprot/P34644">http://www.uniprot.org/uniprot/P34644</a>)%5D*)</p>
+
+<table>
+<thead>
+<tr>
+<th>External database</th>
+<th>database identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UniGene</td>
+<td>Cel.19624</td>
+</tr>
+<tr>
+<td>EntrezGene</td>
+<td>Probable vesicular glutamate transporter eat-4</td>
+</tr>
+</tbody>
+</table><h3 id="pipeline-overview">Pipeline overview</h3>
 <ul>
-<li>Find my way around the project</li>
-<li>Fill holes in documentation</li>
-<li>Fix biomart :)</li>
-<li>Babysit running jobs so much</li>
+<li>Download the sources</li>
+<li>Parse the sources and pick relevant parts</li>
+<li>Map to our genes</li>
+<li>Extract results</li>
 </ul>
-<h2 id="plans-for-wbps11">Plans for WBPS11</h2>
-<h3 id="new-genomes-and-updates-1">New genomes and updates</h3>
-<h4 id="wtsi">WTSI</h4>
-<h5 id="ready-for-me-to-process">Ready for me to process</h5>
-<ul>
-<li>Trichuris muris (WS 264)</li>
-</ul>
-<h5 id="if-theyre-ready-by-mid-may">If they’re ready by mid-May</h5>
-<p>Schistosoma mansoni, Haemonchus contortus, Hymenolepis microstoma</p>
-<h5 id="more">More?</h5>
-<p>Dicrocoelium dendriticum: assembly in NCBI, but no annotation. Why not?</p>
-<h4 id="coming-soon">Coming soon</h4>
-<h5 id="uc-denver-ascaridae">UC Denver Ascaridae</h5>
-<p>Publish fixed gene models (many are currently off by one base due to an error)</p>
-<h5 id="liverpool-f.-hepatica">Liverpool F. hepatica</h5>
-<p>Steve Patterson is submitting it to an archive now</p>
-<h5 id="s.-mediterranea">S. mediterranea</h5>
-<p>Planarians are free-living platyhelminths, should be good for our comparative genomics</p>
-<h5 id="onchocerca-flexulosus">Onchocerca flexulosus</h5>
-<p><a href="https://www.ncbi.nlm.nih.gov/assembly/GCA_002249935.1/">Genome Institute Washington, submitted 2017/08/09</a><br>
-There’s already a <a href="http://parasite.wormbase.org/Onchocerca_flexuosa_prjeb512">draft assembly from WTSI</a>, different bioproject<br>
-I think we should have them both.</p>
-<h5 id="meloydogyne-data-from-inra">Meloydogyne data from INRA</h5>
-<h5 id="other">Other</h5>
-<ul>
-<li>Macrostomum lignano update (free living, for regeneration studies)</li>
-<li>Oschieus tipulae (C. elegans satellite)</li>
-<li>Maybe some more</li>
-</ul>
-<h4 id="genomes-without-annotation">Genomes without annotation</h4>
-<h5 id="pest-people-that-replied-so-far">Pest people that replied so far</h5>
-<p><i>No annotation, these are poor genomes, are you sure you want them?</i></p>
-<ul>
-<li>ARS USDA</li>
-<li>T. Kkuchi, U of Miyazaki</li>
-</ul>
-<h5 id="other-planarians-from-oxford">Other planarians from Oxford</h5>
-<pre><code>I’m afraid there are no annotations at this point for these assemblies.
-All the best,
-Aziz
+<h3 id="gains-from-using-the-new-pipeline">Gains from using the new pipeline</h3>
+<p>Fresh data for all species. Connected us to more resources (RNACentral). Better gene descriptions. Code/process to keep these benefits in future releases.</p>
+<h3 id="kinds-of-references">Kinds of references</h3>
+<h4 id="direct-through-ids">Direct (through IDs)</h4>
+<p>e.g. RefSeq</p>
+<pre><code>LOCUS NP_499023 576 aa linear INV 05-JUN-2018  
+DEFINITION Probable vesicular glutamate transporter eat-4 [Caenorhabditis  
+elegans].  
+ACCESSION NP_499023  
+...  
+[CDS]([https://www.ncbi.nlm.nih.gov/nuccore/NM_066622.4?from=1&amp;to=1731](https://www.ncbi.nlm.nih.gov/nuccore/NM_066622.4?from=1&amp;to=1731)) 1..576  
+...  
+/db_xref="WormBase:[WBGene00001135]([https://www.wormbase.org/search/gene/WBGene00001135](https://www.wormbase.org/search/gene/WBGene00001135))"  
 </code></pre>
-<h4 id="rnaseq-data">RNASeq data</h4>
-<p><strong>Current target:</strong> have (almost) all public data available as tracks</p>
+<h4 id="checksum">Checksum</h4>
+<p>UniParc, RNACentral</p>
+<pre><code>URS0000000001 6bba097c8c39ed9a0fdf02273ee1c79a  
+URS0000000002 1fe2f0e3c3a2d6d708ac98e9bfb1d7a8  
+URS0000000003 7bb11d0572ff6bb42427ce74450ba564  
+...  
+</code></pre>
+<h4 id="sequence-match">Sequence match</h4>
+<p>E.g. UniProt</p>
+<pre><code>&gt;sp|P34644  
+MSSWNEAWDRGKQMVGEPLAKMTAAAASATGAAPPQQMQEEGNENPMQMHSNKVLQVMEQ  
+TWIGKCRKRWLLAILANMGFMISFGIRCNFGAAKTHMYKNYTDPYGKVHMHEFNWTIDEL  
+...  
+</code></pre>
+<h4 id="dependent--transitive">Dependent / transitive</h4>
+<p>E.g. RefSeq also mentions WikiGene ids</p>
+<h2 id="rnaseq-tracks-1">RNASeq tracks</h2>
+<p>We have some RNASeq tracks but not as useful as they could be:<br>
+<a href="%5Bhttp://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=Smp.Chr_1%3A2559064..2581510&amp;tracks=DNA%2CLow_Complexity_Region_(Dust)%2C010_ERS017679&amp;highlight=%5D(http://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=Smp.Chr_1%3A2559064..2581510&amp;tracks=DNA%2CLow_Complexity_Region_(Dust)%2C010_ERS017679&amp;highlight=)">JBrowse installed</a>, and a few chosen tracks aligned with Ensembl Genomes code</p>
+<h4 id="rnaseq-er"><a href="%5Bhttps://www.ebi.ac.uk/fg/rnaseq/api/%5D(https://www.ebi.ac.uk/fg/rnaseq/api/)">RNASeq-er</a></h4>
+<p>Gets data from ENA, aligns the reads, then does quantification.</p>
+<h4 id="plan">Plan</h4>
 <ul>
-<li>write an import pipeline from RNASeq-er
-<ul>
-<li>take processed track files and host them from Sanger
-<ul>
-<li>TODO: check how much space it will take etc.</li>
+<li>take the reads, provided as BigWig files</li>
+<li>serve them from Sanger’s NGS server</li>
+<li>get metadata about runs from various places</li>
 </ul>
-</li>
-<li>create track descriptions
 <ul>
-<li>semi-manually, sadly</li>
+<li>ENA: descriptions of studies</li>
+<li>RNASeq-er: how well they aligned</li>
+<li>ArrayExpress: curated metadata</li>
 </ul>
-</li>
-<li>run a JBrowse script to have it included and displayed</li>
-</ul>
-</li>
-<li>work out workflow with RNASeq-er</li>
-<li>work out transfer and storage to Sanger</li>
-<li>versioning per assembly</li>
-</ul>
-<p><strong>On the horizon:</strong> quantified data per gene<br>
-( not starting this yet )</p>
-<h3 id="bsp-ideas-for-new-features">BSP ideas for new features</h3>
-<h4 id="regex-filter-on-sequences-through-biomart">Regex filter on sequences through BioMart</h4>
-<p>This depends on what BioMart will let me do, this might be technically hard (even a simpler variant, like filtering on a subsequence)</p>
-<h4 id="add-comments-to-parasite">Add comments to ParaSite</h4>
 <ul>
-<li>Location / Format
-<ul>
-<li>Gene page, left hand side menu</li>
-<li>Originally: “Submit a comment”</li>
-<li>Becomes: “Comments” when it has some</li>
-<li>A page where we explain what comments we invite, and a text box</li>
+<li>assemble metadata into categories</li>
+<li>make nice JBrowse displays</li>
+<li>serve through EBI FTP server, link from gene pages</li>
 </ul>
-</li>
-<li>Use cases
+<h4 id="project-status">Project status</h4>
+<p>It’s working :) Not all data has deployed yet, the displays are still rough.</p>
+<h4 id="demo">DEMO</h4>
+<h4 id="metadata-example">Metadata example</h4>
+<pre><code>ERR576952:  
+ENA first public: 2014-11-12  
+ENA last update: 2016-04-19  
+PubMed references: 25887684  
+Sample Name: ERS524693  
+Study description: 'RNA from eggs, metacercariae, newly emerged juveniles, 21 day juveniles and adults were sequenced in order to examine changes in expression through development. This study was led by Prof John Dalton, University of McGill, Canada.'  
+Study title: RNAseq analysis of the liver fluke Fasciola hepatica  
+dev stage: adult  
+label: 'ERR576952: adult'  
+urlTemplate: [http://ngs.sanger.ac.uk/production/parasites/wormbase/RNASeq_alignments/fasciola_hepatica_prjeb25283/ERR576952.bw](http://ngs.sanger.ac.uk/production/parasites/wormbase/RNASeq_alignments/fasciola_hepatica_prjeb25283/ERR576952.bw)  
+SRR4039330:  
+ENA first public: 2017-09-25  
+ENA last update: 2017-09-25  
+Organism: Fasciola hepatica  
+Sample Name: 'TCBZ - ABZ susceptible Fasciola hepatica'  
+Sex: hermaphrodite  
+Study title: Transcriptomic analysis of F. hepatica Southamerican drug resistant isolates  
+biomaterial provider: Hugo Solana. Universidad de Tandil  
+colection date: 2014  
+development stage: Adult  
+geographic location: Mexico  
+host: Ovis aries  
+isolate: Cenapa  
+label: 'SRR4039330: TCBZ - ABZ susceptible Fasciola hepatica, Cenapa'  
+model: Invertebrate  
+organism part: Whole worm  
+package: Invertebrate.1.0  
+synonym: Cenapa1  
+urlTemplate: [http://ngs.sanger.ac.uk/production/parasites/wormbase/RNASeq_alignments/fasciola_hepatica_prjeb25283/SRR4039330.bw](http://ngs.sanger.ac.uk/production/parasites/wormbase/RNASeq_alignments/fasciola_hepatica_prjeb25283/SRR4039330.bw)  
+  
+</code></pre>
+<h4 id="factors">Factors</h4>
+<p>“Characteristics essential to difference between the runs”. I want to identify these factors to make good JBrowse track selectors.</p>
+<h5 id="current-approach">Current approach</h5>
 <ul>
-<li>Iain has a list of proteins he found something about, has nowhere to publish it, but it’s a good list</li>
+<li>Take characteristic types that change value</li>
+<li>Curate manually :(</li>
 </ul>
-</li>
-<li>Concerns (mine)
+<h5 id="example-f.-hepatica-studies">Example: f. hepatica studies</h5>
+<pre><code>---  
+# - Drug resistance  
+- Sample Name  
+# - biomaterial provider  
+- dev stage  
+# - geographic location  
+# - host  
+- isolate  
+# - synonym  
+</code></pre>
+<p>Some ideas:</p>
 <ul>
-<li>I would need to moderate the comments and remove impolite / irrelevant content and I don’t really want to</li>
-<li>I expect no one will use it</li>
-<li>Even if people use it, it will look like nobody does, because there will be nothing said about most genes</li>
-</ul>
-</li>
-</ul>
-<h4 id="programmatic-access-to-protein-stats">Programmatic access to protein stats</h4>
-<ul>
-<li>things like: isoelectric point</li>
-<li>displayable on the website, but not accessible programmatically</li>
-<li>add them to API or BioMart</li>
-<li>doesn’t fit too elegantly in any API section</li>
-<li>in general: niche, but easily doable and requested</li>
-</ul>
-<h3 id="planned-software-updates-and-fixes">Planned software updates and fixes</h3>
-<ul>
-<li>Ensembl 92</li>
-<li>new xref pipeline from Ensembl</li>
-<li>New version of JBrowse (we’re on a year old version)</li>
-<li>Kevin and Faye found a BioMart bug, I’ll fix it</li>
+<li>maintain a list of characteristics that probably aren’t going to be good for no species, like <code>synonym</code></li>
+<li>rank the types somehow</li>
+<li>?</li>
 </ul>
 </div>
 </body>
