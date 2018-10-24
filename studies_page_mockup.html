@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>studies page mockup</title>
+  <title>Expression data in WormBase ParaSite</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
@@ -15,7 +15,10 @@
 <ul>
 <li>
 <ul>
-<li><a href="#example-format">Example format</a></li>
+<li><a href="#intention">Intention</a></li>
+<li><a href="#data-we-can-offer">Data we can offer</a></li>
+<li><a href="#studies-page">Studies page</a></li>
+<li><a href="#idea-above-as-a-shopping-cart-with-analyses-on-the-fly">Idea: above as a shopping cart, with analyses on the fly</a></li>
 </ul>
 </li>
 </ul>
@@ -24,29 +27,28 @@
   </div>
   <div class="stackedit__right">
     <div class="stackedit__html">
-      <hr>
-<h2 id="example-format">Example format</h2>
-<h3 id="study">Study</h3>
-<h4 id="this-is-a-description-of-the-study-one-sentence"><em>This is a description of the study, one sentence</em></h4>
-<h5 id="comparing-by-kind-of-grouping-what-the-groupings-are">comparing by [kind of grouping]: [what the groupings are]</h5>
-<p>details about experiment design (<a href="">show all</a>)</p>
-
-<table>
-<thead>
-<tr>
-<th><a href="">DESeq2</a></th>
-<th><a href="">counts</a></th>
-<th><a href="">aggregated expression (TPM)</a></th>
-</tr>
-</thead>
-<tbody></tbody>
-</table><p>Available but I’m not sure whether / how to include:</p>
+      <h2 id="intention">Intention</h2>
+<p>Add a scaled down and customised Expression Atlas, in its selected capabilities, to WormBase ParaSite.</p>
 <ul>
-<li>data provider</li>
-<li>number of runs</li>
-<li>links to raw data</li>
+<li>process and curate studies</li>
+<li>for each study, show “all results from this study”</li>
+<li>for each gene, show “everything we have for the gene”</li>
+<li><s>aggregate data for groups of genes</s></li>
+<li><s>allow searching by biological condition</s></li>
+<li><s>spark insight with charts and other visualisations</s></li>
 </ul>
-<hr>
+<h2 id="data-we-can-offer">Data we can offer</h2>
+<p>We should pinch the data from RNASeq-er and then reshape it a bit. They offer: Kallisto, htseq2, TPM, FPKM per read.</p>
+<h3 id="quantification">Quantification</h3>
+<p>Proposed: TPMs from htseq2, median value per replicate group</p>
+<h3 id="differential-expression">Differential expression</h3>
+<p>DESeq2: annotate each sample such that they group into assays. DESeq2 will fit a distribution to the data, and then for each gene it will report how much of the variation can be attributed to differences in the groups. E.g. multiple strains, multiple genders - quantify the variation only due to strain, and only due to gender. Expression Atlas: just two groups, reference and test, in “differential experiments”</p>
+<h3 id="raw-counts">raw counts</h3>
+<p>Raw quantification data (counts) in a convenient file</p>
+<h2 id="studies-page">Studies page</h2>
+<p>Available from the species page for species where data is present.<br>
+Intended as one long list.</p>
+<h3 id="mockup">Mockup</h3>
 <h4 id="srp071241-comparison-of-gene-expression-between-female-schistosoma-mansoni-heads-and-tails-wang-and-collins-2016">SRP071241: <em>Comparison of gene expression between female Schistosoma mansoni heads and tails</em> (<a href="">Wang and Collins, 2016</a>)</h4>
 <h5 id="comparing-by-organism-part-head-vs-tail">comparing by organism part: head vs tail</h5>
 <p>adult, female (<a href="">show all</a>)</p>
@@ -60,7 +62,8 @@
 </tr>
 </thead>
 <tbody></tbody>
-</table><h4 id="srp017443-adult-somatic-stem-cells-in-the-human-parasite-schistosoma-mansoni">SRP017443: <em>Adult somatic stem cells in the human parasite Schistosoma mansoni</em></h4>
+</table><br>
+<h4 id="srp017443-adult-somatic-stem-cells-in-the-human-parasite-schistosoma-mansoni">SRP017443: <em>Adult somatic stem cells in the human parasite Schistosoma mansoni</em></h4>
 <h5 id="comparing-by-irradiation-200gy-vs-none">comparing by irradiation: ‘200Gy’ vs none</h5>
 <p>age - Perfused from mice 43 days post-infection, culture conditions - in vitro 48 hours, posterior somatic tissue, strain NMRI, male (<a href="">show all</a>)</p>
 
@@ -73,7 +76,8 @@
 </tr>
 </thead>
 <tbody></tbody>
-</table><h4 id="e-mtab-451--rna-seq-of-schistosoma-mansoni-flatworms-larva-and-adult-individuals-at-different-life-stages">E-MTAB-451:  <em>RNA-Seq of Schistosoma mansoni (flatworms) larva and adult individuals at different life-stages</em></h4>
+</table><br>
+<h4 id="e-mtab-451--rna-seq-of-schistosoma-mansoni-flatworms-larva-and-adult-individuals-at-different-life-stages">E-MTAB-451:  <em>RNA-Seq of Schistosoma mansoni (flatworms) larva and adult individuals at different life-stages</em></h4>
 <h5 id="comparing-by-developmental-stage-cercarium-3hr-schistosomulum-24hr-schistosomulum-platyhelminth-adult">comparing by developmental stage: cercarium, 3hr schistosomulum, 24hr schistosomulum, platyhelminth adult</h5>
 <p>whole organism, mixed sex, frozen specimen, strain: Puerto Rican  (<a href="">show all</a>)</p>
 
@@ -86,7 +90,8 @@
 </tr>
 </thead>
 <tbody></tbody>
-</table><h4 id="erp002113-praziquantel-mode-of-action-and-resistance">ERP002113: <em>Praziquantel mode of action and resistance</em></h4>
+</table><br>
+<h4 id="erp002113-praziquantel-mode-of-action-and-resistance">ERP002113: <em>Praziquantel mode of action and resistance</em></h4>
 <h5 id="comparing-by">comparing by</h5>
 <ul>
 <li><strong>strain</strong>: LE, LEPZQ, NMRI</li>
@@ -108,7 +113,26 @@
 </tr>
 </thead>
 <tbody></tbody>
-</table>
+</table><br>
+<h4 id="other-data-about-studies">Other data about studies</h4>
+<p>Available but I’m not sure whether and how to include:</p>
+<ul>
+<li>data provider</li>
+<li>number of runs</li>
+<li>links to study page</li>
+</ul>
+<h2 id="idea-above-as-a-shopping-cart-with-analyses-on-the-fly">Idea: above as a shopping cart, with analyses on the fly</h2>
+<h3 id="why-not">Why not</h3>
+<ul>
+<li>Pieces of above data aggregated per gene, are valuable and will be missed</li>
+<li>If there aren’t many analysis options, not much value in providing a dynamic capability</li>
+</ul>
+<h3 id="why-it-appealed-to-me-for-a-while">Why it appealed to me for a while</h3>
+<ul>
+<li>no need for a database</li>
+<li>no capability to search by gene can be excused if the users are “digging out” the data themselves</li>
+</ul>
+
     </div>
   </div>
 </body>
