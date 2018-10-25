@@ -209,25 +209,30 @@ We think it’s very important to let the user look at a gene of interest, and s
 <p>We will have uniform criteria for when we consider data points significant or not:</p>
 <ul>
 <li>expression of at least 0.5 TPM in some assay to be significant in the study</li>
-<li>p. value &lt; 0.05 or similar to be significant in the contrast</li>
+<li>p. value &lt; 0.05 and at least two-fold change or similar to be significant in the contrast</li>
 </ul>
 <p>We will present significant results first.</p>
-<pre><code>This needs discussion. A notion of attaching significance to results helps with querying BioMart.
+<pre><code>This needs discussion. 
+A notion of attaching significance to results helps with querying BioMart.
 </code></pre>
-<h4 id="question-marks">Question marks</h4>
-<p>The data could carry a notion of whether it is significant or not?</p>
+<h3 id="visualization">Visualization</h3>
+<p>We will prioritize clarity, which we will first attempt to achieve with simple data representations like a two column table. We also have the following graphical representations in mind.</p>
+<h4 id="expression-per-assay">Expression per assay</h4>
+<p>We consider a bar chart: different assays on one axis, expression on another.</p>
+<h4 id="contrasts">Contrasts</h4>
+<p>This could be represented as a square matrix with assays in both rows and columns, cell representing a contrast, and cell color representing fold change.</p>
 <h2 id="integration-with-jbrowse">Integration with JBrowse</h2>
-<p>When consuming per-gene information, it is essential that the user is able to verify data by looking at more basic data it was inferred from. We currently present this in the genome browser. It is valuable to</p>
-<p>Gene pages ca</p>
+<p>When consuming per-gene information, it is essential that the user is able to verify data by looking at more basic data it was inferred from. We currently present such data in Ensembl’s genome browser and in JBrowse, and we will link to JBrowse.</p>
+<p>Specially crafted link for each study will lead from a gene page into a JBrowse display with correct data open. This is worthwhile despite the limitations of JBrowse : no more than 30 runs are allowed, and many fewer runs fit on the screen.</p>
 <h2 id="integration-with-biomart">Integration with BioMart</h2>
 <p>We believe providing queries based on expression values in BioMart is of very limited value. Motivated users will analyze study results in detail after downloading data from us, but it is infeasible to allow them to do so through the  BioMart interface: complex queries that can be interesting vary per study and BioMart doesn’t allow this.</p>
 <p>We only intend to support queries that are not specific to individual studies. The initial release should support these queries:</p>
 <ul>
 <li>is there expression for gene anywhere?</li>
 <li>is there significant expression data for study Y?</li>
-<li>is there significant expression data for contrast X in study Y?</li>
+<li>is there significant enrichment for contrast X in study Y?</li>
 </ul>
-<p>We intend to</p>
+<p>We intend to allow export of expression data through BioMart in tabular form.</p>
 <h2 id="miscellaneous">Miscellaneous</h2>
 <h4 id="how-much-work-will-it-take">How much work will it take?</h4>
 <p>We expect at least half a year of active development, before minimal viable functionality, and that many people will be involved in the work and its different aspects.</p>
