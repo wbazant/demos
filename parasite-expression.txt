@@ -1,14 +1,14 @@
 # parasite-expression 1.0: a spec
 
 > (Wojtek's comments in this format) 
-> As specification, this is worded decisively and intentionally opinionated. Please dispute it and also point out anything missing!
+> As a specification, this working document is worded decisively and it is intentionally opinionated. 
+> Please dispute it and also point out anything missing!
 > 
 > Expression Atlas had to make choices and address problems in the same domain. 
 > I refer to their choices a lot, especially when I think we should diverge.
 
-
 ## Intention
-Add a scaled down and customised Expression Atlas, in its selected capabilities, to WormBase ParaSite.
+We will add a scaled down and customised Expression Atlas, in its selected capabilities, to WormBase ParaSite.
 We want to achieve:
 - a workflow to import alignment and quantification data from RNASeq-er
 - a process importing quantification data from RNASeq-er and performing analyses specified during curation
@@ -30,13 +30,16 @@ In this project, we do not intend to deliver:
 ## Data we can offer
 We should use the underlying data from RNASeq-er. They offer counts, FPKM, and TPMs from Kallisto and htseq2 quantification programs.
 ### Assay vs run
+> Assay is not the best word, because it also has a wet lab meaning.
+> I'm searching for a better one!
+> Expression Atlas calls a group of runs an "Assay group" and calls ENA runs "assays" which is not what I mean.
 ```
 "run" corresponds to one .bam file
 "assay" is a group of runs
 "study" is a group of runs too - but in a study, we divide runs into assays
 "contrast" is a comparison of two assays
 ```
-RNASeq-er analyses runs. Expression Atlas - or us - need to provide metadata so that different runs are grouped into assays as replicates. Insights from the study come from comparing assays with each other.
+RNASeq-er analyses runs. Expression Atlas - or us - need to provide metadata so that different runs are grouped into assays as replicates. Insights from the study come from comparing results between the assays.
 ### Analyses available
 #### Normalized expression
 We should provide this as TPMs from htseq2, aggregated by assay - choose median value among replicates for each assay.
@@ -45,10 +48,10 @@ Expression Atlas also accounts for technical replicates and quantile normalizes 
 This is just quantification data (counts per gene) in a convenient file.
 >  I am not yet sure what the format of this convenient file should be.
 #### Differential expression
-DESeq2: annotate each sample such that they group into assays. DESeq2 will fit a distribution to the data, and then for each two assays - a *contrast* it can report how much they differ.
-Expression Atlas always has clear contrasts - reference vs. test. We don't mind designs where there is no clear test and reference, more complicated designs, e.g. multiple strains, multiple drug treatments - quantify the variation only due to strain, and only due to drug treatment.
+DESeq2: annotate each sample such that they group into assays. DESeq2 will fit a distribution to the data, and then for each two assays - a *contrast*- it can report how much they differ.
+Expression Atlas always has clear contrasts - reference vs. test. We don't mind designs where there is no clear test and reference, and we are open to more complicated designs, e.g. a design with multiple strains and multiple drug treatments, where we may quantify the variation only due to strain, and only due to drug treatment.
 #### no expression evidence vs. expression found somewhere
-Some studies can only be used as a "yes or no" measure of expression. This is frequently a valuable insight for our data, and we will use it where available.
+Some studies can only be used as a "yes or no" measure of expression. This is frequently a valuable insight for our data, and we will use this analysis where nothing else is available.
 ### What analyses for what studies
 Normalized expression and raw counts should always be available. Differential expression will be available for whatever contrasts are created - and comparing all assays against all assays will be a default and frequently sensible choice. 
 
@@ -127,11 +130,9 @@ Challenging for us to support, but it's very important that we are able to.
 
 
 ## The need for more than just studies pages
-It is very simple to provide only the above:
-- data can be provided as files on the FTP server
-- webpage per species describing the studies and linking to these files - this can even be written and corrected manually
+It is very simple to provide only the studies pages: data can be provided as files on the FTP server, and a webpage per species describing the studies and linking to these files can even be written manually.
 
-We believe listing studies and analyzing them is not valuable enough - the study authors already analyze their data, better than we can do generically. 
+We believe curating the studies, analyzing them, and posting the results is not valuable enough by itself - the study authors already analyze their data better than we can do generically. 
 
 
 > ## One idea: analyze data on demand 
@@ -158,15 +159,13 @@ The analyses will yield:
 - expression level for each assay
 - fold change and some measure of certainty like p-value  for each contrast
 
+We will present significant results first.
+
 We will have uniform criteria for when we consider data points significant or not:
 - expression of at least 0.5 TPM in some assay to be significant in the study
 - p. value < 0.05 and at least two-fold change or similar to be significant in the contrast
 
-We will present significant results first.
-
-> A notion of attaching significance to results helps with querying BioMart. I would find it helpful if we discussed it:
->  - is it meaningful to for us to say that a result is significant vs. not based on a threshold
->  - are the criteria right?
+> A notion of attaching significance to results helps with querying BioMart. I feel the idea needs discussing though: is it meaningful to for us to say that a result is significant or not significant based on a threshold ?
 
 
 ### Visualization
@@ -195,25 +194,23 @@ We will support export of expression data through BioMart in tabular form.
 
 ## Miscellaneous
 #### How much work will it take?
-We expect at least half a year of active development before producing all functionality as described here and integrated into the main WormBase ParaSite portal.
+We expect at least half a year of development before the project delivers all functionality as described here and integrated into the main WormBase ParaSite portal.
 The project involves a variety of roles and we expect that multiple people will be involved in the work.
-We require delivering all the features in this document for the project to be released to WormBase ParaSite users.
 
 #### Can we analyze data between the studies in a meta-analysis and say as WormBase what we think the expression is?
-Provenance of information is important to us across our resource. Usually we provide a single answer to a question - e.g. we say with confidence where the repeats are in the genome, calculating them with the best tool available to us. We pool available sources and provide a single description for a gene, quoting e.g. UniProt that `Smp_144070` is a `putative gastric mucin`. 
-We believe it is fundamentally impossible to do so with expression data. We can pool runs from different studies and apply normalization techniques (Compare: *Lu et al, 2018*) but this will create another study among many, perhaps one that is considered valuable and prominently featured.
+Provenance of information is important to us across our resource. Usually we provide a single answer to a question - e.g. we say with confidence where the repeats are in the genome, calculating them with the best tool available to us. We pool available sources and provide a single description for a gene, referencing e.g. UniProt while saying that `Smp_144070` is a `putative gastric mucin`. 
+We believe it is fundamentally impossible to do so with expression data. We can pool runs from different studies and apply normalization techniques (Compare: *Lu & Berriman, 2018*) but this will create another study among many, perhaps one that is considered valuable and prominently featured.
 #### Is this only for expression data?
-The following kind of data will fit:
+No, but this is essential about expression data here:
 - Study captures an organism in a few carefully controlled states 
 - Each of these states generates data per gene
 - Insights come from comparing per-gene results, to link the difference in experimental conditions with gene function
-- The user will mostly browse through analyzed data
-- It is interesting to look through an analysis and see genes that stand out, and to look at results in all analyses for a gene of interest
+- The users mostly browse through analysis results, or look at results across analyses for a chosen gene
 
 #### What limitations are we comfortable with?
 The solution will be most suited for a small number of studies with not too much analyzed data per species. In the proposed design, all species will all be listed on one page. We can have no more than perhaps fifty studies per species if the page is to stay clear, navigable, and load smoothly.
 
-The studies may only have modest amounts of processed data because we do not plan dedicated infrastructure for it. We will budget one megabyte per assay in a core species database, and half a megabyte per assay in BioMart.
+The studies may only have modest amounts of processed data because we do not plan dedicated infrastructure for this project. We will budget one megabyte per assay in a core species database, and half a megabyte per assay in BioMart.
 
 #### Is this only for WormBase ParaSite?
 Plant and mosquito communities are in a similar position of having many available genomes with modest amount of functional genomics data per species. The work will stay generic enough to e.g. be easily adapted to a new Ensembl website in 2020, and to be adaptable throughout the lifetime of WormBase ParaSite. 
