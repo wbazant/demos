@@ -228,7 +228,7 @@ I would find it helpful if we discussed it:
 <p>This could be represented as a square matrix with assays in both rows and columns, cell representing a contrast, and cell color representing fold change.</p>
 <h2 id="integration-with-jbrowse">Integration with JBrowse</h2>
 <p>When consuming per-gene information, it is essential that the user is able to verify data by looking at more basic data it was inferred from. We currently present such data in Ensembl’s genome browser and in JBrowse, and we will link to JBrowse.</p>
-<p>Specially crafted link for each study will lead from a gene page into a JBrowse display with correct data open. This is worthwhile despite the limitations of JBrowse : no more than 30 runs are allowed, and many fewer runs fit on the screen.</p>
+<p>Specially crafted link for each study will lead from a gene page into a JBrowse display with correct data open. This is worthwhile despite the limitations of JBrowse where no more than 30 runs are allowed, and many fewer runs fit on the screen at one time.</p>
 <h2 id="integration-with-biomart">Integration with BioMart</h2>
 <p>We believe providing queries based on expression values in BioMart is of very limited value. Motivated users will analyze study results in detail after downloading the data from us, but it is infeasible to allow them to do so through the BioMart interface: complex queries that can be interesting vary per study and BioMart doesn’t allow this.</p>
 <p>We only intend to support queries that are not specific to individual studies. The initial release should support these queries:</p>
@@ -240,7 +240,8 @@ I would find it helpful if we discussed it:
 <p>We will support export of expression data through BioMart in tabular form.</p>
 <h2 id="miscellaneous">Miscellaneous</h2>
 <h4 id="how-much-work-will-it-take">How much work will it take?</h4>
-<p>We expect at least half a year of active development before getting minimal viable functionality. Many people will be involved in the work and its different aspects.</p>
+<p>We expect at least half a year of active development before producing end-to-end viable functionality as described here, up to a standard which will let us integrate it into the main WormBase ParaSite portal.<br>
+The project involves a variety of roles and we expect that multiple people will be involved in the work.</p>
 <h4 id="can-we-analyze-data-between-the-studies-in-a-meta-analysis-and-say-as-wormbase-what-we-think-the-expression-is">Can we analyze data between the studies in a meta-analysis and say as WormBase what we think the expression is?</h4>
 <p>Provenance of information is important to us across our resource. Usually we provide a single answer to a question - e.g. we say with confidence where the repeats are in the genome, calculating them with the best tool available to us. We pool available sources and provide a single description for a gene, quoting e.g. UniProt that <code>Smp_144070</code> is a <code>putative gastric mucin</code>.<br>
 We believe it is fundamentally impossible to do so with expression data. We can pool runs from different studies and apply normalization techniques (Compare: <em>Lu et al, 2018</em>) but this will create another study among many, perhaps to be featured as most valuable.</p>
