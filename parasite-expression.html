@@ -13,12 +13,13 @@
     <div class="stackedit__toc">
       
 <ul>
-<li><a href="#parasite-expression-a-spec">parasite-expression: a spec</a>
+<li><a href="#parasite-expression-1.0-a-spec">parasite-expression 1.0: a spec</a>
 <ul>
 <li><a href="#intention">Intention</a></li>
 <li><a href="#data-we-can-offer">Data we can offer</a></li>
 <li><a href="#studies-page">Studies page</a></li>
 <li><a href="#the-need-for-more-than-just-studies-pages">The need for more than just studies pages</a></li>
+<li><a href="#one-idea-analyze-data-on-demand">One idea: analyze data on demand</a></li>
 <li><a href="#gene-pages">Gene pages</a></li>
 <li><a href="#integration-with-jbrowse">Integration with JBrowse</a></li>
 <li><a href="#integration-with-biomart">Integration with BioMart</a></li>
@@ -35,14 +36,15 @@
   </div>
   <div class="stackedit__right">
     <div class="stackedit__html">
-      <h1 id="parasite-expression-a-spec">parasite-expression: a spec</h1>
-<pre><code>(Wojtek's comments in this format)
-As specification, this is intentionally opinionated and worded decisively, but these are all strong opinions held weakly.
-Tell me what the document is wrong about and what it is missing!
-
-Expression Atlas had to make choices and address problems in the same domain.
-I refer to their choices a lot, especially when I think we should diverge.
-</code></pre>
+      <h1 id="parasite-expression-1.0-a-spec">parasite-expression 1.0: a spec</h1>
+<blockquote>
+<p>(Wojtek’s comments in this format) As specification, this is<br>
+intentionally opinionated and worded decisively. Please dispute it and<br>
+also point out anything missing!</p>
+<p>Expression Atlas had to make choices and address problems in the same<br>
+domain. I refer to their choices a lot, especially when I think we<br>
+should diverge.</p>
+</blockquote>
 <h2 id="intention">Intention</h2>
 <p>Add a scaled down and customised Expression Atlas, in its selected capabilities, to WormBase ParaSite.<br>
 We want to achieve:</p>
@@ -175,30 +177,40 @@ Challenging for us to support, but it's very important that we are able to.
 </thead>
 <tbody></tbody>
 </table><br>
-<pre><code>#### Question marks about UI
-The following information is available, but I'm not sure whether and how to include:
-- data provider
-- number of runs
-- links to study page
-"Show all" intends to lead to experiment design, which would list various properties of the runs in the study and how they're grouped into assays. I don't know how to design this better now.
-</code></pre>
+<blockquote>
+<h4 id="question-marks-about-ui-the-following-information-is-available-but-im-not-sure-whether-and-how-to-include">Question marks about UI The following information is available, but I’m not sure whether and how to include:</h4>
+<ul>
+<li>data provider</li>
+<li>number of runs</li>
+<li>links to study page “Show all” intends to lead to experiment design, which would list various properties of the runs in the study and how<br>
+they’re grouped into assays. I don’t know how to design this better<br>
+now.</li>
+</ul>
+</blockquote>
 <h2 id="the-need-for-more-than-just-studies-pages">The need for more than just studies pages</h2>
 <p>It is very simple to provide only the above:</p>
 <ul>
 <li>data can be provided as files on the FTP server</li>
 <li>webpage per species describing the studies and linking to these files - this can even be written and corrected manually</li>
 </ul>
-<p>We believe listing studies and analyzing them is not valuable enough - the study authors already analyze their data, better than we can do.</p>
-<pre><code>## One idea: analyze data on demand
-The idea was to offer information about studies, and then let the user interact with it: change how runs are grouped into assays, select analyses to be done, and wait for results.
-### Why not
-- The user won't know what to select unless we curate the metadata well
-- I don't foresee many analysis options, so there is not much value in providing capability to do them dynamically
-- It is very valuable for the user to be able choose a gene and then see data for this gene from different studies
-### Why it appealed to me for a while
-- still quite simple - no need for a database storing individual results
-- no capability to search by gene could be excused if users are "digging out" the data themselves
-</code></pre>
+<p>We believe listing studies and analyzing them is not valuable enough - the study authors already analyze their data, better than we can do generically.</p>
+<blockquote>
+<h2 id="one-idea-analyze-data-on-demand">One idea: analyze data on demand</h2>
+<p>The idea was to offer information about studies, and then let the user interact with it: change how runs<br>
+are grouped into assays, select analyses to be done, and wait for<br>
+results.</p>
+<h3 id="why-not">Why not</h3>
+<ul>
+<li>The user won’t know what to select unless we curate the metadata well</li>
+<li>I don’t foresee many analysis options, so there is not much value in providing capability to do them dynamically</li>
+<li>It is very valuable for the user to be able choose a gene and then see data for this gene from different studies</li>
+</ul>
+<h3 id="why-it-appealed-to-me-for-a-while">Why it appealed to me for a while</h3>
+<ul>
+<li>still quite simple - no need for a database storing individual results</li>
+<li>no capability to search by gene could be excused if users are “digging out” the data themselves</li>
+</ul>
+</blockquote>
 <h2 id="gene-pages">Gene pages</h2>
 <p>Gene pages make this into a much more challenging software project.<br>
 With searching by gene the system needs to understand what the studies are, how to extract the data for each gene, and how to present it.<br>
