@@ -38,12 +38,10 @@
     <div class="stackedit__html">
       <h1 id="parasite-expression-1.0-a-spec">parasite-expression 1.0: a spec</h1>
 <blockquote>
-<p>(Wojtek’s comments in this format) As specification, this is<br>
-intentionally opinionated and worded decisively. Please dispute it and<br>
-also point out anything missing!</p>
-<p>Expression Atlas had to make choices and address problems in the same<br>
-domain. I refer to their choices a lot, especially when I think we<br>
-should diverge.</p>
+<p>(Wojtek’s comments in this format)<br>
+As specification, this is worded decisively and intentionally opinionated. Please dispute it and also point out anything missing!</p>
+<p>Expression Atlas had to make choices and address problems in the same domain.<br>
+I refer to their choices a lot, especially when I think we should diverge.</p>
 </blockquote>
 <h2 id="intention">Intention</h2>
 <p>Add a scaled down and customised Expression Atlas, in its selected capabilities, to WormBase ParaSite.<br>
@@ -67,7 +65,7 @@ We want to achieve:</p>
 <li><s>consistency with other EBI resources</s></li>
 <li><s>ability to see results broken down by transcript</s></li>
 <li><s>good support for organisms with as many studies as C. elegans</s></li>
-<li><s>data displayable on the genome browser</s></li>
+<li><s>data displayable in the genome browser</s></li>
 </ul>
 <h2 id="data-we-can-offer">Data we can offer</h2>
 <p>We should use the underlying data from RNASeq-er. They offer counts, FPKM, and TPMs from Kallisto and htseq2 quantification programs.</p>
@@ -83,7 +81,10 @@ We want to achieve:</p>
 <p>We should provide this as TPMs from htseq2, aggregated by assay - choose median value among replicates for each assay.<br>
 Expression Atlas also accounts for technical replicates and quantile normalizes the data, but we don’t intend to.</p>
 <h4 id="raw-counts">Raw counts</h4>
-<p>This is just quantification data (counts per gene) in a convenient file. I am not yet sure what the format of this convenient file should be.</p>
+<p>This is just quantification data (counts per gene) in a convenient file.</p>
+<blockquote>
+<p>I am not yet sure what the format of this convenient file should be.</p>
+</blockquote>
 <h4 id="differential-expression">Differential expression</h4>
 <p>DESeq2: annotate each sample such that they group into assays. DESeq2 will fit a distribution to the data, and then for each two assays - a <em>contrast</em> it can report how much they differ.<br>
 Expression Atlas always has clear contrasts - reference vs. test. We don’t mind designs where there is no clear test and reference, more complicated designs, e.g. multiple strains, multiple drug treatments - quantify the variation only due to strain, and only due to drug treatment.</p>
@@ -178,14 +179,14 @@ Challenging for us to support, but it's very important that we are able to.
 <tbody></tbody>
 </table><br>
 <blockquote>
-<h4 id="question-marks-about-ui-the-following-information-is-available-but-im-not-sure-whether-and-how-to-include">Question marks about UI The following information is available, but I’m not sure whether and how to include:</h4>
+<h4 id="question-marks-about-ui">Question marks about UI</h4>
+<p>The following information is available, but I’m not sure whether and how to include:</p>
 <ul>
 <li>data provider</li>
 <li>number of runs</li>
-<li>links to study page “Show all” intends to lead to experiment design, which would list various properties of the runs in the study and how<br>
-they’re grouped into assays. I don’t know how to design this better<br>
-now.</li>
+<li>links to study page</li>
 </ul>
+<p>“Show all” intends to lead to experiment design, which would list various properties of the runs in the study and how they’re grouped into assays. I don’t know how to design this better now.</p>
 </blockquote>
 <h2 id="the-need-for-more-than-just-studies-pages">The need for more than just studies pages</h2>
 <p>It is very simple to provide only the above:</p>
@@ -227,11 +228,13 @@ We think it’s very important to let a user see results for a gene of interest 
 <li>p. value &lt; 0.05 and at least two-fold change or similar to be significant in the contrast</li>
 </ul>
 <p>We will present significant results first.</p>
-<pre><code>A notion of attaching significance to results helps with querying BioMart.
-I would find it helpful if we discussed it:
- - is it meaningful to for us to say that a result is significant vs. not based on a threshold
- - are the criteria right?
-</code></pre>
+<blockquote>
+<p>A notion of attaching significance to results helps with querying BioMart. I would find it helpful if we discussed it:</p>
+<ul>
+<li>is it meaningful to for us to say that a result is significant vs. not based on a threshold</li>
+<li>are the criteria right?</li>
+</ul>
+</blockquote>
 <h3 id="visualization">Visualization</h3>
 <p>We will prioritize clarity, which we will first attempt to achieve with simple data representations like a two column table. We also have the following graphical representations in mind.</p>
 <h4 id="expression-per-assay">Expression per assay</h4>
@@ -246,17 +249,18 @@ I would find it helpful if we discussed it:
 <p>We only intend to support queries that are not specific to individual studies. The initial release should support these queries:</p>
 <ul>
 <li>is there expression for gene anywhere?</li>
-<li>is there significant expression data for any of chosen studies? (user multi-selects a study)</li>
-<li>is there significant enrichment for any of chosen contrasts? (user multi-selects a contrast)</li>
+<li>is there significant expression data for at least one of the chosen studies? (user multi-selects a study)</li>
+<li>is there significant enrichment in at least one of the chosen contrasts? (user multi-selects a contrast)</li>
 </ul>
 <p>We will support export of expression data through BioMart in tabular form.</p>
 <h2 id="miscellaneous">Miscellaneous</h2>
 <h4 id="how-much-work-will-it-take">How much work will it take?</h4>
-<p>We expect at least half a year of active development before producing end-to-end viable functionality as described here, up to a standard which will let us integrate it into the main WormBase ParaSite portal.<br>
-The project involves a variety of roles and we expect that multiple people will be involved in the work.</p>
+<p>We expect at least half a year of active development before producing all functionality as described here and integrated into the main WormBase ParaSite portal.<br>
+The project involves a variety of roles and we expect that multiple people will be involved in the work.<br>
+We require delivering all the features in this document for the project to be released to WormBase ParaSite users.</p>
 <h4 id="can-we-analyze-data-between-the-studies-in-a-meta-analysis-and-say-as-wormbase-what-we-think-the-expression-is">Can we analyze data between the studies in a meta-analysis and say as WormBase what we think the expression is?</h4>
 <p>Provenance of information is important to us across our resource. Usually we provide a single answer to a question - e.g. we say with confidence where the repeats are in the genome, calculating them with the best tool available to us. We pool available sources and provide a single description for a gene, quoting e.g. UniProt that <code>Smp_144070</code> is a <code>putative gastric mucin</code>.<br>
-We believe it is fundamentally impossible to do so with expression data. We can pool runs from different studies and apply normalization techniques (Compare: <em>Lu et al, 2018</em>) but this will create another study among many, perhaps to be featured as most valuable.</p>
+We believe it is fundamentally impossible to do so with expression data. We can pool runs from different studies and apply normalization techniques (Compare: <em>Lu et al, 2018</em>) but this will create another study among many, perhaps one that is considered valuable and prominently featured.</p>
 <h4 id="is-this-only-for-expression-data">Is this only for expression data?</h4>
 <p>The following kind of data will fit:</p>
 <ul>
@@ -267,13 +271,14 @@ We believe it is fundamentally impossible to do so with expression data. We can 
 <li>It is interesting to look through an analysis and see genes that stand out, and to look at results in all analyses for a gene of interest</li>
 </ul>
 <h4 id="what-limitations-are-we-comfortable-with">What limitations are we comfortable with?</h4>
-<p>The solution will be most suited for a small number of studies with not too much analysed data per species. In the proposed design, all species will all be listed on one page. We can have no more than perhaps fifty studies per species if the page is to stay clear, navigable, and load smoothly.</p>
-<p>The studies may only have modest amounts of processed data because we do not plan dedicated infrastructure to it. We will budget one megabyte per assay in a core species database, and half a megabyte per assay in BioMart.</p>
+<p>The solution will be most suited for a small number of studies with not too much analyzed data per species. In the proposed design, all species will all be listed on one page. We can have no more than perhaps fifty studies per species if the page is to stay clear, navigable, and load smoothly.</p>
+<p>The studies may only have modest amounts of processed data because we do not plan dedicated infrastructure for it. We will budget one megabyte per assay in a core species database, and half a megabyte per assay in BioMart.</p>
 <h4 id="is-this-only-for-wormbase-parasite">Is this only for WormBase ParaSite?</h4>
-<p>Plants or mosquitoes communities are in a similar position of having available genomes for many species, with modest amount of functional genomics data for each. The work will stay generic enough to e.g. be easily adapted to a new Ensembl website in 2020, and to be adaptable throughout the lifetime of WormBase ParaSite.</p>
-<pre><code>I am not sure where else it could currently go apart from WBPS, and who would want it.
-I am nevertheless dreaming big.
-</code></pre>
+<p>Plant and mosquito communities are in a similar position of having many available genomes with modest amount of functional genomics data per species. The work will stay generic enough to e.g. be easily adapted to a new Ensembl website in 2020, and to be adaptable throughout the lifetime of WormBase ParaSite.</p>
+<blockquote>
+<p>I am not sure where else it could currently go apart from WBPS, and who would want it.<br>
+I am nevertheless dreaming big.</p>
+</blockquote>
 
     </div>
   </div>
