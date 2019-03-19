@@ -9,7 +9,22 @@
 </head>
 
 <body class="stackedit">
-  <div class="stackedit__html"><h2 id="expression-data-for-wormbase-parasite">Expression data for WormBase ParaSite</h2>
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li>
+<ul>
+<li><a href="#expression-data-for-wormbase-parasite">Expression data for WormBase ParaSite</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h2 id="expression-data-for-wormbase-parasite">Expression data for WormBase ParaSite</h2>
 <p>We will display quantification and alignment data from RNASeq-er (EBI project), curated and analysed on a per-study level.</p>
 <h3 id="data-offered">Data offered</h3>
 <h5 id="for-all-studies">For all studies</h5>
@@ -57,7 +72,9 @@
 <li>species pages</li>
 <li>gene pages</li>
 </ul>
-</div>
+
+    </div>
+  </div>
 </body>
 
 </html>
