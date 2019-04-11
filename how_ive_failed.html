@@ -32,7 +32,7 @@
 <h3 id="wbps12-and-possibly-earlier-repeat-features-were-missing-from-gffs">WBPS12 and possibly earlier: repeat features were missing from GFFs</h3>
 <h5 id="discovered-by-me-prompted-by-patrick-to-add-previous_systematic_id-to-gffs">Discovered by: me, prompted by Patrick to add previous_systematic_id to GFFs</h5>
 <p>The script relied on recognising repeats by a certain analysis, the analysis names changed, and we were missing them for a while</p>
-<h3 id="multiple-issues-arond-the-ftp-dump">Multiple issues arond the FTP dump</h3>
+<h3 id="multiple-issues-around-the-ftp-dump">Multiple issues around the FTP dump</h3>
 <h5 id="discovered-by-me-when-running-checks-tuan-james-wasmuth-tweeting-us-allister-mcirvine-sending-us-an-email">Discovered by: me when running checks, Tuan, James Wasmuth tweeting us, Allister McIrvine sending us an email</h5>
 <p>I have originally mistreated the dump jobs, which caused some files to never make it to the FTP. I didn’t address it correctly later, and found a file was still missing on the release day when running the pre-release check. Also, only then have I discovered that the new feature - adding ortholog and paralog files - wasn’t completed because the CHECKSUMS were not listing them, and fixing it involved a bit of development to make_parasite_FTP_site.pl that should really have happened earlier. This delayed the release of the FTP site past after the release - some users noticed, I was scrambling to get it right, not a proud moment in general.</p>
 <h3 id="no-dnafeatures-for-taenia-multiceps">No DNAFeatures for Taenia multiceps</h3>
