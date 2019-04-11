@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How I&#x27;ve failed WBPS13</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#how-ive-failed---wbps13-edition">How I’ve failed - WBPS13 edition</a>
+<ul>
+<li><a href="#degraded-service">Degraded service</a></li>
+<li><a href="#lost-multiple-days-of-production">Lost multiple days of production</a></li>
+<li><a href="#near-misses">Near misses</a></li>
+<li><a href="#other">Other</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="how-ive-failed---wbps13-edition">How I’ve failed - WBPS13 edition</h1>
+<h2 id="degraded-service">Degraded service</h2>
+<h3 id="wbps12-and-possibly-earlier-repeat-features-were-missing-from-gffs">WBPS12 and possibly earlier: repeat features were missing from GFFs</h3>
+<h5 id="discovered-by-me-prompted-by-patrick-to-add-previous_systematic_id-to-gffs">Discovered by: me, prompted by Patrick to add previous_systematic_id to GFFs</h5>
+<p>The script relied on recognising repeats by a certain analysis, the analysis names changed, and we were missing them for a while</p>
+<h3 id="multiple-issues-arond-the-ftp-dump">Multiple issues arond the FTP dump</h3>
+<h5 id="discovered-by-me-when-running-checks-tuan-james-wasmuth-tweeting-us-allister-mcirvine-sending-us-an-email">Discovered by: me when running checks, Tuan, James Wasmuth tweeting us, Allister McIrvine sending us an email</h5>
+<p>I have originally mistreated the dump jobs, which caused some files to never make it to the FTP. I didn’t address it correctly later, and found a file was still missing on the release day when running the pre-release check. Also, only then have I discovered that the new feature - adding ortholog and paralog files - wasn’t completed because the CHECKSUMS were not listing them, and fixing it involved a bit of development to make_parasite_FTP_site.pl that should really have happened earlier. This delayed the release of the FTP site past after the release - some users noticed, I was scrambling to get it right, not a proud moment in general.</p>
+<h3 id="no-dnafeatures-for-taenia-multiceps">No DNAFeatures for Taenia multiceps</h3>
+<h5 id="discovered-by-me-when-looking-at-what-jbrowse-tracks-are-available-for-what-species">Discovered by: me when looking at what JBrowse tracks are available for what species</h5>
+<p>WBPS12: I did not run DNAFeatures for Taenia multiceps. I’ve reran it, but without the repeat library because there was no time to get it</p>
+<h3 id="no-repeats-in-jbrowse">No repeats in JBrowse</h3>
+<h5 id="discovered-by-me-when-updating-jbrowse-tracks">Discovered by: me when updating JBrowse tracks</h5>
+<p>WBPS12: not all the repeat features are represented in the JBrowse version of the RNASeq tracks, the code wasn’t picking them up and I didn’t notice</p>
+<h3 id="old-cmscan-results-in-gff3s">Old CMScan results in GFF3s</h3>
+<h5 id="discovered-by-me-when-developing-jbrowse-tracks">Discovered by: me, when developing JBrowse tracks</h5>
+<p>In WBPS12, three databases had old CMScan results under a logic name “ncrnas_predicted”. I did not correctly delete them when rerunning new CMScan for everything in WBPS11 or 12.</p>
+<h2 id="lost-multiple-days-of-production">Lost multiple days of production</h2>
+<h3 id="no-go-terms-in-the-merged-mart">No GO terms in the merged mart</h3>
+<h5 id="discovered-by-me-when-running-a-check-all-fields-in-the-mart-template-are-present-in-db">Discovered by: me, when running a check (all fields in the mart template are present in db)</h5>
+<p>The xrefs pipeline has not produced the gene names after the first time, I don’t know why. I have noticed this has happened, and re-ran the xrefs pipeline out of the usual order,which deleted the GO terms. I didn’t realise until checking the merged BioMart.</p>
+<h3 id="compara-cant-cope-with-large-trees">Compara can’t cope with large trees</h3>
+<h5 id="discovered-by-me">Discovered by: me</h5>
+<p>The trees were too large - a job didn’t cope. I have tried to solve it myself for a few days, it didn’t help, Compara advice didn’t really help, and we have only addressed it by removing the trees from Compara</p>
+<h3 id="no-incremental-merging-of-marts-possible-but-i-tried-anyway">No incremental merging of marts possible but I tried anyway</h3>
+<h5 id="discovered-by-me-1">Discovered by: me</h5>
+<p>It could not be done piecewise with Bruce’s script. Modifying it didn’t really help, and I ended up rewriting the script, which made me have to check up on it on evenings and weekends, and deleased the release</p>
+<h3 id="xrefs2-refseq-mrna-xrefs-missing-for-c.-elegans">xrefs(2): RefSeq mRNA xrefs missing for C. elegans</h3>
+<h5 id="discovered-by-kevin-when-looking-at-merged-mart">Discovered by: Kevin, when looking at merged mart</h5>
+<p>It turned out to be caused by priority “1” instead of “2” in the .ini config, as our CElegansRefSeqParser needs to run after WormbaseDirectParser - simply changing the priority to 2 did not result in a good run. I didn’t investigate further and did not fix the pipeline, instead adding the xrefs to the tables with a bunch of INSERTs.</p>
+<h3 id="ran-out-of-numbers-when-merging-marts">Ran out of numbers when merging marts</h3>
+<h5 id="discovered-by-me-when-ortholog-dump-didnt-work">Discovered by: me when ortholog dump didn’t work</h5>
+<p>Multiple keys got the value 4294967295, the highest int(10). This is because I have picked a too high offset block for different species in the merged mart during redevelopment of the merging script. I have done this despite being conscious this might happen and looking up what the maximum is. I have also dillegently looked up the highest key already in databases, around 1.1e6. I have then discarded these two pieces of information, and decided 1e8 will be a nice, large number.</p>
+<h2 id="near-misses">Near misses</h2>
+<h3 id="lost-backup-to-a-merged-mart">Lost backup to a merged mart</h3>
+<h5 id="discovered-by-me-2">Discovered by: me</h5>
+<p>I’ve issued a few shell commands in one line to be executed one after the other: 1. back up a merged mart db from staging to mysql-ps-prod 2. delete mart db in staging 3. run a script to repopulate merged mart. Later, I’ve logged in to see what’s happening, and 3. ) failed. I’ve reran last command in the shell without thinking much - arrow up, and enter - which clobbered the backup.</p>
+<h3 id="typo-in-condition-name">Typo in condition name</h3>
+<h5 id="discovered-by-me-when-looking-at-the-studies-page">Discovered by: me, when looking at the studies page</h5>
+<p>I made a typo in a condition name when curating an RNASeq study. I have only fixed it later: <a href="https://github.com/WormBase/wbps-expression/commit/a230316bb9d24f">https://github.com/WormBase/wbps-expression/commit/a230316bb9d24f</a>.</p>
+<h3 id="bug-wrong-other-studies-count">Bug: wrong “other” studies count</h3>
+<h5 id="discovered-by-me-very-late-when-gathering-stats-about-the-feature.">Discovered by: me, very late, when gathering stats about the feature.</h5>
+<p>I have not noticed the tables of contents in the RNASeq studies page are showing a wrong number of “other” studies.  This wasn’t spotted during development or testing, and only got fixed very late: <a href="https://github.com/WormBase/wbps-expression/commit/b0b97da377a2e">https://github.com/WormBase/wbps-expression/commit/b0b97da377a2e</a>.</p>
+<h3 id="bug-response-to-treatment-category-can-include-studies-with-no-contrasts">Bug: “Response to treatment” category can include studies with no contrasts</h3>
+<h5 id="discovered-by-tuan-updating-a-species-config-for-m.-incognita">Discovered by: Tuan, updating a species config for M. incognita</h5>
+<p>This would have resulted in the category always being empty for some species.</p>
+<h3 id="undervaluing-the-rnaseq-hub">Undervaluing the RNASeq hub</h3>
+<h5 id="discovered-by-me-3">Discovered by: me</h5>
+<p>I’ve mistakenly deprioritised updating the RNASeq hub - I didn’t pay attention to it in a long time so it seemed like it will be hard and I should fry the bigger fish first. I did it only on the release day, as I was looking for things to do, and it turned out to be very easy.</p>
+<h3 id="did-not-test-a-jira">Did not test a JIRA</h3>
+<h5 id="discovered-by-me-when-looking-for-more-failures-to-document">Discovered by: me, when looking for more failures to document</h5>
+<p>I’ve not tested an open JIRA PARASITE-324 that told me to test something before the release, and only afterwards.</p>
+<h2 id="other">Other</h2>
+<h3 id="added-xrefs-do-not-appear-on-the-website">Added xrefs do not appear on the website</h3>
+<h5 id="discovered-by-me-when-looking-at-the-test-site">Discovered by: me, when looking at the test site</h5>
+<h5 id="cost-1-hour">Cost: 1 hour</h5>
+<p>I have missed the display_label field when preparing the solution to 4., so the additional xrefs did not initially appear on the website.</p>
+<h3 id="dnafeatures-for-h.-glycines-without-a-repeat-library">DNAFeatures for H. glycines without a repeat library</h3>
+<h5 id="discovered-by-me-prompted-by-annas-question-to-think-about-repeat-modelling-in-general">Discovered by: me, prompted by Anna’s question to think about repeat modelling in general</h5>
+<h5 id="cost-3-hours">Cost: 3 hours</h5>
+<p>I didn’t initially see value in it and there is no SOP for RepeatModeler. I’ve asked the users for the library, and re-run it, later.</p>
+<h3 id="busco-jobs-fail-all-the-time">BUSCO jobs fail all the time</h3>
+<h5 id="cost-2-hours-per-release">Cost: 2 hours per release</h5>
+<p>I ignore this - AUGUSTUS wants to fork() and sometimes is not allowed to do it on the farm. The failures are only addressed by running a loop that starts all the undone BUSCOs three or four times per release. There’s no datacheck that would catch it</p>
+<h3 id="wbps12-a-check-we-got-okay-results-overallgroupsetqc.pm-not-reliably-fixed">WBPS12: A “check we got okay results” (<a href="http://OverallGroupsetQC.pm">OverallGroupsetQC.pm</a>) not reliably fixed</h3>
+<h5 id="discovered-by-compara-beekeeper">Discovered by: Compara beekeeper</h5>
+<h5 id="cost-2-hours-per-release-1">Cost: 2 hours per release</h5>
+<p>The check fails because there’s a bug in the check to do with database reuse logic. I’ve patched the failing bit of the check both in this release and the previous one.</p>
+<h3 id="something-datacheck-related-in-corestatistics-failed">Something datacheck related in CoreStatistics failed</h3>
+<h5 id="discovered-by-corestatistics-beekeeper">Discovered by: CoreStatistics beekeeper</h5>
+<h5 id="cost-30-mins-per-release">Cost: 30 mins per release</h5>
+<p>I think it fails only for us and is due to how the datacheck job is integrated into the pipeline. I’ve not investigated it further, but when it failed in WPBS13 I remembered the same thing happened in WBPS12.</p>
+<h3 id="compara-jobs-have-too-small-default-memory-requirements">Compara jobs have too small default memory requirements</h3>
+<h5 id="discovered-by-compara-beekeeper-1">Discovered by: Compara beekeeper</h5>
+<h5 id="cost-2-hours-per-release-2">Cost: 2 hours per release</h5>
+<p>I have not provided adequate requirements: there’s a list of commands providing better defaults, but the memory settings still need to be increased by hand for the last few jobs in Compara. It’s an ongoing failure, I don’t know how to do this better, so I wait for the failing tail of the jobs and give them the extra memory.</p>
+<h3 id="sequence-marts-didnt-merge-together">Sequence marts didn’t merge together</h3>
+<h5 id="discovered-by-me-when-testing-sequence-mart">Discovered by: me when testing sequence mart</h5>
+<h5 id="cost-2-hours">Cost: 2 hours</h5>
+<p>One sequence mart ( for A. viteae ) came out differently to all the others, so the marts couldn’t merge together. The logs for the merge job said that, but I didn’t read them, and only saw the failure when clicking things in martview.</p>
+<h3 id="confusion-on-whether-mart-merging-completed">Confusion on whether mart merging completed</h3>
+<h5 id="cost-5-minutes">Cost: 5 minutes</h5>
+<p>I have not put “Completed successfully” at the end of a biomart merging script, so it wasn’t super clear that it was that what happened, when it happened.</p>
+<h3 id="confusion-about-offsets-code">Confusion about offsets code</h3>
+<h5 id="cost-3-hours-1">Cost: 3 hours</h5>
+<p>I haven’t understood what a piece of code about setting offsets in the merged mart does, so I decided to not run it. I have only found out what it does by looking at how things got broken afterwards.</p>
+<h3 id="unnecessary-backup">Unnecessary backup</h3>
+<h5 id="cost-3-hours-2">Cost: 3 hours</h5>
+<p>I have made a dubious decision to back up the mart before running my version of the offsets code, and it has slowed me down by a few hours.</p>
+<h3 id="killed-the-backup">Killed the backup</h3>
+<h5 id="cost-2-hours-1">Cost: 2 hours</h5>
+<p>I did not let a backup complete - I’ve ctrl+Z’ed it to stop the process, and moved the process into the background, to recover a command from history that I wanted to run in parallel. The database did not like discovering that it is talking to a suspended process, and dropped the connection. This caused one table to not get backed up.</p>
+<h3 id="poor-contribution-to-planning-chat---3d-protein-model">Poor contribution to planning chat - 3D Protein Model</h3>
+<h5 id="discovered-by-kevin">Discovered by: Kevin</h5>
+<h5 id="cost-5-minutes-1">Cost: 5 minutes</h5>
+<p>I’ve misjudged the “3D Protein Model” feature thinking we don’t have the data for it, and was too quick to propose that we remove it.</p>
+<h3 id="martview-bad-link-template">martview bad link template</h3>
+<h5 id="discovered-by-me-during-testing">Discovered by: me during testing</h5>
+<h5 id="cost-20-minutes">Cost: 20 minutes</h5>
+<p>I’ve put in a bad link out template into the BioMart UI PDB checkbox, and Tuan had to restart BioMart once too much.</p>
+<h3 id="haemonchus-blast-dump-missing">Haemonchus BLAST dump missing</h3>
+<h5 id="discovered-by-tuan-when-testing-blast">Discovered by: Tuan when testing BLAST</h5>
+<h5 id="cost-3-hours-3">Cost: 3 hours</h5>
+<p>Haemonchus BLAST dump files were wrong in a very strange way - there was one file with the ending “0.fa” instead of four. I did not notice during development</p>
+<h3 id="release-notes-late">Release notes late</h3>
+<h5 id="discovered-by-tuan">Discovered by: Tuan</h5>
+<h5 id="cost-1-hour-1">Cost: 1 hour</h5>
+<p>I forgot about the documentation version of the release notes and Tuan had to wait for me to produce them.</p>
+<h3 id="not-updating-the-symlink-when-asked">Not updating the symlink when asked</h3>
+<h5 id="discovered-by-tuan-1">Discovered by: Tuan</h5>
+<h5 id="cost-10-minutes">Cost: 10 minutes</h5>
+<p>The doc for updating the jbrowse symlink was wrong. I executed it without checking the results, it didn’t work, and only realised it after Tuan told me the link didn’t change after I said I’ve done it.</p>
+<h3 id="poor-contribution-to-planning-chat---go-xrefs">Poor contribution to planning chat - GO xrefs</h3>
+<h5 id="cost-5-minutes-2">Cost: 5 minutes</h5>
+<p>I’ve forgotten that we get GO xrefs from a pipeline I wrote, and not UniProtParser. I have made the same incorrect claim on the JIRA PARASITE-359.</p>
+
+    </div>
+  </div>
+</body>
+
+</html>
