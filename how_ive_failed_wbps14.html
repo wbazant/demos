@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How I&#x27;ve failed WBPS14</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#how-ive-failed---wbps14-edition">How I’ve failed - WBPS14 edition</a>
+<ul>
+<li><a href="#degraded-service">Degraded service</a></li>
+<li><a href="#lost-multiple-days-of-production">Lost multiple days of production</a></li>
+<li><a href="#near-misses">Near misses</a></li>
+<li><a href="#other">Other</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="how-ive-failed---wbps14-edition">How I’ve failed - WBPS14 edition</h1>
+<h2 id="degraded-service">Degraded service</h2>
+<h3 id="wbps13-no-paralogs-and-orthologs-for-wormbase-core-species-on-ftp-and-also-m.-japonica">WBPS13: No paralogs and orthologs for WormBase core species on FTP, and also M. japonica</h3>
+<p>Wojtek noticed after writing an FTP check that he thought would be good to have, and the check not succeeding.</p>
+<h3 id="wbps13-clash-in-biomart-of-m.-japonica-and-p.-japonicus-prjeb27334">WBPS13: Clash in BioMart of M. japonica and P. japonicus PRJEB27334</h3>
+<p>Results in P. japonicus not in BioMart, and M. japonica “twice”.</p>
+<p>Genomes in the merged mart need to have a short name to be used as key, or else stuff won’t work. An attempt to resolve this is a Golden Species Regex which takes a BioMart name and produces a short name, carefully written and then copy-pasted around for WBPS11.</p>
+<p>Before that we had Bruce’s Slightly Worse Regex, that clashed on species of Trichinella and maybe more stuff. The GSR resolves the clashes of BSWR, but still clashes on two WBPS13 genomes, there was no check that GSR doesn’t clash, and it’s not implemented in one place.</p>
+<p>Wojtek noticed when looking at the issue above.</p>
+<h2 id="lost-multiple-days-of-production">Lost multiple days of production</h2>
+<h2 id="near-misses">Near misses</h2>
+<h2 id="other">Other</h2>
+
+    </div>
+  </div>
+</body>
+
+</html>
