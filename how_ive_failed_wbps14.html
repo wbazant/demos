@@ -36,6 +36,9 @@
 <p>Genomes in the merged mart need to have a short name to be used as key, or else stuff won’t work. An attempt to resolve this is a Golden Species Regex which takes a BioMart name and produces a short name, carefully written and then copy-pasted around for WBPS11.</p>
 <p>Before GSR we had Bruce’s Slightly Worse Regex, that clashed on species of Trichinella and more stuff, and a correspondingly inadequate BioMart. The GSR resolves the clashes of BSWR, but still clashes on two WBPS13 genomes, there was no check that GSR doesn’t clash, and it’s not implemented in one place.</p>
 <p>Wojtek noticed when looking at the issue above.</p>
+<h3 id="wbps13-and-before-bad-species-tree-in-biomart">WBPS13 and before: Bad species tree in BioMart</h3>
+<p>The script that dumps it, <code>dump_taxon_tree.pl</code>, didn’t know about the GSR and still used BSWR.<br>
+Wojtek noticed when reading the source code of that program for an unrelated reason.</p>
 <h2 id="lost-multiple-days-of-production">Lost multiple days of production</h2>
 <h2 id="near-misses">Near misses</h2>
 <h2 id="other">Other</h2>
