@@ -19,6 +19,7 @@
 <li><a href="#our-solution">Our solution</a></li>
 <li><a href="#details">Details</a></li>
 <li><a href="#future-directions">Future directions</a></li>
+<li><a href="#thank-you">Thank you</a></li>
 </ul>
 </li>
 </ul>
@@ -28,37 +29,36 @@
   <div class="stackedit__right">
     <div class="stackedit__html">
       <h1 id="gene-expression-data-for-wormbase-parasite">Gene expression data for WormBase ParaSite</h1>
+<p><img src="https://parasite.wormbase.org/i/gallery/gene_exp.png" alt="Gene expression studies logo"><br>
+for</p>
+<p><img src="https://parasite.wormbase.org/i/parasite.png" alt="WBPS logo"></p>
+<p>Written for Ensembl Data Review, 10.06.2019</p>
 <h2 id="introduction">Introduction</h2>
 <h3 id="about-us">About us</h3>
-<p><img src="https://parasite.wormbase.org/i/parasite.png" alt="WBPS logo"></p>
 <p>We’re an EBI - Sanger collaboration project, and we run a resource with genomes of parasitic worms.</p>
-<p>We rely on the Ensembl web code and Ensembl Genomes pipelines, together with customizations that make sense for our data and users.</p>
+<p>We rely on the Ensembl web code and Ensembl Genomes pipelines, adding customisations that make sense for our data and users.</p>
 <h3 id="value-of-gene-expression-data-to-our-users">Value of gene expression data to our users</h3>
 <ul>
-<li>
-<p>Confirming gene models</p>
-</li>
-<li>
-<p>Hints at gene function</p>
-</li>
-<li>
-<p>Putative drug targets need to be expressed in the relevant life stage</p>
-</li>
+<li>Confirming gene models</li>
+<li>Hints at gene function</li>
+<li>Helps with many research questions, especially life stage data</li>
 </ul>
 <h3 id="the-need-for-custom-solution-instead-of-expression-atlas-widget">The need for custom solution instead of Expression Atlas widget</h3>
-<p>Data mostly deposited to ENA, which Expression Atlas doesn’t curate.</p>
-<p>Sequencing parasites is difficult and there isn’t much funding for it, so we need to be more inclusive in curation.</p>
-<p>The data will be worse, so we need to be more conservative in analysis.</p>
+<p>Data mostly deposited to ENA, which Atlas doesn’t curate.</p>
+<p>We have lower standards: sequencing parasites is difficult and there isn’t much funding for it, so we need to be more inclusive in curation. The data is worse as a result, so we also need to be more conservative in analysis.</p>
 <h3 id="rnaseq-er-as-source-of-data">RNASeq-er as source of data</h3>
 <p><img src="https://www.ebi.ac.uk/fg/rnaseq/api/resources/rnaseq-api-logo.svg" alt="RNASeq-er logo"></p>
-<p>Also by EBI Functional Genomics Team.</p>
-<p>Analyses all RNASeq runs in ENA - alignment and quantification</p>
+<p>Also ran by EBI Functional Genomics Team.</p>
+<p>Analyses all RNASeq runs in ENA - alignment and quantification - and offers an API and FTP download</p>
 <h2 id="our-solution">Our solution</h2>
+<p>Here is what we provide to our users:</p>
 <h3 id="alignment-tracks">Alignment tracks</h3>
-<p>Aggregated into a UCSC-style track hub. We also offer JBrowse as an alternative genome browser, and they mostly went there.</p>
-<iframe src="https://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=SM_V7_1%3A24486999..24488553&amp;tracks=DNA%2CGene_Models%2CRNASeq%2FERR022874%2CRNASeq%2FERR022873&amp;highlight=">&#10;</iframe><h3 id="studies-page">Studies page</h3>
-<iframe src="https://parasite.wormbase.org/expression/schistosoma_mansoni_prjea36577/index.html">&#10;</iframe><h3 id="section-in-the-gene-page">Section in the gene page</h3>
-<iframe src="https://parasite.wormbase.org/Schistosoma_mansoni_prjea36577/Gene/WBPSExpressionLife_cycle?g=Smp_316150;r=SM_V7_2:9412952-9413667;t=Smp_316150.1">&#10;</iframe><h2 id="details">Details</h2>
+<p>Aggregated into a UCSC-style track hub, and added to our genome browser. We also offer JBrowse as an alternative genome browser, and the tracks work much better there!</p>
+<iframe src="https://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=SM_V7_1%3A24486999..24488553&amp;tracks=DNA%2CGene_Models%2CRNASeq%2FERR022874%2CRNASeq%2FERR022873&amp;highlight=" width="100%" height="600px">&#10;</iframe><h3 id="studies-page">Studies page</h3>
+<p>List of all studies for a species, with metadata - how runs group into conditions,  description of what was done in the study, any publications</p>
+<iframe src="https://parasite.wormbase.org/expression/schistosoma_mansoni_prjea36577/index.html" width="100%" height="600px">&#10;</iframe><h3 id="gene-page">Gene page</h3>
+<p>Implemented as a list of custom tabs on the gene page.</p>
+<iframe src="https://parasite.wormbase.org/Schistosoma_mansoni_prjea36577/Gene/WBPSExpressionLife_cycle?g=Smp_316150;r=SM_V7_2:9412952-9413667;t=Smp_316150.1" width="100%" height="600px">&#10;</iframe><h2 id="details">Details</h2>
 <h3 id="data-we-offer">Data we offer</h3>
 <ul>
 <li>read counts and transcripts per million reads (TPMs) for each gene in each ENA run</li>
@@ -70,12 +70,13 @@
 <p>Semi-automatic based on automatic criteria, with extensive checks. Stored in files, managed with <code>git</code>.</p>
 <h3 id="software">Software</h3>
 <p>All written by me and Tuan in very nice Perl.</p>
-<p>Simple techniques:</p>
+<p><img src="https://cdn.dribbble.com/users/1047458/screenshots/2991320/dribbble_perlchainsaw.png" alt="Perl - swiss army chainsaw"></p>
+<p>We relied on simple techniques:</p>
 <ul>
 <li>metadata is curated as files, and stored with source code</li>
 <li>the studies page is a single HTML document per species</li>
 <li>results are in TSV files, easy to download from the studies page</li>
-<li>data for the gene page is constructed by running <code>grep</code> on TSV files</li>
+<li>data for the gene page is constructed by the web server running <code>grep "$gene_id"</code> on TSV files</li>
 </ul>
 <p>We didn’t need:</p>
 <ul>
@@ -84,9 +85,12 @@
 <li>JavaScript</li>
 </ul>
 <h2 id="future-directions">Future directions</h2>
+<p><img src="http://cdn.economicsdiscussion.net/wp-content/uploads/2015/10/clip_image00210.jpg" alt="diminishing returns"></p>
 <p>We will keep the dataset updated as more data comes out - estimating 10 studies per release, so it’s not much work to keep it up to date.</p>
-<p>Incremental improvements: more informative studies page, differential expression data in a better format, etc.</p>
-<p>Expand outside WormBase ParaSite?!</p>
+<p>I am planning incremental improvements: more informative studies page, differential expression data in a better format, etc.</p>
+<p>I’d expand the project outside WormBase ParaSite, if I had a sustainable plan for it!</p>
+<h2 id="thank-you">Thank you</h2>
+<p><img src="http://annanacademyorguk.ipage.com/uploads/9/1/6/7/91673656/thank-you_orig.jpg" alt="thank you"></p>
 
     </div>
   </div>
