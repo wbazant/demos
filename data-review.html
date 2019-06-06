@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E! Data Review 10.06.2019</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#gene-expression-data-for-wormbase-parasite">Gene expression data for WormBase ParaSite</a>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#our-solution">Our solution</a></li>
+<li><a href="#details">Details</a></li>
+<li><a href="#future-directions">Future directions</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="gene-expression-data-for-wormbase-parasite">Gene expression data for WormBase ParaSite</h1>
+<h2 id="introduction">Introduction</h2>
+<h3 id="about-us">About us</h3>
+<p><img src="https://parasite.wormbase.org/i/parasite.png" alt="WBPS logo"></p>
+<p>We’re an EBI - Sanger collaboration project, and we run a resource with genomes of parasitic worms.</p>
+<p>We rely on the Ensembl web code and Ensembl Genomes pipelines, together with customizations that make sense for our data and users.</p>
+<h3 id="value-of-gene-expression-data-to-our-users">Value of gene expression data to our users</h3>
+<ul>
+<li>
+<p>Confirming gene models</p>
+</li>
+<li>
+<p>Hints at gene function</p>
+</li>
+<li>
+<p>Putative drug targets need to be expressed in the relevant life stage</p>
+</li>
+</ul>
+<h3 id="the-need-for-custom-solution-instead-of-expression-atlas-widget">The need for custom solution instead of Expression Atlas widget</h3>
+<p>Data mostly deposited to ENA, which Expression Atlas doesn’t curate.</p>
+<p>Sequencing parasites is difficult and there isn’t much funding for it, so we need to be more inclusive in curation.</p>
+<p>The data will be worse, so we need to be more conservative in analysis.</p>
+<h3 id="rnaseq-er-as-source-of-data">RNASeq-er as source of data</h3>
+<p><img src="https://www.ebi.ac.uk/fg/rnaseq/api/resources/rnaseq-api-logo.svg" alt="RNASeq-er logo"></p>
+<p>Also by EBI Functional Genomics Team.</p>
+<p>Analyses all RNASeq runs in ENA - alignment and quantification</p>
+<h2 id="our-solution">Our solution</h2>
+<h3 id="alignment-tracks">Alignment tracks</h3>
+<p>Aggregated into a UCSC-style track hub. We also offer JBrowse as an alternative genome browser, and they mostly went there.</p>
+<iframe src="https://parasite.wormbase.org/jbrowse/index.html?data=%2Fjbrowse-data%2Fschistosoma_mansoni_prjea36577%2Fdata&amp;loc=SM_V7_1%3A24486999..24488553&amp;tracks=DNA%2CGene_Models%2CRNASeq%2FERR022874%2CRNASeq%2FERR022873&amp;highlight=">&#10;</iframe><h3 id="studies-page">Studies page</h3>
+<iframe src="https://parasite.wormbase.org/expression/schistosoma_mansoni_prjea36577/index.html">&#10;</iframe><h3 id="section-in-the-gene-page">Section in the gene page</h3>
+<iframe src="https://parasite.wormbase.org/Schistosoma_mansoni_prjea36577/Gene/WBPSExpressionLife_cycle?g=Smp_316150;r=SM_V7_2:9412952-9413667;t=Smp_316150.1">&#10;</iframe><h2 id="details">Details</h2>
+<h3 id="data-we-offer">Data we offer</h3>
+<ul>
+<li>read counts and transcripts per million reads (TPMs) for each gene in each ENA run</li>
+<li>TPMs in a condition – median value for all runs representing the same condition</li>
+<li>differential expression analysis between selected pairs of conditions</li>
+</ul>
+<h3 id="metadata">Metadata</h3>
+<p>There are 584 studies available from RNASeq-er for our worms. I selected and curated metadata for 125/279 studies apart from C. elegans, and 29 out of 305 for C. elegans.</p>
+<p>Semi-automatic based on automatic criteria, with extensive checks. Stored in files, managed with <code>git</code>.</p>
+<h3 id="software">Software</h3>
+<p>All written by me and Tuan in very nice Perl.</p>
+<p>Simple techniques:</p>
+<ul>
+<li>metadata is curated as files, and stored with source code</li>
+<li>the studies page is a single HTML document per species</li>
+<li>results are in TSV files, easy to download from the studies page</li>
+<li>data for the gene page is constructed by running <code>grep</code> on TSV files</li>
+</ul>
+<p>We didn’t need:</p>
+<ul>
+<li>databases</li>
+<li>Hive: there’s one entry point to the whole program</li>
+<li>JavaScript</li>
+</ul>
+<h2 id="future-directions">Future directions</h2>
+<p>We will keep the dataset updated as more data comes out - estimating 10 studies per release, so it’s not much work to keep it up to date.</p>
+<p>Incremental improvements: more informative studies page, differential expression data in a better format, etc.</p>
+<p>Expand outside WormBase ParaSite?!</p>
+
+    </div>
+  </div>
+</body>
+
+</html>
