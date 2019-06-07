@@ -16,10 +16,11 @@
 <li><a href="#gene-expression-data-for-wormbase-parasite">Gene expression data for WormBase ParaSite</a>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
+<li><a href="#about-gene-expression-data">About gene expression data</a></li>
 <li><a href="#our-solution">Our solution</a></li>
 <li><a href="#details">Details</a></li>
 <li><a href="#future-directions">Future directions</a></li>
-<li><a href="#the-end">The end</a></li>
+<li><a href="#end">End</a></li>
 </ul>
 </li>
 </ul>
@@ -32,22 +33,43 @@
 <p><img src="https://parasite.wormbase.org/i/gallery/gene_exp.png" alt="Gene expression studies logo"><br>
 Written for Ensembl Data Review, 10.06.2019</p>
 <h2 id="introduction">Introduction</h2>
+<h3 id="about-parasitic-worms">About parasitic worms</h3>
+<p>Some organisms have adapted to live some of their lives inside human hosts. Here’s a drawing of a pair of schistosomes living in a blood vessel:<br>
+<img src="https://www.cdc.gov/dpdx/schistosomiasis/images/7/S_mansoni_adult_Lammie2.jpg" alt="Adult schistosomes"><br>
+Estimated 252 million people have these.</p>
+<p>Additionally, 1.5 billion have soil-transmitted helminths, 120 million have lymphatic filariasis, and 37 million have river blindness. (figures from Wikipedia / World Health Organization).</p>
+<p>Genomic methods offer insights into life of these animals, which could translate into potential new treatments and drug targets.</p>
 <h3 id="about-us">About us</h3>
-<p>We’re an EBI - Sanger collaboration project, and we run a resource with genomes of parasitic worms.</p>
-<p>We rely on the Ensembl web code and Ensembl Genomes pipelines, adding customisations that make sense for our data and users.</p>
-<h3 id="value-of-gene-expression-data-to-our-users">Value of gene expression data to our users</h3>
+<p>We’re an EBI - Sanger collaboration project, and we run a resource with genomes of parasitic worms using Ensembl software.</p>
+<p>A lot of pipelines are from Ensembl Genomes, and we add customizations that make sense for our community and the data available.</p>
+<p>I’m a bioinformatician on the project, running data production and sometimes developing stuff.</p>
+<p>This talk is about how we added gene expression data to the site.</p>
+<h2 id="about-gene-expression-data">About gene expression data</h2>
+<p>Apart from DNA, you can also sequence RNA. Not all genes are transcribed at the same time, so the results will vary based on what is going on in the cells.</p>
+<p>You can try measure “normal” state of cells e.g. as the worms develop, or measure response to a treatment e.g. with a potential drug.</p>
+<h3 id="use-cases-of-gene-expression-data">Use cases of gene expression data</h3>
 <ul>
 <li>Confirming gene models</li>
-<li>Hints at gene function</li>
-<li>Helps with many research questions, especially life stage data</li>
+<li>Getting hints at gene function</li>
+<li>Validating original analyses done by the data set’s authors</li>
+<li>Querying based on expression profile</li>
 </ul>
-<h3 id="the-need-for-custom-solution-instead-of-expression-atlas-widget">The need for custom solution instead of Expression Atlas widget</h3>
+<h3 id="our-need-for-a-custom-solution-instead-of-the-usual-expression-atlas-widget">Our need for a custom solution instead of the usual Expression Atlas widget</h3>
 <p>Data mostly deposited to ENA, which Atlas doesn’t curate.</p>
 <p>We have lower standards: sequencing parasites is difficult and there isn’t much funding for it, so we need to be more inclusive in curation. The data is worse as a result, so we also need to be more conservative in analysis.</p>
 <h3 id="rnaseq-er-as-source-of-data">RNASeq-er as source of data</h3>
+<h4 id="introduction-1">Introduction</h4>
 <p>Ran by EBI Functional Genomics Team, same team that runs Atlas.</p>
-<p>Analyses all RNASeq runs in ENA - alignment and quantification - and offers an API and FTP download.</p>
-<p>This data is per run, so we needed to make the extra step of aggregating and comparing that data.</p>
+<p>They have data for (almost) all eukaryotic genomes from Ensembl, Ensembl Genomes, and WormBase ParaSite.</p>
+<h4 id="overview">Overview</h4>
+<p><img src="https://i.imgur.com/YNBl69U.jpg" alt="RNASeq-er about"></p>
+<h4 id="what-rnaseq-er-doesnt-offer">What RNASeq-er doesn’t offer</h4>
+<ul>
+<li>Aggregate or compare data - only alignments and quantifications per run</li>
+<li>Serve alignment tracks through a genome browser</li>
+<li>Data per worm gene</li>
+<li>Metadata about studies</li>
+</ul>
 <h2 id="our-solution">Our solution</h2>
 <p>Here is what we provide to our users:</p>
 <h3 id="alignment-tracks">Alignment tracks</h3>
@@ -88,8 +110,111 @@ Written for Ensembl Data Review, 10.06.2019</p>
 <p>We will keep the dataset updated as more data comes out - estimating 10 studies per release, so it’s not much work to keep it up to date.</p>
 <p>I am planning incremental improvements: more informative studies page, differential expression data in a better format, etc.</p>
 <p>I’d expand the project outside WormBase ParaSite, if I had a sustainable plan for it!</p>
-<h2 id="the-end">The end</h2>
-<p><img src="http://annanacademyorguk.ipage.com/uploads/9/1/6/7/91673656/thank-you_orig.jpg" alt="thank you"></p>
+<h2 id="end">End</h2>
+<h3 id="acknowledgements">Acknowledgements</h3>
+
+<table>
+<thead>
+<tr>
+<th>Who I thank and what for</th>
+<th>Inspiring the project</th>
+<th>Development</th>
+<th>Feedback and input</th>
+<th>Running RNASeq-er</th>
+<th>Letting my job exist</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wojtek Bażant (me, WBPS bioinformatician)</td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Tuan Le (WBPS web developer)</td>
+<td></td>
+<td>✅</td>
+<td>✅</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Faye Rodgers (WBPS bioinformatician)</td>
+<td></td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Kevin Howe (WBPS co-PI, EBI)</td>
+<td></td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Matt Berriman (WBPS co-PI, Sanger)</td>
+<td>✅</td>
+<td></td>
+<td>✅</td>
+<td></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>WormBase ParaSite users</td>
+<td>✅</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Jonathan Manning (EBI FG team)</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>Suhaib Mohammed (EBI FG team)</td>
+<td></td>
+<td></td>
+<td></td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>BBSRC, our funding body</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table><h3 id="thank-you-for-listening">Thank you for listening</h3>
+
+<table>
+<thead>
+<tr>
+<th>Who I thank and what for</th>
+<th>Listening</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>You</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table><p>Please ask me questions!</p>
+<p><img src="https://pixel.nymag.com/imgs/daily/grub/2017/05/12/12-sushi.w700.h700.jpg" alt="sushi instead of worm picture"></p>
 
     </div>
   </div>
