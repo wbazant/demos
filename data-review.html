@@ -40,7 +40,7 @@ Estimated 252 million people have these.</p>
 <p>Additionally, 1.5 billion have soil-transmitted helminths, 120 million have lymphatic filariasis, and 37 million have river blindness. (figures from Wikipedia / World Health Organization).</p>
 <p>Genomic methods offer insights into life of these animals, which could translate into potential new treatments and drug targets.</p>
 <h3 id="about-us">About us</h3>
-<p>We’re an EBI - Sanger collaboration project, and we run a resource with genomes of parasitic worms using Ensembl software.</p>
+<p>We’re an EBI - Sanger collaboration project, and we run a resource with genomes of parasitic worms using Ensembl software. We also host data about other worms : plant pests or free-living worms relevant to basic research.</p>
 <p>A lot of pipelines are from Ensembl Genomes, and we add customizations that make sense for our community and the data available.</p>
 <p>I’m a bioinformatician on the project, running data production and sometimes developing stuff.</p>
 <p>This talk is about how we added gene expression data to the site.</p>
@@ -88,6 +88,219 @@ Estimated 252 million people have these.</p>
 <h3 id="metadata">Metadata</h3>
 <p>There are 584 studies available from RNASeq-er for our worms. I selected and curated metadata for 125/279 of non-C. elegans studies, and 29 out of 305 for C. elegans studies.</p>
 <p>The curation is semi-automatic: we retrieve data for all the studies out there, apply heuristics, and then run extensive checks. Results are stored in files and managed with  the  source code through <code>git</code>.</p>
+<h4 id="example">Example</h4>
+<p>This is a study for H. glycines, a pest of soybean. for the following publication:</p>
+<p><em>Novel global effector mining from the transcriptome of early life stages of the soybean cyst nematode Heterodera glycines</em> (Gardner et al, 2018)</p>
+<p>The authors deposited data to ENA with the following annotation:</p>
+
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Condition</th>
+<th>sample_name</th>
+<th>host</th>
+<th>geographic_location</th>
+<th>isolate</th>
+<th>isolation_source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRR6230579</td>
+<td>ppJ2 PA3 3</td>
+<td>ppJ2 PA3 3</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230580</td>
+<td>pJ2 PA3-IC 1</td>
+<td>pJ2 PA3-IC 1</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230581</td>
+<td>ppJ2 PA3 1</td>
+<td>ppJ2 PA3 1</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230582</td>
+<td>ppJ2 PA3 2</td>
+<td>ppJ2 PA3 2</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230583</td>
+<td>pJ2 PA3-C 1</td>
+<td>pJ2 PA3-C 1</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230584</td>
+<td>pJ2 PA3-C 2</td>
+<td>pJ2 PA3-C 2</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230585</td>
+<td>pJ2 PA3-IC 2</td>
+<td>pJ2 PA3-IC 2</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230586</td>
+<td>pJ2 PA3-IC 3</td>
+<td>pJ2 PA3-IC 3</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230587</td>
+<td>pJ2 PA3-C 3</td>
+<td>pJ2 PA3-C 3</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+</tbody>
+</table><p>I have read the paper, and found out that the data is about the pest invading the plant, before and after invasion.</p>
+
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Condition</th>
+<th>developmental_stage</th>
+<th>host_compatibility</th>
+<th>host</th>
+<th>geographic_location</th>
+<th>isolate</th>
+<th>isolation_source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRR6230581</td>
+<td>pre-parasitic juvenile</td>
+<td>pre-parasitic second-stage juvenile</td>
+<td></td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230582</td>
+<td>pre-parasitic juvenile</td>
+<td>pre-parasitic second-stage juvenile</td>
+<td></td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230579</td>
+<td>pre-parasitic juvenile</td>
+<td>pre-parasitic second-stage juvenile</td>
+<td></td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230583</td>
+<td>parasitic juvenile, compatible host</td>
+<td>parasitic second-stage juvenile</td>
+<td>compatible host</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230584</td>
+<td>parasitic juvenile, compatible host</td>
+<td>parasitic second-stage juvenile</td>
+<td>compatible host</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230587</td>
+<td>parasitic juvenile, compatible host</td>
+<td>parasitic second-stage juvenile</td>
+<td>compatible host</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230580</td>
+<td>parasitic juvenile, resistant host</td>
+<td>parasitic second-stage juvenile</td>
+<td>resistant host</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230585</td>
+<td>parasitic juvenile, resistant host</td>
+<td>parasitic second-stage juvenile</td>
+<td>resistant host</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+<tr>
+<td>SRR6230586</td>
+<td>parasitic juvenile, resistant host</td>
+<td>parasitic second-stage juvenile</td>
+<td>resistant host</td>
+<td>Glycine max</td>
+<td>USA</td>
+<td>PA3</td>
+<td>greenhouse population</td>
+</tr>
+</tbody>
+</table><p>Then, the analysis pipeline compared:</p>
+<ul>
+<li><code>pre-parasitic juvenile vs parasitic juvenile, compatible host</code></li>
+<li><code>pre-parasitic juvenile vs parasitic juvenile, resistant host</code></li>
+<li><code>parasitic juvenile: compatible vs resistant host</code></li>
+</ul>
 <h3 id="software">Software</h3>
 <p>All written by me and Tuan in very nice Perl.</p>
 <p><img src="https://cdn.dribbble.com/users/1047458/screenshots/2991320/dribbble_perlchainsaw.png" alt="Perl - swiss army chainsaw"></p>
@@ -111,7 +324,6 @@ Estimated 252 million people have these.</p>
 <p>I am planning incremental improvements: more informative studies page, differential expression data in a better format, etc.</p>
 <p>I’d expand the project outside WormBase ParaSite, if I had a sustainable plan for it!</p>
 <h2 id="end">End</h2>
-
 <h3 id="acknowledgements">Acknowledgements</h3>
 
 <table>
