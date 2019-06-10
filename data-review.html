@@ -15,7 +15,7 @@
 <ul>
 <li><a href="#gene-expression-data-for-wormbase-parasite">Gene expression data for WormBase ParaSite</a>
 <ul>
-<li><a href="#introduction">Introduction</a></li>
+<li><a href="#worms-and-wormbase-parasite">Worms and WormBase ParaSite</a></li>
 <li><a href="#about-gene-expression-data">About gene expression data</a></li>
 <li><a href="#our-solution">Our solution</a></li>
 <li><a href="#details">Details</a></li>
@@ -32,18 +32,18 @@
       <h1 id="gene-expression-data-for-wormbase-parasite">Gene expression data for WormBase ParaSite</h1>
 <p><img src="https://parasite.wormbase.org/i/gallery/gene_exp.png" alt="Gene expression studies logo"><br>
 Written for Ensembl Data Review, 10.06.2019</p>
-<h2 id="introduction">Introduction</h2>
+<h2 id="worms-and-wormbase-parasite">Worms and WormBase ParaSite</h2>
 <h3 id="about-parasitic-worms">About parasitic worms</h3>
 <p>Some organisms have adapted to live some of their lives inside human hosts. Here’s a drawing of a pair of schistosomes living in a blood vessel:<br>
 <img src="https://www.cdc.gov/dpdx/schistosomiasis/images/7/S_mansoni_adult_Lammie2.jpg" alt="Adult schistosomes"><br>
 Estimated 252 million people have these.</p>
 <p>Additionally, 1.5 billion have soil-transmitted helminths, 120 million have lymphatic filariasis, and 37 million have river blindness. (figures from Wikipedia / World Health Organization).</p>
-<p>Genomic methods offer insights into life of these animals, which could translate into potential new treatments and drug targets.</p>
+<p>Genomic methods offer insights into the biology of these animals, which could translate into potential new treatments and drug targets.</p>
 <h3 id="about-us">About us</h3>
-<p>We’re an EBI - Sanger collaboration project, and we run a resource with genomes of parasitic worms using Ensembl software. We also host data about other worms : plant pests or free-living worms relevant to basic research.</p>
-<p>A lot of pipelines are from Ensembl Genomes, and we add customizations that make sense for our community and the data available.</p>
-<p>I’m a bioinformatician on the project, running data production and sometimes developing stuff.</p>
-<p>This talk is about how we added gene expression data to the site.</p>
+<p>WormBase ParaSite is an EBI - Sanger collaboration, and we run a resource with genomes of parasitic worms using Ensembl software. We also host data about other worms : plant pests or free-living worms relevant to basic research.</p>
+<p>I’m a bioinformatician on the project, running production and doing small scale software development.</p>
+<p>We rely on Ensembl software and pipelines for most of our operations. We also have odd bits and customizations for the kind of data that is available for worms.</p>
+<p>This talk is about how we added gene expression data to the site - one of these custom bits. No EBI resource offered the functionality we needed, so we embarked on approximately half a year of design and development to make it available.</p>
 <h2 id="about-gene-expression-data">About gene expression data</h2>
 <p>Apart from DNA, you can also sequence RNA. Not all genes are transcribed at the same time, so the results will vary based on what is going on in the cells.</p>
 <p>You can try measure “normal” state of cells e.g. as the worms develop, or measure response to a treatment e.g. with a potential drug.</p>
@@ -58,7 +58,7 @@ Estimated 252 million people have these.</p>
 <p>Data mostly deposited to ENA, which Atlas doesn’t curate.</p>
 <p>We have lower standards: sequencing parasites is difficult and there isn’t much funding for it, so we need to be more inclusive in curation. The data is worse as a result, so we also need to be more conservative in analysis.</p>
 <h3 id="rnaseq-er-as-source-of-data">RNASeq-er as source of data</h3>
-<h4 id="introduction-1">Introduction</h4>
+<h4 id="introduction">Introduction</h4>
 <p>Ran by EBI Functional Genomics Team, same team that runs Atlas.</p>
 <p>They have data for (almost) all eukaryotic genomes from Ensembl, Ensembl Genomes, and WormBase ParaSite.</p>
 <h4 id="overview">Overview</h4>
@@ -86,7 +86,7 @@ Estimated 252 million people have these.</p>
 <li>differential expression analysis between selected pairs of conditions</li>
 </ul>
 <h3 id="metadata">Metadata</h3>
-<p>There are 584 studies available from RNASeq-er for our worms. I selected and curated metadata for 125/279 of non-C. elegans studies, and 29 out of 305 for C. elegans studies.</p>
+<p>There are 584 studies available from RNASeq-er for our worms. I have selected and curated metadata for 125/279 of non-C. elegans studies, and 29 out of 305 for C. elegans studies.</p>
 <p>The curation is semi-automatic: we retrieve data for all the studies out there, apply heuristics, and then run extensive checks. Results are stored in files and managed with  the  source code through <code>git</code>.</p>
 <h4 id="example">Example</h4>
 <p>This is a study for H. glycines, a pest of soybean. for the following publication:</p>
