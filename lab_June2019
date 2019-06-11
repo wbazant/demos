@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab meeting 11.06.2019</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#wormbase-parasite-grows">WormBase ParaSite grows</a>
+<ul>
+<li><a href="#new-genomes">New genomes</a></li>
+<li><a href="#genome-updates">Genome updates</a></li>
+<li><a href="#other-data-types">Other data types</a></li>
+<li><a href="#growing-stronger">Growing stronger</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="wormbase-parasite-grows">WormBase ParaSite grows</h1>
+<p>A look at the last five releases, some trends, as well as - maybe - the future.</p>
+<h2 id="new-genomes">New genomes</h2>
+<h3 id="numbers-of-new-species-grow-every-releases">Numbers of new species grow every releases</h3>
+
+<table>
+<thead>
+<tr>
+<th>release</th>
+<th>different genera</th>
+<th>different species</th>
+<th>all genomes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WBPS1</td>
+<td>55</td>
+<td>82</td>
+<td>89</td>
+</tr>
+<tr>
+<td>…</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>WBPS9</td>
+<td>62</td>
+<td>114</td>
+<td>134</td>
+</tr>
+<tr>
+<td>WBPS10</td>
+<td>63</td>
+<td>118</td>
+<td>138</td>
+</tr>
+<tr>
+<td>WBPS11</td>
+<td>65</td>
+<td>124</td>
+<td>148</td>
+</tr>
+<tr>
+<td>WBPS12</td>
+<td>66</td>
+<td>127</td>
+<td>152</td>
+</tr>
+<tr>
+<td>WBPS13</td>
+<td>69</td>
+<td>137</td>
+<td>167</td>
+</tr>
+<tr>
+<td>WBPS14*</td>
+<td>71</td>
+<td>141</td>
+<td>173</td>
+</tr>
+</tbody>
+</table><p>*next release</p>
+<h3 id="who-are-these-new-genomes-by">Who are these new genomes by?</h3>
+<p>The numbers are a bit inflated by comparative genomics projects:</p>
+<ul>
+<li>genus <em>Meloidogyne</em> by, independently, U. of Hull and INRA</li>
+<li>taxonomic sampling around <em>Pristionchus pacificus</em></li>
+</ul>
+<p>Everything else is by all kinds of institutes from all over.</p>
+<h4 id="and-2019-single-genomeproject-centres-that-i-think-are-unlinked-to-sanger">2018 and 2019 single genome/project centres that I think are unlinked to Sanger</h4>
+
+<table>
+<thead>
+<tr>
+<th>Species</th>
+<th>Data provider</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Ditylenchus dipsaci</em></td>
+<td>Agriculture and Agri-Food Canada</td>
+</tr>
+<tr>
+<td><em>Halicephalobus mephisto</em></td>
+<td>American University, Washington, D.C.</td>
+</tr>
+<tr>
+<td><em>Mesorhabditis belari</em></td>
+<td>ENS Lyon</td>
+</tr>
+<tr>
+<td><em>Meloidogyne graminicola</em></td>
+<td>IARI</td>
+</tr>
+<tr>
+<td><em>Opisthorchis felineus</em></td>
+<td>Institute of Cytology and Genetics SB RAS</td>
+</tr>
+<tr>
+<td><em>Heterodera glycines</em></td>
+<td>Iowa State University</td>
+</tr>
+<tr>
+<td><em>Plectus sambesii</em></td>
+<td>MRC London Institute of Medical Sciences</td>
+</tr>
+<tr>
+<td><em>Diploscapter coronatus</em></td>
+<td>National Institute of Genetics, Japan</td>
+</tr>
+<tr>
+<td><em>Diploscapter pachys</em></td>
+<td>New York University</td>
+</tr>
+<tr>
+<td><em>Meloidogyne arenaria</em></td>
+<td>RIKEN</td>
+</tr>
+<tr>
+<td><em>Acrobeloides nanus</em></td>
+<td>University College London</td>
+</tr>
+<tr>
+<td><em>Macrostomum lignano</em></td>
+<td>University Medical Center Groningen</td>
+</tr>
+</tbody>
+</table><h3 id="what-are-these">What are these?</h3>
+<p>Mostly not helminths. Most new species are free-living nematodes or pests of plants.</p>
+
+<table>
+<thead>
+<tr>
+<th>release</th>
+<th>new species total</th>
+<th>parasites of animals</th>
+<th>plant pests</th>
+<th>free-living</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WBPS10</td>
+<td>+4</td>
+<td>1</td>
+<td>0</td>
+<td>3</td>
+</tr>
+<tr>
+<td>WBPS11</td>
+<td>+6</td>
+<td>1</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>WBPS12</td>
+<td>+3</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>WBPS13</td>
+<td>+10</td>
+<td>0</td>
+<td>2</td>
+<td>8</td>
+</tr>
+<tr>
+<td>WBPS14</td>
+<td>+4</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table><h3 id="genomes-of-plant-pests-are-an-active-research-frontier">Genomes of plant pests are an active research frontier</h3>
+<ul>
+<li>7 different <em>Meloidogyne</em> species: 12 genomes from 6 different labs worldwide</li>
+<li>In the US: <em>Heterodera glycines</em>, <em>Ditylenchus dipsaci</em>, work ongoing on <em>Globodera ellingtonae</em></li>
+</ul>
+<h3 id="free-living-worms-get-sequenced-and-written-about">Free-living worms get sequenced and written about</h3>
+<p>Citations for genome papers:</p>
+
+<table>
+<thead>
+<tr>
+<th>year published</th>
+<th>species</th>
+<th>num. citations, PMC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2017</td>
+<td><em>Diploscapter pachys</em></td>
+<td>5</td>
+</tr>
+<tr>
+<td>2017</td>
+<td><em>Diploscapter coronatus</em></td>
+<td>6</td>
+</tr>
+<tr>
+<td>2018</td>
+<td><em>Acrobeloides nanus</em></td>
+<td>1</td>
+</tr>
+<tr>
+<td>2018</td>
+<td><em>Plectus sambesii</em></td>
+<td>4</td>
+</tr>
+<tr>
+<td>2018</td>
+<td><em>Caenorhabditis inopinata</em></td>
+<td>4</td>
+</tr>
+</tbody>
+</table><h2 id="genome-updates">Genome updates</h2>
+<p>We’re leading with “important”  assembly updates.</p>
+<h3 id="nobody-else-has-resolved-a-parasite-genome-into-chromosomes">Nobody else has resolved a parasite genome into chromosomes</h3>
+
+<table>
+<thead>
+<tr>
+<th>Data submitter</th>
+<th>genomes in chromosomes submitted to ENA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wellcome Sanger Institute</td>
+<td>four or five ?</td>
+</tr>
+</tbody>
+</table><h3 id="nobody-else-annotates-parasite-genomes-by-hand">Nobody else annotates parasite genomes by hand</h3>
+
+<table>
+<thead>
+<tr>
+<th>Data submitter</th>
+<th>genomes annotated by hand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alan &amp; Zhigang</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Steve</td>
+<td>1</td>
+</tr>
+<tr>
+<td>WormBase</td>
+<td>4</td>
+</tr>
+</tbody>
+</table><h3 id="pacbio-sequencing-is-still-relatively-uncommon">PacBio sequencing is still relatively uncommon</h3>
+
+<table>
+<thead>
+<tr>
+<th>release</th>
+<th>new or updated assemblies</th>
+<th>involving PacBio data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WBPS10</td>
+<td>8</td>
+<td><em>A. suum</em></td>
+</tr>
+<tr>
+<td>WBPS11</td>
+<td>16</td>
+<td><em>F. hepatica</em>, <em>H. contortus</em>, <em>T. muris</em>,  <em>S. mansoni</em></td>
+</tr>
+<tr>
+<td>WBPS12</td>
+<td>5</td>
+<td><em>H. microstoma</em>, <em>T. multiceps</em></td>
+</tr>
+<tr>
+<td>WBPS13</td>
+<td>14</td>
+<td><em>H. glycines</em></td>
+</tr>
+<tr>
+<td>WBPS14</td>
+<td>6</td>
+<td><em>S. mediterranea</em>, <em>S. bovis</em></td>
+</tr>
+<tr>
+<td>total</td>
+<td>49</td>
+<td>10</td>
+</tr>
+</tbody>
+</table><h3 id="incremental-annotation-updates">Incremental annotation updates</h3>
+<p>We fully support incremental updates - we update to new WormBase genomes frequently, and e.g. we updated about a 100 schisto genes in WBPS12.</p>
+<p>Doesn’t happen so much for outside genomes.</p>
+<p>I would be happy to see annotation updates of draft genomes driven by more data (e.g. RNASeq) and extra manual attention, but this is not really happening, apart from:</p>
+<ul>
+<li><em>A. ceylanicum</em>, posted to WashU website</li>
+<li><em>M. corti</em>, by Pepe’s student Alicia</li>
+<li><em>Ascaris</em> update by UC Denver after they botched their first attempt</li>
+</ul>
+<h2 id="other-data-types">Other data types</h2>
+<p>Omics data is challenging for us to provide.</p>
+<ul>
+<li>the information is per gene / DNA region AND a property of how data was collected from the organism</li>
+<li>heterogeneity of formats and data types</li>
+<li>very uneven availability for our parasites</li>
+</ul>
+<p>Each kind of data arguably warrants its own resource, and ideally some EBI resource would sort us out for it.</p>
+<h3 id="extending-our-solution-for-rnaseq-data">Extending our solution for RNASeq data</h3>
+<p>For RNASeq, we decided to implement our own solution. This section explores what to</p>
+<h4 id="bulk-of-rnaseq-sequencing-already-peaked">Bulk of RNASeq sequencing already peaked?</h4>
+<p>ENA status of studies, our non - C. elegans species:</p>
+
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>ENA first public</th>
+<th>ENA last update</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2010</td>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>2011</td>
+<td>10</td>
+<td></td>
+</tr>
+<tr>
+<td>2012</td>
+<td>22</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2013</td>
+<td>27</td>
+<td>14</td>
+</tr>
+<tr>
+<td>2014</td>
+<td>28</td>
+<td>8</td>
+</tr>
+<tr>
+<td>2015</td>
+<td>50</td>
+<td>33</td>
+</tr>
+<tr>
+<td>2016</td>
+<td>50</td>
+<td>50</td>
+</tr>
+<tr>
+<td>2017</td>
+<td>46</td>
+<td>117</td>
+</tr>
+<tr>
+<td>2018</td>
+<td>32</td>
+<td>44</td>
+</tr>
+</tbody>
+</table><h3 id="data-already-available-and-coming">Data already available and coming</h3>
+<h4 id="single-cell-rnaseq">Single cell RNASeq</h4>
+<p>For now: we can request adding data sets to Single Cell Atlas.<br>
+<a href="https://www.ebi.ac.uk/gxa/sc/experiments/E-ENAD-18/results/tsne"> E-ENAD-18</a><br>
+This is originally from <em>Wang B et al (2018)</em>.<br>
+35 stem cells, which don’t really cluster.<br>
+It is not very useful for referencing any work not related to stem cells, but they were happy to host it.</p>
+<h4 id="proteomics">Proteomics</h4>
+<p>Papers out there for <em>S. mansoni</em>, starting from 2018. We currently offer no support for these, and EBI’s proteomics resource - PRIDE - is primarily an archive, and hardly useful as a reference resource.</p>
+<h3 id="viable-options-for-adding-data-sets">Viable options for adding data sets</h3>
+<h4 id="new-features-on-the-species-page">New features on the species page</h4>
+<p>For RNASeq, we have added this button:<br>
+<img src="https://parasite.wormbase.org/i/gallery/gene_exp.png" alt="Gene expression studies logo"><br>
+It could become “omics studies” with sections, or we could add more brand-new sections</p>
+<h4 id="new-tabs-on-the-gene-page">New tabs on the gene page</h4>
+<p>This has already departed from Ensembl - a lot has been turned off and removed, the “Expression” tab is all new:<br>
+<img src="https://i.imgur.com/TR8EymS.jpg" alt="Gene page menu"></p>
+<h4 id="ensembls-genome-browser">Ensembl’s Genome browser</h4>
+<p>RNASeq track hub, also we have added a custom hub for <em>Ascaris suum</em>:<br>
+<img src="https://i.imgur.com/wbjWwh0.jpg" alt="Ascaris UC Denver hub"></p>
+<h4 id="jbrowse">JBrowse</h4>
+<p>This is better for checking annotation. The ultimate goal would be to make each JBrowse into a little read-only Apollo. Currently has GFF features for WormBase core species, as a bit of an experiment:<br>
+<img src="https://i.imgur.com/K21XGXC.jpg" alt="T.muris JBrowse"></p>
+<h2 id="growing-stronger">Growing stronger</h2>
+<h3 id="reliability">Reliability</h3>
+<p>Mostly implemented as better documentation, fixing edge cases, and adding more checks to the process.</p>
+<h3 id="consistency">Consistency</h3>
+<h4 id="annotation-updates">Annotation updates</h4>
+<p>We have a system in place that can import a history between genes. Now we are extending the support to WormBase core species e.g.<em>Trichuris muris</em>.</p>
+<h4 id="names-that-our-users-use">Names that our users use</h4>
+<p><em>Fitzsimmons et al (2012)</em> have found a family of 13 tegument allergen-like genes, <code>SMTAL{1..13}</code>. We would like to make sure people can find it, but:</p>
+<ul>
+<li>functional descriptions come from UniProt and RefSeq, some of which is curated to include references like this one</li>
+<li>this particular entry was stored as synonym</li>
+<li>we rely on Ensembl’s parser of UniProt data, that doesn’t include what we needed, and it’s hard to extend</li>
+<li>UniProt doesn’t have a process for importing genomes when they’re not submitted to archives</li>
+</ul>
+<p>We’re addressing this, but it’s quite difficult.</p>
+<p>UniProt has imported <em>S.mansoni</em> v7 now (available WBPS14) and took in a few more annotations e.g. new Haemonchus (should be available WBPS15) but no there is no reliable process for this. We’ll try notifying them after our releases.</p>
+<p>We’ll try writing a custom parser and import more of UniProt’s curation, but it may not be very general.</p>
+<p>No plans to provide our own functional descriptions yet - I think it would be difficult to get right.</p>
+<h3 id="relevance">Relevance</h3>
+<h4 id="top-data-submitter-institutions">Top data submitter institutions</h4>
+<p>The bottom - all the single-genome institutes coming up now - was discussed earlier.</p>
+<p>The top is familiar:</p>
+
+<table>
+<thead>
+<tr>
+<th>Provider name</th>
+<th>genomes submitted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wellcome Sanger Institute</td>
+<td>52</td>
+</tr>
+<tr>
+<td>University of Melbourne</td>
+<td>23</td>
+</tr>
+<tr>
+<td>McDonnell Genome Institute</td>
+<td>14</td>
+</tr>
+<tr>
+<td>University of Edinburgh</td>
+<td>10</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table><p>I think the other data providers are not really our audience:</p>
+<ul>
+<li>Their post-50 Helminths genomes go to archives with annotation, are public when they publish, and we don’t get any correspondence from them</li>
+<li>I have also not seen help desk questions from there</li>
+</ul>
+<h4 id="helpdesk-emails">Helpdesk emails</h4>
+<p>Data since 2015, unique addresses. Total 110 messages.</p>
+<h5 id="unique-addresses">Unique addresses</h5>
+
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://gmail.com">gmail.com</a></td>
+<td>14</td>
+</tr>
+<tr>
+<td><a href="http://qub.ac.uk">qub.ac.uk</a></td>
+<td>12</td>
+</tr>
+<tr>
+<td><a href="http://sanger.ac.uk">sanger.ac.uk</a></td>
+<td>6</td>
+</tr>
+<tr>
+<td><a href="http://aber.ac.uk">aber.ac.uk</a></td>
+<td>6</td>
+</tr>
+<tr>
+<td>.*uk</td>
+<td>7</td>
+</tr>
+<tr>
+<td>.[fr,de,at,nl,dk]</td>
+<td>10</td>
+</tr>
+<tr>
+<td>.edu (United States)</td>
+<td>11</td>
+</tr>
+<tr>
+<td>other</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>75</td>
+</tr>
+</tbody>
+</table><h4 id="webinar-attendee-data">Webinar attendee data</h4>
+<p>Happened 20 March 2019, available online via YouTube and EBI training website.</p>
+<h5 id="job-titles-by-attendee">Job titles by attendee</h5>
+
+<table>
+<thead>
+<tr>
+<th>Job title</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Professor or other leadership position</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Team or project leader</td>
+<td>2</td>
+</tr>
+<tr>
+<td>researcher or postdoc</td>
+<td>10</td>
+</tr>
+<tr>
+<td>PhD</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Student (Other)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Other</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>26</td>
+</tr>
+</tbody>
+</table><h5 id="countries-by-attendee">Countries by attendee</h5>
+<p>It was UK afternoon, so the results are biased towards our time zones.</p>
+
+<table>
+<thead>
+<tr>
+<th>Region</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UK</td>
+<td>13</td>
+</tr>
+<tr>
+<td>old EU</td>
+<td>3</td>
+</tr>
+<tr>
+<td>post-2004 EU</td>
+<td>4</td>
+</tr>
+<tr>
+<td>US</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Latin America</td>
+<td>2</td>
+</tr>
+<tr>
+<td>India</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+    </div>
+  </div>
+</body>
+
+</html>
