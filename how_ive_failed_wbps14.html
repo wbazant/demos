@@ -15,7 +15,7 @@
 <ul>
 <li><a href="#how-ive-failed---wbps14-edition">How I’ve failed - WBPS14 edition</a>
 <ul>
-<li><a href="#degraded-service">Degraded service</a></li>
+<li><a href="#wbps13-bugs">WBPS13 bugs</a></li>
 <li><a href="#lost-multiple-days-of-production">Lost multiple days of production</a></li>
 <li><a href="#near-misses">Near misses</a></li>
 <li><a href="#other">Other</a></li>
@@ -28,10 +28,10 @@
   <div class="stackedit__right">
     <div class="stackedit__html">
       <h1 id="how-ive-failed---wbps14-edition">How I’ve failed - WBPS14 edition</h1>
-<h2 id="degraded-service">Degraded service</h2>
-<h3 id="wbps13-no-paralogs-and-orthologs-for-wormbase-core-species-on-ftp-and-also-m.-japonica">WBPS13: No paralogs and orthologs for WormBase core species on FTP, and also M. japonica</h3>
+<h2 id="wbps13-bugs">WBPS13 bugs</h2>
+<h3 id="no-paralogs-and-orthologs-for-wormbase-core-species-on-ftp-and-also-m.-japonica">No paralogs and orthologs for WormBase core species on FTP, and also M. japonica</h3>
 <p>Wojtek noticed after writing an FTP check that he thought would be good to have, and the check not succeeding.</p>
-<h3 id="wbps13-clash-in-biomart-of-m.-japonica-and-p.-japonicus-prjeb27334">WBPS13: Clash in BioMart of M. japonica and P. japonicus PRJEB27334</h3>
+<h3 id="clash-in-biomart-of-m.-japonica-and-p.-japonicus-prjeb27334">Clash in BioMart of M. japonica and P. japonicus PRJEB27334</h3>
 <p>Results in P. japonicus not in BioMart UI, M. japonica “twice”, and P. japonicus orthologs appearing when asking for M. japonica. You can query for M. japonica genes okay.</p>
 <p>Genomes in the merged mart need to have a short name to be used as key, or else stuff won’t work. An attempt to resolve this is a Golden Species Regex which takes a BioMart name and produces a short name, carefully written and then copy-pasted around for WBPS11.</p>
 <p>Before GSR we had Bruce’s Slightly Worse Regex, that clashed on species of Trichinella and more stuff, and a correspondingly inadequate BioMart. The GSR resolves the clashes of BSWR, but still clashes on two WBPS13 genomes, there was no check that GSR doesn’t clash, and it’s not implemented in one place.</p>
@@ -39,16 +39,20 @@
 <h3 id="wbps13-and-before-bad-species-tree-in-biomart">WBPS13 and before: Bad species tree in BioMart</h3>
 <p>The script that dumps it, <code>dump_taxon_tree.pl</code>, didn’t know about the GSR and still used BSWR.<br>
 Wojtek noticed when reading the source code of that program for an unrelated reason.</p>
-<h3 id="wbps13--did-not-notice-that-the-custom-track-hubs-are-gone">WBPS13 : did not notice that the custom track hubs are gone</h3>
+<h3 id="did-not-notice-that-the-custom-track-hubs-are-gone">did not notice that the custom track hubs are gone</h3>
 <p>For RNASeq, etc. No checklist involves confirming they exist.</p>
-<h3 id="wbps13-showed-bad-stuff-on-emu-archive-page">WBPS13: showed bad stuff on emu archive page</h3>
+<h3 id="showed-bad-stuff-on-emu-archive-page">showed bad stuff on emu archive page</h3>
 <p>This is a bug: <a href="https://github.com/wbazant/wormbase-pipeline/commit/4c67232f54a">capture groups get messed up</a><br>
 I’ve only ran it for one species, <em>E. multilocularis</em>.</p>
+<h3 id="refseq-as-a-query-filter">RefSeq as a query filter</h3>
+<p>There’s <code>RefSeq_mRNA</code>  (for C. elegans, where we know the xrefs) and <code>RefSeq_mRNA__predicted</code> (for everything else, where we try to reconcile them) and also a bug that made me redo things manually. I’ve probably noticed and probably merged them in the _dm table, but not in the boolean column.</p>
 <h2 id="lost-multiple-days-of-production">Lost multiple days of production</h2>
+<h3 id="deleted-a-merging-script">Deleted a merging script</h3>
+<p>As part of cleanup of the <code>eg-biomart</code> repository I’ve deleted <code>merge-new.pl</code>, which I’ve spent a week over in WBPS13, and did not commit. Notably, <code>merge.pl</code> did not work, so I got to have another go at merging Biomarts and wrote <code>create_merging_sql.pl</code>.</p>
+<p>Possibly I did a better job: <code>merge-new.pl</code> tried to be idempotent which wasn’t actually that helpful because the script is more complicated - benefit being, that we could redo parts of merging.<br>
+<code>create_merging_sql.pl</code> creates all the SQL, and then if we want to manually rerun something we can. Not done yet.</p>
 <h2 id="near-misses">Near misses</h2>
 <h2 id="other">Other</h2>
-<h3 id="wbps13-refseq-ncrnas-duplicated">WBPS13: RefSeq ncRNAs duplicated</h3>
-<p>They were missing, and I have backfilled them, and it seems I have backfilled some of them twice - killed a job and restarted, or something. Noticed when the numbers didn’t add up afterwards when I’ve compared previous and current run - somehow there were loads more in WBPS13 - and it sent me on a wild goose chase whereas nothing was actually wrong.</p>
 
     </div>
   </div>
