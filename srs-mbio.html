@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>functional profiling from short read sequencing on MicrobiomeDB</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#functional-profiling-from-short-read-sequencing-data-on-microbiomedb">Functional profiling from short read sequencing data on MicrobiomeDB</a>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#the-next-thing-to-do">The next thing to do</a></li>
+<li><a href="#extending-the-data-model">Extending the data model</a></li>
+<li><a href="#more-detailed-breakdown">More detailed breakdown</a></li>
+<li><a href="#ideas-about-workflows-changes-to-data-types-new-analyses">Ideas about workflows, changes to data types, new analyses</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="functional-profiling-from-short-read-sequencing-data-on-microbiomedb">Functional profiling from short read sequencing data on MicrobiomeDB</h1>
+<h2 id="introduction">Introduction</h2>
+<h3 id="s-sequencing">16s sequencing</h3>
+<p>Before sequencing, PCR the sample to amplify a region commonly present in all bacteria, sequence the DNA, then compare to the reference sequences of that region.</p>
+<p>Use case: you can count the different kinds of known microbes present in the sample.</p>
+<h3 id="short-read-dna-sequencing">short read DNA sequencing</h3>
+<p>Sequence the sample without bias. Try to get enough reads to still be able to use different g<br>
+about short read shotgun sequencing as compared to 16s sequencing, and the data that is produced.</p>
+<h3 id="methods-of-processing-short-reads">Methods of processing short reads</h3>
+<h4 id="mapping-to-a-known-reference">Mapping to a known reference</h4>
+<p>By analogy to 16s, sampled reads can be mapped to known sequences.</p>
+<p>With enough RAM, it is feasible to map reads against many thousands of reference genomes using k-mer techniques. The standard general tool for this is Kraken:<br>
+<img src="https://github.githubassets.com/images/icons/emoji/unicode/1f419.png" alt="octopus"><br>
+The compute cost of running Kraken is non-trivial, but doable - a VM from Amazon with 400GB of RAM costs ~ 1500 USD per month.</p>
+<p><a href="https://huttenhower.sph.harvard.edu/metaphlan">MetaPhlan</a> avoids the big memory footprint by having a database of marker genes from reference genomes.</p>
+<h4 id="de-novo-assembly">De novo assembly</h4>
+<p>One can run an assembler on the reads. Microbial genomes are simpler than eucaryotic, and they’re usually a single circular chromosome, so the ideal output would be - ideally - a completed genome for each microbe that was in the sample.</p>
+<h3 id="outputs">Outputs</h3>
+<h4 id="abundance-counts">Abundance counts</h4>
+<p>If the microbes were sequenced without bias, classifying the reads by taxon would give an estimate of population abundance.</p>
+<h4 id="functional-unit-counts">Functional unit counts</h4>
+<p>Given a microbial genome, it’s easy to find out the genes in it, because there are no introns. So genes from a de novo assembly can be extracted, and then compared to known sequences.</p>
+<h4 id="contigs-and-metagenome-assembled-genomes-mags">Contigs and metagenome assembled genomes (MAGs)</h4>
+<p><img src="https://codelikethis.com/lessons/git/here-be-dragons.png" alt="enter image description here"></p>
+<p>Fascinating research areas: discovery and classification of novel microbes, looking at strain variation within a species (pangenomics), looking at evolution (phylogenomics), relating samples through gene clusters (which, as far as I understand, is an OrthoMCL-like approach on the metagenome level).</p>
+<h3 id="discussion-benefits-and-drawbacks-of-only-relating-to-known-entities">Discussion: benefits and drawbacks of only relating to known entities</h3>
+<p>Some stuff about microbes, genes, and pathways is already known, but not yet everything ☺.</p>
+<p>For example, microbial genes. Pinching a classification from a Meren Lab blog post, genes are either:</p>
+<ul>
+<li>
+<p><strong>Known with Pfam annotations</strong>: genes annotated to contain one or more Pfam entries (domain, family, repeats or motifs) but excluding the domains of unknown function (DUF)</p>
+</li>
+<li>
+<p><strong>Known without Pfam annotations</strong>: which contains the genes that have a known function but lack a Pfam annotation. Here we can find intrinsically disordered proteins or small proteins among others.</p>
+</li>
+<li>
+<p><strong>Genomic unknown</strong>: genes that have an unknown function (DUF are included here) and found in sequenced or draft genomes</p>
+</li>
+<li>
+<p><strong>Environmental unknown</strong>: genes of unknown function not detected in sequenced or draft genomes, but only in environmental metagenomes or metagenome-assembled genomes.</p>
+</li>
+</ul>
+<h2 id="the-next-thing-to-do">The next thing to do</h2>
+<p>So far, MicrobiomeDB analyses sequencing data to relate samples to known taxa abundances. It’s feasible to also start doing that for genes and pathways, and the other stuff seems difficult, so I would like to <strong>use available short read metagenomic sequencing data to provide functional profiling results</strong> for samples.</p>
+<p>I feel it makes it manageable as a project, since a plan emerges:</p>
+<ul>
+<li>start showing results about abundance of genes and pathways</li>
+<li>change everything else to be consistent with it</li>
+</ul>
+<p>The workflows of mapping reads to known gene products are <em>much</em> simpler and they do better when they have this humbler purpose.</p>
+<p>I believe those simpler methods are appropriate for the studies MicrobiomeDB is interested in: mostly human stool samples, focus on enteric disease and child development.</p>
+<p>Details to follow, but first, some motivation!</p>
+<p>Dinsdale et al, 2008: <a href="https://sci-hub.tw/10.1038/nature06810">Functional metagenomic profiling of nine biomes</a><br>
+An early metagenomics paper before 16s sequencing was discovered - shows biomes differ in abundance of broad functional units like “membrane transport”.</p>
+<p>Franzosa et al., 2018: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6235447/">Species-level functional profiling of metagenomes and metatranscriptomes</a><br>
+HUMAnN2 methods paper from the Huttenhower lab, used for Human Microbiome Project. Explains what can be done</p>
+<p>Kolbe et al, 2019: <a href="https://www.frontiersin.org/articles/10.3389/fcimb.2019.00339/full">Altered Middle Ear Microbiome in Children With Chronic Otitis Media With Effusion and Respiratory Illnesses</a><br>
+A clinical paper, I just want to show a figure from it.  it actually uses 16s data, and the gene products are inferred:<br>
+<img src="https://www.frontiersin.org/files/Articles/486792/fcimb-09-00339-HTML/image_m/fcimb-09-00339-g002.jpg" alt="enter image description here"></p>
+<h2 id="extending-the-data-model">Extending the data model</h2>
+<p>We currently have searches and analysis tools for samples and organisms, how do genes and pathways fit in?</p>
+<h3 id="current-state">Current state</h3>
+<p>A fun way of thinking about it was - what is the starting point of a user’s exploration, and what are they trying to learn about?</p>
+
+<table>
+<thead>
+<tr>
+<th>Explore … / specify …</th>
+<th>samples</th>
+<th>organisms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>samples</td>
+<td>Sample details filter</td>
+<td>Query by taxon abundance, look at sample details table</td>
+</tr>
+<tr>
+<td>organisms</td>
+<td><em>Who’s there?</em> - query by sample details</td>
+<td>Taxon abundance filter</td>
+</tr>
+</tbody>
+</table><p><em>Who’s there?</em> is now our main jam. It’s also where ClinEpi integration is fitting in so far.</p>
+<h3 id="filling-out-the-table">Filling out the table</h3>
+
+<table>
+<thead>
+<tr>
+<th>Explore … / specify …</th>
+<th>samples</th>
+<th>organisms</th>
+<th>pathways</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>samples</td>
+<td>✓</td>
+<td>✓</td>
+<td>🐲</td>
+</tr>
+<tr>
+<td>organisms</td>
+<td>✅</td>
+<td>✓</td>
+<td>🐲</td>
+</tr>
+<tr>
+<td>pathways</td>
+<td>☑</td>
+<td>🐲</td>
+<td>🐲</td>
+</tr>
+</tbody>
+</table><h4 id="proposed-as-next-deliverable-☑">Proposed as next deliverable: ☑</h4>
+<p>I.e. explore pathways after specifying a group of samples.</p>
+<p>and it’s the easy one because there’s so much analogy to the taxon abundance.</p>
+<h4 id="possible-future-commitments-🐲🐲🐲🐲">Possible future commitments: 🐲🐲🐲🐲</h4>
+<p>Everything else is hard but potentially really interesting.</p>
+<p>What does MicrobiomeDB know about any particular pathway?</p>
+<p>Which samples have microbiomes with the same functional characteristics, but different taxa abundance?</p>
+<p>Which taxons miss functional units depending on sample details? Can indicate strain variation</p>
+<h2 id="more-detailed-breakdown">More detailed breakdown</h2>
+<p>Will probably be skipped in the presentation.</p>
+<h3 id="specify-samples-explore-pathways">Specify samples, explore pathways</h3>
+<p><em>What are they doing?</em><br>
+Pathways are analogous to taxa in a lot of ways. Pathways by sample make a good BIOM file, for example. For short read DNA sequencing, In the case of Picrust2 outputs, pathway data comes out as a slightly complicated way to add up the taxa.</p>
+<p>In the CAMP study, what are the top pathways that differ the most in healthy dogs vs. sick dogs?</p>
+<h3 id="specify-organisms-explore-pathways">Specify organisms, explore pathways</h3>
+<p><em>what do those guys do?</em><br>
+The correct answer can, probably, only be of the form “it depends where” and so needs RNASeq.</p>
+<h3 id="specify-pathways-explore-samples">Specify pathways, explore samples</h3>
+<p><em>which studies have data that is relevant for a process I’m interested in?</em></p>
+<p>For common pathways, this may not be useful, and for exotic pathways it requires many different sample types - it sounds like job for a bio-engineering portal.</p>
+<p>“Which microbial environments are able to degrade carbohydrate chains?”<br>
+Made up example. It wouldn’t be great if out current samples turned up for this query since decomposing petroleum compounds is unlikely to be happening in infants’ guts.</p>
+<h3 id="specify-pathways-explore-organisms">Specify pathways, explore organisms</h3>
+<p><em>Who’s doing that?</em>.</p>
+<p>I’ve seen a claim in the literature that the exact community makeup can change, even though the community is performing the same function. So, exploring this kind of thing.</p>
+<h3 id="specify-pathways-explore-pathways">Specify pathways, explore pathways</h3>
+<p><em>What’s known about the pathway EC 1.2.3.4?</em><br>
+Simple lookup by name searches.</p>
+<h2 id="ideas-about-workflows-changes-to-data-types-new-analyses">Ideas about workflows, changes to data types, new analyses</h2>
+<p>I need more time to present on this, if the overall direction is good. But roughly:</p>
+<h3 id="adapt-the-apps">Adapt the apps</h3>
+<ul>
+<li>since the apps can work for any .biom file and “genes/pathways” by sample is a valid BIOM, they should still work but might need adapting - and some might be inappropriate</li>
+</ul>
+<h3 id="extend-model-entities">Extend model entities</h3>
+<p>MicrobiomeDB currently only has one record type - MicrobiomeSampleRecord. I would try to extend it by adding data source columns to abundance, and new tables for functional data.</p>
+<h3 id="write-new-workflows">Write new workflows</h3>
+<p>To achieve what I describe above, a new workflow should take a .fastq, and produce abundance counts stratified by organism and gene/pathway, as well as summary totals.<br>
+I would really like to avoid k-mer lookups to match references (huge RAM use), and assembly problems (goes wrong in magical ways). I have big hopes on the tool HUMAnN2/3 from Huttenhower lab.</p>
+<p>I’m also interested in estimating functional units from 16s data using ASV placement in reference data, and hidden state inference. PICRUST2 from the same lab is a tool for it. It would need to be seriously evaluated, and results displayed as what they are - inferences. If good, the data type consistency would be absolutely magical - same kinds of results everywhere! - and for the same samples, one would inform the other.</p>
+<h3 id="fantasize-about-future-directions">Fantasize about future directions</h3>
+<p>Redesign of our apps and displays, motivated by the added data and new use cases like abundance stratified by both organism and gene/pathway?<br>
+Pathway or taxon-centred pages, similar to sample pages?<br>
+Loading metatranscriptomic data where available, for bridging the gap between genes that are present vs. expressed?</p>
+
+    </div>
+  </div>
+</body>
+
+</html>
