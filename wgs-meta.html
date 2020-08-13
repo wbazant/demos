@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools for WGS metagenomics</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#tools-for-wgs-metagenomics">Tools for WGS metagenomics</a>
+<ul>
+<li><a href="#inputs">Inputs</a></li>
+<li><a href="#desired-outputs">Desired outputs</a></li>
+<li><a href="#introductory-discussion-on-limited-appropriateness-of-using-reference-data-to-study-microbial-populations">Introductory discussion: on limited appropriateness of using reference data to study microbial populations</a></li>
+<li><a href="#about-biobakery">About BioBakery</a></li>
+<li><a href="#kneaddata">KneadData</a></li>
+<li><a href="#metaphlan">MetaPhlAn</a></li>
+<li><a href="#humann">HUMAnN</a></li>
+<li><a href="#combining-results-and-displaying-them">Combining results and displaying them</a></li>
+</ul>
+</li>
+<li><a href="#thank-you-for-listening">Thank you for listening!</a></li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="tools-for-wgs-metagenomics">Tools for WGS metagenomics</h1>
+<p>of human gut data, aiming to profile samples by comparing them to references, at least.</p>
+<h2 id="inputs">Inputs</h2>
+<p>Whole genome sequencing results of metagenomic samples. Various references of known microbial proteins. Host genome.</p>
+<h2 id="desired-outputs">Desired outputs</h2>
+<ul>
+<li>taxon counts</li>
+<li>gene and pathway abundance, summarized by gene and pathway</li>
+<li>gene and pathway abundance, stratified by organism</li>
+</ul>
+<h2 id="introductory-discussion-on-limited-appropriateness-of-using-reference-data-to-study-microbial-populations">Introductory discussion: on limited appropriateness of using reference data to study microbial populations</h2>
+<p>Using any reference to study an unknown sample is a bit like looking for something in a bright spot because that’s where you can see clearly:<br>
+<img src="https://www.rummuser.com/wp-content/uploads/mullas.jpg" alt="enter image description here"><br>
+There are de novo methods based on assembly, that are currently used to investigate microbial environments of soil, ocean, air (!), and they’re really cool.</p>
+<p>Instead of telling you about these I will tell you about some other methods.</p>
+<h2 id="about-biobakery">About BioBakery</h2>
+<p>A suite of tools from the Huttenhower lab, who also did Human Microbiome Project.<br>
+Cutesy names:<br>
+<a href="https://bitbucket.org/biobakery/biobakery/wiki/Home">https://bitbucket.org/biobakery/biobakery/wiki/Home</a></p>
+<p>I will talk about:</p>
+<ul>
+<li>KneadData, for trimming and host read depletion</li>
+<li>MetaPhlAn, for profiling composition data (relative abundances)</li>
+<li>HUMAnN, for functional profiling<br>
+and the tools that they use.</li>
+</ul>
+<h2 id="kneaddata">KneadData</h2>
+<p><a href="https://github.com/biobakery/kneaddata">https://github.com/biobakery/kneaddata</a><br>
+Desired output: cleaned fastq.<br>
+Uses a few tools:</p>
+<h3 id="trimmomatic">Trimmomatic</h3>
+<p>Works on fastq files. Worth reminding how fastq files look - letters and phred scores:</p>
+<pre><code>@SEQ_ID
+GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
++
+!''*((((***+))%%%++)(%%%%).1***-+*''))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65
+</code></pre>
+<p>The tool:</p>
+<ul>
+<li>knows about Illumina adapters</li>
+<li>trims reads based on  quality scores in a sliding window</li>
+<li>looks at a read distribution, and removes the “too-short” ones</li>
+</ul>
+<p>There shouldn’t be adapters in archive-submitted files, I think (?). In one run I did, it removed about 20% of the data and did not change the results much.</p>
+<p>I think including the trim will avoid problems, if there are any.</p>
+<h3 id="trf">TRF</h3>
+<p><a href="https://github.com/Benson-Genomics-Lab/TRF">https://github.com/Benson-Genomics-Lab/TRF</a><br>
+Finds repeated motifs in the reads. Classic tool! Here, it’s for filtering, so the reads with tandems are discarded.</p>
+<p>They’re not likely to be part of genes, or map uniquely, so removing tandems can simplify later tasks.</p>
+<h3 id="bowtie2">Bowtie2</h3>
+<p><a href="http://bowtie-bio.sourceforge.net/bowtie2/index.shtml">http://bowtie-bio.sourceforge.net/bowtie2/index.shtml</a></p>
+<blockquote>
+<p>tool for aligning sequencing reads to long reference sequences. It is particularly good at aligning reads of about 50 up to 100s or 1,000s of characters, and particularly good at aligning to relatively long (e.g. mammalian) genomes</p>
+</blockquote>
+<p>Also used later. Here for host read depletion, with:</p>
+<h4 id="the-decoy-genome">The decoy genome</h4>
+<ul>
+<li><a href="https://www.cureffi.org/2013/02/01/the-decoy-genome/">https://www.cureffi.org/2013/02/01/the-decoy-genome/</a></li>
+</ul>
+<blockquote>
+<p><a href="http://en.wikipedia.org/wiki/Heng_Li">Heng Li</a>, inventor of <a href="http://bio-bwa.sourceforge.net/bwa.shtml">BWA</a>, has created an entire ‘decoy genome’ to capture reads from human exome or whole genome sequencing that fail to align to the human reference genome.</p>
+</blockquote>
+<h4 id="hg19">hg19</h4>
+<p>Just the sequence of a reference human.</p>
+<p>Actually, nothing should align to this for a file from the archives, it’s otherwise a privacy breach. For the sample I tried, it didn’t.</p>
+<h2 id="metaphlan">MetaPhlAn</h2>
+<p>This is actually ran by HUMAnN as a prescreen step, but it’s useful to explain it in itself.</p>
+<p>In one sentence: MetaPhLAn quantifies taxa by matching reads to the reference of marker genes.</p>
+<h3 id="the-reference-chocophlan">The reference: ChocoPhLAn</h3>
+<p>This is a collection of pangenomes, provided by the authors, cut down to the marker genes.</p>
+<p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6235447/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6235447/</a></p>
+<blockquote>
+<p>A species’ pangenome is a nonredundant representation of the species’ protein-coding potential. To construct a pangenome for a given species, we download all available isolate genomes for that species from NCBI GenBank and/or RefSeq, along with associated coding sequence (CDS) annotations. Each isolate genome is analyzed with PhyloPhlAn<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6235447/#R47">47</a> to confirm correct taxonomic placement. Using UCLUST<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6235447/#R48">48</a>, we then cluster all CDSs from high-quality isolate genomes of a given species at 97% nucleotide identity. One representative (centroid) sequence from each cluster is saved. These centroid sequences constitute the species’ pangenome.</p>
+</blockquote>
+<h3 id="mapping-bowtie2-again">Mapping: Bowtie2 again</h3>
+<p>This time for nucleotide search on marker genes.</p>
+<h3 id="example-output">Example output</h3>
+<pre><code>#mpa_v30_CHOCOPhlAn_201901
+#/home/wbazant/.local/bin/metaphlan /home/wbazant/learn_kneaddata/output3/G80562_R1_kneaddata.fastq -t rel_ab -o /home/wbazant/learn_kneaddata/humann_trimmed/G80562_R1_kneaddata_humann_temp/G80562_R1_kneaddata_metaphlan_bugs_list.tsv --input_type fastq --bowtie2out /home/wbazant/learn_kneaddata/humann_trimmed/G80562_R1_kneaddata_humann_temp/G80562_R1_kneaddata_metaphlan_bowtie2.txt
+#SampleID       Metaphlan_Analysis
+#clade_name     NCBI_tax_id     relative_abundance      additional_species
+k__Bacteria     2       100.0   
+k__Bacteria|p__Firmicutes       2|1239  71.81335        
+k__Bacteria|p__Bacteroidetes    2|976   16.30928        
+k__Bacteria|p__Actinobacteria   2|201174        7.8713  
+k__Bacteria|p__Proteobacteria   2|1224  4.00607 
+...
+</code></pre>
+<h4 id="the-additional-species--column">The “additional species”  column</h4>
+<p>The reference is sub-sampled to get representative taxa. For example,<br>
+<code>Shigella_sp_FC2383</code> is similar enough to <code>E. coli</code> to be dropped.</p>
+<h2 id="humann">HUMAnN</h2>
+<h3 id="search">Search</h3>
+<p><img src="https://raw.githubusercontent.com/biobakery/biobakery/master/images/humann3demo-workflow.png" alt="enter image description here"></p>
+<h4 id="tier-1-metaphlan-as-a-prescreen">Tier 1: MetaPhlAn as a prescreen</h4>
+<p>Covered before.</p>
+<h4 id="tier-2-nucleotide-search-again">Tier 2: nucleotide search again</h4>
+<p>Builds a custom database from the pre-screened species - ones found before, plus those they represent.</p>
+<p>Then it runs a bowtie2.</p>
+<h4 id="tier-3-translated-search">Tier 3: translated search</h4>
+<h5 id="diamond">Diamond</h5>
+<p>Diamond is like BLAST for translated search.</p>
+<h5 id="the-reference-proteome">The reference proteome</h5>
+<p>“All publicly known proteins” are merged into UniRef -&gt;57GB zipped<br>
+UniRef90 is a clustered version at 90% identity-&gt; 11GB</p>
+<p>This gets the reference size to ~ 0.9GB zipped.</p>
+<h3 id="quantification">Quantification</h3>
+<h4 id="genes-grouped-by-category">Genes grouped by category</h4>
+<p>Genes come from UniRef, and so come grouped into families, with descriptions.</p>
+<p>These can be further grouped by Enzyme Commission number.</p>
+<h4 id="pathways-minpath-metacyc-as-reference">Pathways: MinPath, MetaCyc as reference</h4>
+<p>We are given abundances per gene, because we’ve aligned the reads, and a reference (through MetaCyc) of what genes are involved in what pathways.</p>
+<p>Pathway abundance is:</p>
+<blockquote>
+<p>the sum of the abundances of the genes catalyzing the reactions of the pathway, divided by the number of reactions of the pathway for which gene abundances are given:<br>
+<img src="http://1.bp.blogspot.com/-k0z9sZ4cw5A/UYBCppbpTAI/AAAAAAAAACQ/Pc4L_5NfUcE/s1600/formula.png" alt=""></p>
+</blockquote>
+<p>Some genes can be involved in more than one pathway, and some genes can be missing.</p>
+<p>With some assumptions it can be framed as a linear programming problem, the tool involved is MinPath:<br>
+<a href="https://omics.informatics.indiana.edu/MinPath/">https://omics.informatics.indiana.edu/MinPath/</a></p>
+<h2 id="combining-results-and-displaying-them">Combining results and displaying them</h2>
+<p>I’m not sure what to take forward yet.</p>
+<p>Most reads do end up aligned to some gene: ~ 57%. Also, the most abundant bugs do get coverage for over a thousand genes: I didn’t check assemblies but I guess this is more or less how much they have. However, most genes don’t have functional description or names: ~ 95%.</p>
+<p>Even more dropout happens for mapping to EC numbers, or pathways.</p>
+<p>Gene functions and pathways are mostly not known. For any known functional unit, it makes sense to check the data for it, and also to look for the interesting ones through differential abundance, but (I was wrong about this) there’s no point to an equivalent of a relative abundance app.</p>
+<h3 id="examples">Examples</h3>
+<h4 id="searches">Searches</h4>
+<p>Something like a taxon abundance search makes sense!</p>
+<h4 id="differential-expression">Differential expression</h4>
+<p>I think this is a HUMAnN classic use case: take a case and control group, sequence metagenomes, run HUMAnN, see if you get differential abundance of pathways, if yes then write a paper.</p>
+<h4 id="pathway-graph-in-which-stratifications-differ-for-the-same-pathway">Pathway graph in which stratifications differ for the same pathway</h4>
+<p>From the Human Microbiome Project, different samples:<br>
+<img src="https://raw.githubusercontent.com/biobakery/biobakery/master/images/humann3demo-plot3.png" alt="Plot for a pathway"></p>
+<h1 id="thank-you-for-listening">Thank you for listening!</h1>
+<p><img src="https://www.sciencenewsforstudents.org/wp-content/uploads/2020/03/1030_onwardunicorns-1-1028x579.png" alt=""></p>
+
+    </div>
+  </div>
+</body>
+
+</html>
