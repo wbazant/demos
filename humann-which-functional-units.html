@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Different functional unit categorisations</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#humann-for-wgs-data---which-protein-set-to-use-and-what-functional-units-to-show">HUMAnN for WGS data - which protein set to use and what functional units to show?</a>
+<ul>
+<li><a href="#options-summarised">Options, summarised</a></li>
+<li><a href="#uniref-choices">UniRef choices</a></li>
+<li><a href="#functional-unit-choices">Functional unit choices</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="humann-for-wgs-data---which-protein-set-to-use-and-what-functional-units-to-show">HUMAnN for WGS data - which protein set to use and what functional units to show?</h1>
+<p>If running HUMAnN, it definitely makes sense to show</p>
+<ol>
+<li>taxon abundances</li>
+<li>pathway abundances.</li>
+</ol>
+<p>but the also has other outputs. I’m trying to decide which ones make sense for MicrobiomeDB to show.</p>
+<h2 id="options-summarised">Options, summarised</h2>
+<p>For the protein set, take either UniRef50 or UniRef90, probably filtered in some way.</p>
+<p>Functional units available out of the box are ECs, EggNOGs, GO terms, Keggs, PFams, gene family names.</p>
+<p>Possibly good plans:</p>
+<ol>
+<li>Load all the outputs, and show them to a group of users. See which functional units they want to click first.</li>
+<li>Prepare a custom filtered UniRef for ECs and GO terms. Do not show EggNOGs, Keggs, PFams, or gene family names.</li>
+<li>Use an EC filtered database from the authors. Show only the ECs.</li>
+<li>Re-open nominations</li>
+</ol>
+<h2 id="uniref-choices">UniRef choices</h2>
+
+<table>
+<thead>
+<tr>
+<th>db</th>
+<th>size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UniRef90 EC filtered</td>
+<td>846 MB</td>
+</tr>
+<tr>
+<td>full UniRef90</td>
+<td>11 GB</td>
+</tr>
+<tr>
+<td>UniRef50 EC filtered</td>
+<td>239 MB</td>
+</tr>
+<tr>
+<td>full UniRef50</td>
+<td>4.6 GB</td>
+</tr>
+<tr>
+<td>custom options</td>
+<td>?</td>
+</tr>
+</tbody>
+</table><p>Larger database means longer runtime. 50/90 mean a smaller / larger version of UniRef.</p>
+<p>EC filtered or not - authors provide a version of the pipeline</p>
+<p>Authors recommend UniRef90 EC filtered.</p>
+<p>UniRef50 EC filtered is, possibly, almost just as good, but is cheapest / fastest to run.</p>
+<p>Authors recommend non-filtered versions of UniRef for users interested in quantifying unannotated genes. For example, regularly missing genes may indicate novel strains.</p>
+<p>I don’t want to use unannotated genes for anything, but I am a bit wary of filtering on ECs and reporting e.g. GO terms - there’s a strange bias to it.</p>
+<p>Custom filtered UniRef, and all the terms I want?<br>
+I do are for I’d choose that, but then the method is missing annotations.</p>
+<h2 id="functional-unit-choices">Functional unit choices</h2>
+<h3 id="ec-numbers">EC numbers</h3>
+<p>If including anything but pathways, this would be it.</p>
+<pre><code>1.1.1.1	Alcohol dehydrogenase
+1.1.1.10	L-xylulose reductase
+1.1.1.100	3-oxoacyl-[acyl-carrier-protein] reductase
+1.1.1.101	Acylglycerone-phosphate reductase
+1.1.1.102	3-dehydrosphinganine reductase
+</code></pre>
+<h3 id="eggnog">EggNOG</h3>
+<p>Orthogroups with identified functions.</p>
+<pre><code>COG0001	Glutamate-1-semialdehyde aminotransferase
+COG0002	N-acetylglutamate semialdehyde dehydrogenase
+COG0003	ATPase required for the post-t[...]d of targeting (By similarity)
+COG0004	ammonium Transporter
+COG0005	The purine nucleoside phosphor[...]se-1-phosphate (By similarity)
+</code></pre>
+<h3 id="go">GO</h3>
+<p>GO terms for UniRef are mostly predicted from PFAM domains.</p>
+<pre><code>GO:0000001	[BP] mitochondrion inheritance
+GO:0000002	[BP] mitochondrial genome maintenance
+GO:0000003	[BP] reproduction
+GO:0000005	[MF] obsolete ribosomal chaperone activity
+GO:0000006	[MF] high-affinity zinc transmembrane transporter activity
+</code></pre>
+<h3 id="kegg">Kegg</h3>
+<p>I think they’re alternative ECs.</p>
+<pre><code>K00001	alcohol dehydrogenase [EC:1.1.1.1]
+K00002	alcohol dehydrogenase (NADP+) [EC:1.1.1.2]
+K00003	homoserine dehydrogenase [EC:1.1.1.3]
+K00004	(R,R)-butanediol dehydrogenase / meso-butanediol dehydrogenase / diacetyl reductase [EC:1.1.1.4 1.1.1.- 1.1.1.303]
+K00005	glycerol dehydrogenase [EC:1.1.1.6]
+</code></pre>
+<h3 id="pfam">PFam</h3>
+<p>Each PFam annotation represents a known domain. Proteins are assigned to a PF if they match a Hidden Markov Model for that PF. Also basis for ECs.</p>
+<pre><code>PF00001	7 transmembrane receptor (rhodopsin family)
+PF00002	7 transmembrane receptor (Secretin family)
+PF00003	7 transmembrane sweet-taste receptor of 3 GCPR
+PF00004	ATPase family associated with various cellular activities (AAA)
+PF00005	ABC transporter
+</code></pre>
+<h3 id="gene-family-names">Gene family names</h3>
+<pre><code>UniRef50_A0A007	MoeK5
+UniRef50_A0A009DWJ5	Putative transposase (Fragment)
+UniRef50_A0A009DYA3	Putative integrase
+UniRef50_A0A009DZQ8	Putative membrane protein (Fragment)
+UniRef50_A0A009E282	Transposase DDE domain protein
+</code></pre>
+<pre><code>UniRef90_A0A006	MoeH5
+UniRef90_A0A007	MoeK5
+UniRef90_A0A009DWI3	Transposase DDE domain protein (Fragment)
+UniRef90_A0A009DWJ5	Putative transposase (Fragment)
+UniRef90_A0A009DWL0	Putative iSRSO8-transposase orfB protein
+</code></pre>
+
+    </div>
+  </div>
+</body>
+
+</html>
