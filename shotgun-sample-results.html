@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results from a sample run</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#results-from-a-sample-run">Results from a sample run</a>
+<ul>
+<li><a href="#links">Links</a></li>
+<li><a href="#run-time-costs">Run time costs</a></li>
+<li><a href="#how-results-look-like">How results look like</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="results-from-a-sample-run">Results from a sample run</h1>
+<p>This is from a run with test data on two runs together:</p>
+<ul>
+<li>a tiny file with mito reads (expecting no bacteria)</li>
+<li>a smallish (150MB) file with reads from a mock community of ten known bacteria</li>
+</ul>
+<h2 id="links">Links</h2>
+<p>The results are here:<br>
+<a href="https://github.com/wbazant/humann-nextflow/tree/master/results">https://github.com/wbazant/humann-nextflow/tree/master/results</a></p>
+<p>This document explains what the different references are:<br>
+<a href="https://wbazant.github.io/demos/humann-which-functional-units.html">https://wbazant.github.io/demos/humann-which-functional-units.html</a></p>
+<h2 id="run-time-costs">Run time costs</h2>
+<h3 id="concerns">Concerns</h3>
+<p>It won’t be trivial to reliably do this for a study with, say, 1000 samples.</p>
+<h4 id="about-job-size">about job size</h4>
+<p>An unusually small job takes two hours, I’m not sure about an average and upper bound yet.</p>
+<h4 id="about-fastq-input-size">about fastq input size</h4>
+<p>If each is input to a job is a few GB, all inputs are easily more than 2 TB total.</p>
+<h3 id="observations-so-far">Observations so far</h3>
+<h4 id="tiny-file">Tiny file</h4>
+<p>Took forty minutes, mostly in a run of metaphlan, mostly spent on <code>bowtie-align</code> loading its index.</p>
+<p>It’s a constant cost for any run, but I think I can optimise things there. I’ve  asked about it: <a href="https://forum.biobakery.org/t/large-constant-run-time-cost-to-metaphlan/953">https://forum.biobakery.org/t/large-constant-run-time-cost-to-metaphlan/953</a> and will see what to do, based on what the answer is.</p>
+<h4 id="smallish-file">Smallish file</h4>
+<p>The metaphlan run took the same time. Then it took a 10 minutes of custom index build and nucleotide search, and  80 minutes on <code>diamond</code> in translated search.</p>
+<p>Pipeline authors say that the run of <code>diamond</code> is mostly a function of which uniref database is used, this was with a database that could still be made smaller.</p>
+<h2 id="how-results-look-like">How results look like</h2>
+<h3 id="quality-of-taxon-assignments">Quality of taxon assignments</h3>
+<p>Probably okay for its intended function, which is a prescreen to save on running time. Otherwise it is not that impressive, <a href="https://trace.ncbi.nlm.nih.gov/Traces/sra/?run=SRR2119804&amp;krona=on">NCBI STAT</a> did much better.</p>
+
+<table>
+<thead>
+<tr>
+<th>bug</th>
+<th>ground truth</th>
+<th>metaphlan</th>
+<th>NCBI STAT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Arthrobacter chlorophenolicus A6</td>
+<td>10%</td>
+<td>❌</td>
+<td>1%</td>
+</tr>
+<tr>
+<td>Chromobacterium violaceum ATCC 12472</td>
+<td>10%</td>
+<td>13.45%</td>
+<td>11%</td>
+</tr>
+<tr>
+<td>Corynebacterium glutamicum ATCC 13032</td>
+<td>10%</td>
+<td>23.36%</td>
+<td>10%</td>
+</tr>
+<tr>
+<td>Escherichia coli (W, ATCC 8739)</td>
+<td>20%</td>
+<td>26.01%</td>
+<td>20 %</td>
+</tr>
+<tr>
+<td>Klebsiella pneumoniae KCTC 2242</td>
+<td>10%</td>
+<td>❌</td>
+<td>8%</td>
+</tr>
+<tr>
+<td>Polaromonas naphthalenivorans CJ2</td>
+<td>10%</td>
+<td>14.26%</td>
+<td>13%</td>
+</tr>
+<tr>
+<td>Pseudomonas stutzeri ATCC 17588</td>
+<td>10%</td>
+<td>❌</td>
+<td>10.4%</td>
+</tr>
+<tr>
+<td>Roseobacter denitrificans OCh 114</td>
+<td>10%</td>
+<td>19.34%</td>
+<td>8%</td>
+</tr>
+<tr>
+<td>Staphylococcus epidermidis ATCC 12228</td>
+<td>10%</td>
+<td>3.58%</td>
+<td>3%</td>
+</tr>
+</tbody>
+</table><p><code>Arthrobacter chlorophenolicus</code>: not in chocophlan. In STAT as <code>Pseudarthrobacter chlorophenolicus</code>.<br>
+<code>Pseudomonas stutzeri</code>,<code>Klebsiella pneumoniae</code> : in chocophlan, but missed.</p>
+<h3 id="different-groupings">Different groupings</h3>
+<p>30% of the reads didn’t map to any protein. Going from UniRef gene clusters to groups of clusters results in 30 to 60% of alignment information thrown out - most UniRef genes are not annotated.</p>
+
+<table>
+<thead>
+<tr>
+<th>unit</th>
+<th>fraction reads grouped</th>
+<th>fraction of groups used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eggnog</td>
+<td>0.17</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>go</td>
+<td>0.42</td>
+<td>0.1</td>
+</tr>
+<tr>
+<td>ko</td>
+<td>0.13</td>
+<td>0.01</td>
+</tr>
+<tr>
+<td>level4ec</td>
+<td>0.12</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>pfam</td>
+<td>0.45</td>
+<td>0.17</td>
+</tr>
+</tbody>
+</table><p>For sizes of references, see table in <a href="https://wbazant.github.io/demos/humann-which-functional-units.html">https://wbazant.github.io/demos/humann-which-functional-units.html</a>. Two options I see are:</p>
+<ul>
+<li>small uniref, keep just level4ecs</li>
+<li>larger uniref, keep level4ecs, pfams, and GO terms (for what though?)</li>
+</ul>
+<h3 id="what-pathways-come-up">What pathways come up</h3>
+<p>Lots for E. coli. When searching for pathways identified down to another species, but not E. coli (which is my proxy for being an interesting pathway) eight results come up:</p>
+<pre><code>comm -23 &lt;( grep g__ pathway_abundances.tsv | grep -v UNINT | grep -v Esche | cut -f1 -d \| | sort -u) &lt;( grep g__Escherichia pathway_abundances.tsv |  cut -f1 -d \| | sort -u)
+GALLATE-DEGRADATION-I-PWY: gallate degradation II
+PPGPPMET-PWY: ppGpp biosynthesis
+PWY-3781: aerobic respiration I (cytochrome c)
+PWY-6318: L-phenylalanine degradation IV (mammalian, via side chain)
+PWY66-389: phytol degradation
+PWY-7219: adenosine ribonucleotides de novo biosynthesis
+PWY-7279: aerobic respiration II (cytochrome c) (yeast)
+PWY-7357: thiamin formation from pyrithiamine and oxythiamine (yeast)
+</code></pre>
+<p>Some of these are probably legit:</p>
+<pre><code>pathway_abundances.tsv:PWY66-389: phytol degradation	30.8713005582
+pathway_abundances.tsv:PWY66-389: phytol degradation|g__Chromobacterium.s__Chromobacterium_violaceum	3.1913269696
+pathway_abundances.tsv:PWY66-389: phytol degradation|g__Polaromonas.s__Polaromonas_naphthalenivorans	4.1230211680
+pathway_abundances.tsv:PWY66-389: phytol degradation|unclassified	5.4619943910
+pathway_coverages.tsv:PWY66-389: phytol degradation	0.5437486621
+pathway_coverages.tsv:PWY66-389: phytol degradation|g__Chromobacterium.s__Chromobacterium_violaceum	0.4144297939
+pathway_coverages.tsv:PWY66-389: phytol degradation|g__Polaromonas.s__Polaromonas_naphthalenivorans	0.3525577287
+pathway_coverages.tsv:PWY66-389: phytol degradation|unclassified	0.0263907132
+</code></pre>
+<p>This one is probably questionable:</p>
+<pre><code>pathway_abundances.tsv:PWY-7279: aerobic respiration II (cytochrome c) (yeast)	22.0538028024
+pathway_abundances.tsv:PWY-7279: aerobic respiration II (cytochrome c) (yeast)|g__Polaromonas.s__Polaromonas_naphthalenivorans	2.1352008659
+pathway_abundances.tsv:PWY-7279: aerobic respiration II (cytochrome c) (yeast)|unclassified	3.3877938407
+pathway_coverages.tsv:PWY-7279: aerobic respiration II (cytochrome c) (yeast)	0.0543762286
+pathway_coverages.tsv:PWY-7279: aerobic respiration II (cytochrome c) (yeast)|g__Polaromonas.s__Polaromonas_naphthalenivorans	0.0918685941
+pathway_coverages.tsv:PWY-7279: aerobic respiration II (cytochrome c) (yeast)|unclassified	0.0041898123
+</code></pre>
+
+    </div>
+  </div>
+</body>
+
+</html>
