@@ -39,7 +39,15 @@
 <p>MPMP gets crawled and preserved on <a href="http://archive.org">archive.org</a>, with snapshots going back from 2017, so if it were to go away tomorrow, this is always a lifeline.</p>
 <h2 id="phase-3.-integrate-the-content-with-plasmodb-content">Phase 3. Integrate the content with PlasmoDB content</h2>
 <h3 id="pathway-content">Pathway content</h3>
-<p>Previously the project has tried to extract the content from the images, and building cytoscape drawings. This approach has not worked well enough.</p>
+<h4 id="previously">Previously</h4>
+<p>The project has tried to extract the content from the images first, and integrating them into our existing Cytoscape app.<br>
+The reasons why we abandoned this:</p>
+<ul>
+<li>very high ongoing cost to curate</li>
+<li>missing things like signalling pathways</li>
+</ul>
+<p>One thing that was possible to extract were gene lists corresponding to each pathway, so gene set enrichment is already possible on PlasmoDB.</p>
+<h4 id="pathways-as-interactive-drawings">Pathways as interactive drawings</h4>
 <p>A different approach is to integrate pathway drawings as interactive maps, with the functionality as for other pathways. Quick demo: <a href="https://wbazant.github.io/mpmp-plasmodb/">https://wbazant.github.io/mpmp-plasmodb/</a><br>
 It could work better, but maybe still isn’t that good.</p>
 <p>The added value compared to phase 2:</p>
