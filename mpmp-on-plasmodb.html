@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPMP on PlasmoDB</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#moving-mpmp-pathways-to-plasmodb">Moving MPMP pathways to PlasmoDB</a>
+<ul>
+<li><a href="#phase-1.-get-the-site-and-data-into-a-public-format">Phase 1. Get the site and data into a public format</a></li>
+<li><a href="#phase-2.-host-mpmp-pages-as-they-are">Phase 2. Host MPMP pages as they are</a></li>
+<li><a href="#phase-3.-integrate-the-content-with-plasmodb-content">Phase 3. Integrate the content with PlasmoDB content</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="moving-mpmp-pathways-to-plasmodb">Moving MPMP pathways to PlasmoDB</h1>
+<h2 id="phase-1.-get-the-site-and-data-into-a-public-format">Phase 1. Get the site and data into a public format</h2>
+<p>This would ideally be a git repository with all the data, all the software that is currently used to run it, and instructions on how to run it.</p>
+<p>This depends on what we can get.</p>
+<h2 id="phase-2.-host-mpmp-pages-as-they-are">Phase 2. Host MPMP pages as they are</h2>
+<p>Two routes:</p>
+<h3 id="a-host-the-application">2a) Host the application</h3>
+<p>Need to check with Bob that it’s possible in general, and de</p>
+<h3 id="b-turn-mpmp-into-static-content-and-hosting-them-as-html-read-from-disk">2b) Turn MPMP into static content and hosting them as HTML read from disk</h3>
+<p>This is more for preservation if the previous option is impossible, since it would make any editing of the content very difficult.</p>
+<p>MPMP gets crawled and preserved on <a href="http://archive.org">archive.org</a>, with snapshots going back from 2017, so if it were to go away tomorrow, this is always a lifeline.</p>
+<h2 id="phase-3.-integrate-the-content-with-plasmodb-content">Phase 3. Integrate the content with PlasmoDB content</h2>
+<h3 id="pathway-content">Pathway content</h3>
+<p>Previously the project has tried to extract the content from the images, and building cytoscape drawings. This approach has not worked well enough.</p>
+<p>A different approach is to integrate pathway drawings as interactive maps, with the functionality as for other pathways. Quick demo: <a href="https://wbazant.github.io/mpmp-plasmodb/">https://wbazant.github.io/mpmp-plasmodb/</a><br>
+It could work better, but maybe still isn’t that good.</p>
+<p>The added value compared to phase 2:</p>
+<ul>
+<li>the overlays: painting enzymes, adding charts from RNASeq and other experiments</li>
+<li>showing the pathway for other organisms with their EC inferred</li>
+<li>some kind of overall cohesion (maybe)</li>
+</ul>
+<p>Viewing data for <em>P. falciparum</em>, and searching through pathways are available on MPMP today. Enrichment analysis is already available, and the preservation can be done through phase 2.</p>
+<h3 id="other">Other</h3>
+<p>MPMP also involves a lot of annotation about the genes: publications about subcellular locations of proteins corresponding to the gene. They can be imported as cross-references.</p>
+<p>There’s also some annotations for pathways - we can also have cross-references for pathways.</p>
+<h3 id="some-points-raised-in-discussion">Some points raised in discussion</h3>
+<p>For other organisms, the pathways may be completely wrong. To address that, the MPMP pathways would only appear on PlasmoDB and UniDB, and there should be a disclaimer or some kind of information about what the data is.</p>
+<p>Quality is lost when using orthologs to identify enzymes across species. MPMP maps ECs to specific genes in each pathway - this should be preserved for <em>P. falciparum</em>.</p>
+
+    </div>
+  </div>
+</body>
+
+</html>
