@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBio on EDA as prototype for systems biology</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#mbio-on-eda-as-a-prototype-for-systems-biology">MBio on EDA as a prototype for systems biology</a>
+<ul>
+<li><a href="#currently">Currently</a></li>
+<li><a href="#demo---eda-entity-graph">Demo - EDA entity graph</a></li>
+<li><a href="#new-data-type-for-mbio---metabolomics">New data type for MBio - metabolomics</a></li>
+<li><a href="#a-prototype-for-systems-biology-">A prototype for systems biology ?</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="mbio-on-eda-as-a-prototype-for-systems-biology">MBio on EDA as a prototype for systems biology</h1>
+<h2 id="currently">Currently</h2>
+<p>MicrobiomeDB is implemented as a WDK site, and lets users look at sample annotations together with their taxonomic abundance. There’s an EDA prototype, with more data.</p>
+<h3 id="what-can-users-learn-from-microbiomedb-now">What can users learn from MicrobiomeDB now?</h3>
+<p>Some general patterns show up in multiple studies:</p>
+<ul>
+<li>newborns have simple microbiomes with a few common species</li>
+<li>as infants get older, their gut microbiome becomes more diverse</li>
+<li>body sites can be distinguished by their bacteria populations</li>
+</ul>
+<p>Individual data sets also contain more specific insights. You can usually verify what the publication has shown, as well as look at the context of it.</p>
+<p>Example: cerebrospinal fluid from patients in Uganda with two forms of hydrocephalus - useful if you want to know what lives in CSF, and also, the publication found a specific bug that causes one of the forms of hydrocephalus.</p>
+<h3 id="comparison-of-wdk-models">Comparison of WDK models</h3>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>MicrobiomeDB</th>
+<th>PlasmoDB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>record plurality</td>
+<td>one - MicrobiomeSampleRecord</td>
+<td>many - genes, pathways, compounds …</td>
+</tr>
+<tr>
+<td>records per study?</td>
+<td>✓</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>user focuses on</td>
+<td>groups of records together</td>
+<td>individual records or their properties</td>
+</tr>
+<tr>
+<td>core features</td>
+<td>“Analyze results”</td>
+<td>search, result lists, record pages</td>
+</tr>
+<tr>
+<td>“Analyze results”</td>
+<td>shows patterns and relations</td>
+<td>extracts details from lists - e.g. gene set enrichment</td>
+</tr>
+<tr>
+<td>information density</td>
+<td>low</td>
+<td>high</td>
+</tr>
+<tr>
+<td>experimental designs</td>
+<td><em>sort of</em></td>
+<td>yes - e.g. test vs ref in triplicate</td>
+</tr>
+</tbody>
+</table><h2 id="demo---eda-entity-graph">Demo - EDA entity graph</h2>
+<p><a href="https://feature.clinepidb.org/ce.feature/app/eda/DS_22e3c3c070">https://feature.clinepidb.org/ce.feature/app/eda/DS_22e3c3c070</a></p>
+<h2 id="new-data-type-for-mbio---metabolomics">New data type for MBio - metabolomics</h2>
+<p>We currently have an unintegrated data type - functional profiling - and we also started to talk about adding metabolomics data.</p>
+<h3 id="metabolite-data-in-genomic-sites">Metabolite data in genomic sites</h3>
+<p><a href="https://plasmodb.org/plasmo/app/search/compound/CompoundsByFoldChange">PlasmoDB - compounds by fold change search</a></p>
+<p>This is data about amounts of compounds, measured in a number of experimental conditions related to a Plasmodium infection.</p>
+<p>Using differential abundance, the user can find compounds that have something to do with the experimental condition. Compounds are a record type, so each result in a differential abundance test can be investigated - maybe clicked on and read about.</p>
+<h5 id="would-this-work-for-mbio">Would this work for MBio?</h5>
+<p><em>… probably not.</em></p>
+<ol>
+<li>PlasmoDB takes a relation between compounds and genes as a fact - so you can transform the list of compounds into a list of genes.<br>
+On the other hand, it’s not known how compounds relate to something on MicrobiomeDB - e.g. bacterial populations - and it’s instead one of the things to be learned.</li>
+<li>In PlasmoDB, searching compounds by fold change leads to lists of results that might contain something potentially interesting. In MicrobiomeDB, there’s not much point in looking at record pages - they aren’t really interesting or relevant for anything.</li>
+<li>In PlasmoDB the shown experiment has a cleanly defined design - regular vs. infected red blood cells, at three different pHs. The MicrobiomeDB studies have more samples with a larger amount of variables.</li>
+</ol>
+<h3 id="integrative-view">Integrative view</h3>
+<h4 id="vis-example---correlation-heatmap">Vis example - correlation heatmap</h4>
+<p><a href="%5Bhttps://www.frontiersin.org/articles/10.3389/fgene.2019.00454/full%5D(https://www.frontiersin.org/articles/10.3389/fgene.2019.00454/full)">Tang et al. (2019)</a>  used metagenomic sequencing and metabolomics to study influence of diet.</p>
+<p>Three variables: nutrient intakes ( like MBio sample details), taxon abundances (available now) and a novel kind - amounts of measured metabolite.</p>
+<p>Correlation heatmaps:</p>
+<ul>
+<li>show relationships between two key-to-numeric-value variables</li>
+<li>don’t show individual samples</li>
+</ul>
+<h4 id="nutrient-intake-vs.-taxon-abundance">Nutrient intake vs. taxon abundance</h4>
+<p><img src="https://www.frontiersin.org/files/Articles/451177/fgene-10-00454-HTML/image_m/fgene-10-00454-g003.jpg" alt=" taxon abundance and caloric intake of a nutrient computed from a questionnaire"></p>
+<h4 id="taxon-abundance-vs.-metabolite-level">Taxon abundance vs. metabolite level</h4>
+<p><img src="https://www.frontiersin.org/files/Articles/451177/fgene-10-00454-HTML/image_m/fgene-10-00454-g004.jpg" alt="taxon abundance and measured metabolite"></p>
+<h4 id="vis-example---clustering">Vis example - clustering</h4>
+<p>Malaria Cell Atlas:<br>
+<a href="https://www.sanger.ac.uk/science/tools/mca/mca/">https://www.sanger.ac.uk/science/tools/mca/mca/</a></p>
+<h2 id="a-prototype-for-systems-biology-">A prototype for systems biology ?</h2>
+<blockquote>
+<p><strong>systems biology</strong> is a field of research which focuses on understanding entire biological systems  in contrast to the focus on single genes or proteins.</p>
+</blockquote>
+<p>In contrast to PlasmoDB,  individual records aren’t really important in MicrobiomeDB - a bit like a single household or individual isn’t of interest in epidemiological data.</p>
+<p>Core focus of EDA development for now is ClinEpiDB because, like, they have the same problem about inadequacy of WDK and its reductionist model, but also, their apps don’t compensate for it as well as the MicrobiomeDB apps.</p>
+<p>But, like, more data types, and more visualizations, could be the future!</p>
+
+    </div>
+  </div>
+</body>
+
+</html>
