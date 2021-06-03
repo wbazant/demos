@@ -16,8 +16,8 @@
 <li><a href="#mbio-on-eda-as-a-prototype-for-systems-biology">MBio on EDA as a prototype for systems biology</a>
 <ul>
 <li><a href="#currently">Currently</a></li>
-<li><a href="#demo---eda-entity-graph">Demo - EDA entity graph</a></li>
 <li><a href="#new-data-type-for-mbio---metabolomics">New data type for MBio - metabolomics</a></li>
+<li><a href="#mbio-on-eda">MBio on EDA</a></li>
 <li><a href="#a-prototype-for-systems-biology-">A prototype for systems biology ?</a></li>
 </ul>
 </li>
@@ -86,9 +86,7 @@
 <td>yes - e.g. test vs ref in triplicate</td>
 </tr>
 </tbody>
-</table><h2 id="demo---eda-entity-graph">Demo - EDA entity graph</h2>
-<p><a href="https://feature.clinepidb.org/ce.feature/app/eda/DS_22e3c3c070">https://feature.clinepidb.org/ce.feature/app/eda/DS_22e3c3c070</a></p>
-<h2 id="new-data-type-for-mbio---metabolomics">New data type for MBio - metabolomics</h2>
+</table><h2 id="new-data-type-for-mbio---metabolomics">New data type for MBio - metabolomics</h2>
 <p>We currently have an unintegrated data type - functional profiling - and we also started to talk about adding metabolomics data.</p>
 <h3 id="metabolite-data-in-genomic-sites">Metabolite data in genomic sites</h3>
 <p><a href="https://plasmodb.org/plasmo/app/search/compound/CompoundsByFoldChange">PlasmoDB - compounds by fold change search</a></p>
@@ -102,29 +100,48 @@ On the other hand, it’s not known how compounds relate to something on Microbi
 <li>In PlasmoDB, searching compounds by fold change leads to lists of results that might contain something potentially interesting. In MicrobiomeDB, there’s not much point in looking at record pages - they aren’t really interesting or relevant for anything.</li>
 <li>In PlasmoDB the shown experiment has a cleanly defined design - regular vs. infected red blood cells, at three different pHs. The MicrobiomeDB studies have more samples with a larger amount of variables.</li>
 </ol>
-<h3 id="integrative-view">Integrative view</h3>
-<h4 id="vis-example---correlation-heatmap">Vis example - correlation heatmap</h4>
-<p><a href="%5Bhttps://www.frontiersin.org/articles/10.3389/fgene.2019.00454/full%5D(https://www.frontiersin.org/articles/10.3389/fgene.2019.00454/full)">Tang et al. (2019)</a>  used metagenomic sequencing and metabolomics to study influence of diet.</p>
-<p>Three variables: nutrient intakes ( like MBio sample details), taxon abundances (available now) and a novel kind - amounts of measured metabolite.</p>
+<p>There’s more hope in the new stuff!</p>
+<h2 id="mbio-on-eda">MBio on EDA</h2>
+<h3 id="demo---entity-graph">Demo - entity graph</h3>
+<p><a href="https://feature.clinepidb.org/ce.feature/app/eda/DS_22e3c3c070">https://feature.clinepidb.org/ce.feature/app/eda/DS_22e3c3c070</a></p>
+<p>Already there:</p>
+<ul>
+<li>shape of the entity graph (host -&gt; sample -&gt; WGS and amplicon assay)</li>
+<li>variables for taxa and functional profiles</li>
+<li>EDA visualizations like scatter plot - almost there</li>
+</ul>
+<p>The main thing missing is the ability to look at many variables together. I complained and got the plans for:</p>
+<h3 id="the-compute-service">The compute service</h3>
+<p><img src="https://i.imgur.com/k6DV3yB.png" alt="diagram"><br>
+Subsetting, merging, computing, merging again, data. Ellie will adapt the blast queue system. Details not included.</p>
+<h4 id="or">or</h4>
+<p>I’m finding it more easily imaginable to add the Shiny apps back in:<br>
+<img src="https://i.imgur.com/vHOLm5u.png" alt="shiny in"><br>
+The current Shiny apps read tab files written somewhere temporary, know where to look for them given a URL, and are integrated in the display as an iframe, so it feels like less of a stretch.</p>
+<p>They were designed for taxon abundance, but maybe there’s some generality to them. For example, if a user were to put the functional profiling data into the relative abundance app: most of the functions are unknown, so there is no equivalent to the most abundant taxa. On the other hand, sorting pathways by variance could be very interesting - a missing pathway between different environments like body sites might mean an adaptation to that environment. BioBakery even has a tool to look for strains of the same bacteria that have a pathway missing between samples but sorting by variance would also bring them up.</p>
+<h3 id="new-visualizations">New visualizations?</h3>
+<p>ClinEpiDB has its visualisations for looking at pairs of variables. For example, a histogram takes in two numeric variables, and shows the correlation or trend between them. VectorBase needs those, and a map for geospatial data.<br>
+For MicrobiomeDB, Ann + Danielle + Dan mostly worked on designing a better web version of the current apps.</p>
+<p>I think a long-term way forward is through visualisations that work for our data, which are <em>lists of numbers with labels</em>.</p>
+<h4 id="example-correlation-heatmap">Example: correlation heatmap</h4>
 <p>Correlation heatmaps:</p>
 <ul>
 <li>show relationships between two key-to-numeric-value variables</li>
 <li>don’t show individual samples</li>
 </ul>
-<h4 id="nutrient-intake-vs.-taxon-abundance">Nutrient intake vs. taxon abundance</h4>
+<p><a href="%5Bhttps://www.frontiersin.org/articles/10.3389/fgene.2019.00454/full%5D(https://www.frontiersin.org/articles/10.3389/fgene.2019.00454/full)">Tang et al. (2019)</a>  used metagenomic sequencing and metabolomics to study influence of diet.</p>
+<p>They looked at three variables: nutrient intakes, taxon abundances, and amounts of measured metabolite. Two are currently supported on our site, one is new. A generic correlation heatmap would do it all!</p>
+<h5 id="nutrient-intake-vs.-taxon-abundance">Nutrient intake vs. taxon abundance</h5>
 <p><img src="https://www.frontiersin.org/files/Articles/451177/fgene-10-00454-HTML/image_m/fgene-10-00454-g003.jpg" alt=" taxon abundance and caloric intake of a nutrient computed from a questionnaire"></p>
-<h4 id="taxon-abundance-vs.-metabolite-level">Taxon abundance vs. metabolite level</h4>
+<h5 id="taxon-abundance-vs.-metabolite-level">Taxon abundance vs. metabolite level</h5>
 <p><img src="https://www.frontiersin.org/files/Articles/451177/fgene-10-00454-HTML/image_m/fgene-10-00454-g004.jpg" alt="taxon abundance and measured metabolite"></p>
-<h4 id="vis-example---clustering">Vis example - clustering</h4>
-<p>Malaria Cell Atlas:<br>
-<a href="https://www.sanger.ac.uk/science/tools/mca/mca/">https://www.sanger.ac.uk/science/tools/mca/mca/</a></p>
 <h2 id="a-prototype-for-systems-biology-">A prototype for systems biology ?</h2>
 <blockquote>
 <p><strong>systems biology</strong> is a field of research which focuses on understanding entire biological systems  in contrast to the focus on single genes or proteins.</p>
 </blockquote>
-<p>In contrast to PlasmoDB,  individual records aren’t really important in MicrobiomeDB - a bit like a single household or individual isn’t of interest in epidemiological data.</p>
-<p>Core focus of EDA development for now is ClinEpiDB because, like, they have the same problem about inadequacy of WDK and its reductionist model, but also, their apps don’t compensate for it as well as the MicrobiomeDB apps.</p>
-<p>More data types and more visualizations could be the future of the site!</p>
+<p>There is value to taking the reductionist view of biology the WDK is good for, but there are other approaches now - example: <a href="https://www.sanger.ac.uk/science/tools/mca/mca/">Malaria Cell Atlas</a> .</p>
+<p>WDK is not a good fit for MicrobiomeDB, because in metagenomics, individual samples aren’t really important - a bit like a single household or individual isn’t of interest in epidemiological data.</p>
+<p>More data types, more visualizations, and more putting stuff on EDA is clearly going to be the future of MicrobiomeDB, but maybe also of the whole portal!</p>
 
     </div>
   </div>
