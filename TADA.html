@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TADA</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#tada">TADA</a>
+<ul>
+<li><a href="#missing-in-tada">Missing in TADA</a></li>
+<li><a href="#missing-in-tada-but-can-be-worked-around">Missing in TADA, but can be worked around</a></li>
+<li><a href="#extra-capability">Extra capability</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="tada">TADA</h1>
+<h2 id="missing-in-tada">Missing in TADA</h2>
+<h3 id="extra-parameters-for-dada">Extra parameters for dada()</h3>
+<p>Issue: <a href="https://github.com/h3abionet/TADA/issues/6">https://github.com/h3abionet/TADA/issues/6</a><br>
+This is to support 454 data.<br>
+We have 3 such datasets, and follow the <a href="https://benjjneb.github.io/dada2/faq.html#can-i-use-dada2-with-my-454-or-ion-torrent-data">tutorial</a> - extra parameters <code>HOMOPOLYMER_GAP_PENALTY=-1, BAND_SIZE=32</code>  when calling the <code>dada</code> function.</p>
+<p>It would be an extra input option, propagated to processes that run these tools:</p>
+<pre><code>$ grep -l 'dada(' bin/*
+bin/MergePairs-Pooled.R
+bin/MergePairs.R
+bin/VariableLenMergePairs-Pooled.R
+</code></pre>
+<h3 id="single-end-illumina-reads">Single end Illumina reads</h3>
+<p>Issue: <a href="https://github.com/h3abionet/TADA/issues/17">https://github.com/h3abionet/TADA/issues/17</a></p>
+<h3 id="batch-processing-for-assigntaxonomy.">Batch processing for assignTaxonomy().</h3>
+<p>We do it <a href="https://github.com/VEuPathDB/DJob/blob/master/DistribJobTasks/bin/dada2/mergeAsvsAndAssignToOtus.R#L35">here</a>.</p>
+<h4 id="draft-issue-for-benjamin">Draft issue for Benjamin</h4>
+<p>I’m reviewing our dada2 wrappers for MicrobiomeDB, with the hope of maybe getting rid of them and moving on to a better way of running dada2 at scale.</p>
+<p>I have ended up with code that runs <code>assignTaxonomy</code> and <code>addSpecies</code> in chunks of up to 1500 sequences:<br>
+<a href="https://github.com/VEuPathDB/DJob/blob/master/DistribJobTasks/bin/dada2/mergeAsvsAndAssignToOtus.R#L32">https://github.com/VEuPathDB/DJob/blob/master/DistribJobTasks/bin/dada2/mergeAsvsAndAssignToOtus.R#L32</a></p>
+<pre><code>totalChunks=ceiling(length(seqs)/opt$chunkSize)
+taxaL &lt;- vector("list", totalChunks)
+bootstrapsL &lt;- vector("list", totalChunks)
+for(chunkNum in seq(totalChunks)){
+  i.lo &lt;-  opt$chunkSize * (chunkNum - 1) + 1
+  i.hi &lt;-  min(opt$chunkSize * chunkNum + 1 , length(seqs))
+  message("Assigning taxonomy from ", opt$assignTaxonomyRefPath, " for ASVs ", i.lo, ":",i.hi, " out of total ", length(seqs))
+  assignment &lt;- assignTaxonomy(seqs[i.lo:i.hi], opt$assignTaxonomyRefPath, tryRC = TRUE, outputBootstraps = TRUE)
+  taxa &lt;- assignment$tax
+  message("Adding species from " , opt$addSpeciesRefPath)
+  taxa &lt;- addSpecies(taxa, opt$addSpeciesRefPath, tryRC = TRUE)
+  taxa &lt;- as.data.table(taxa, keep.rownames=TRUE)
+  taxaL[[chunkNum]] &lt;- taxa
+  bootstrapsL[[chunkNum]] &lt;- as.data.table(assignment$boot, keep.rownames=TRUE)
+}
+</code></pre>
+<p>It’s, like, a scar from a battle, and I no longer remember how exactly it went. But having it done this way allows for processing even large numbers of samples - this code has processed seqs from 5826 samples in Human Microbiome Project, however many that was - within memory budget of 6GB. I also don’t remember how the memory requirements grow with the size of input, but I must have tried increasing memory for individual jobs that assigned taxonomy before giving up.<br>
+This was with dada2_1.14.0, and R  3.6.2.</p>
+<p>Assigning taxonomy / adding species are both needle-and-haystack problems, so the memory requirements shouldn’t need to grow as the size of needles increases.  I’m thinking I could find out if it’s still a problem, where exactly in dada2 this memory was/is accumulated per seq, and try fix it.</p>
+<h2 id="missing-in-tada-but-can-be-worked-around">Missing in TADA, but can be worked around</h2>
+<h3 id="grouping-samples">Grouping samples</h3>
+<p>This is used for processing the reads “together but separately” by building different error models per group.<br>
+Two datasets use this, one is “two studies merged into one” (<a href="https://microbiomedb.org/mbio/app/record/dataset/DS_cd14a6c7a2">Experimental cutaneous leishmaniasis</a>) and one kept track of sequencing batch per sample (<a href="https://microbiomedb.org/mbio/app/record/dataset/DS_fe8cd04882">CAMP study</a>). First one could be split into two, and the second do without the feature - the grouping doesn’t seem to affect the results.</p>
+<h3 id="post-analysis-processing">Post-analysis processing</h3>
+<ul>
+<li>optional merging of counts by technical replicate</li>
+<li>filtering ASVs that correspond to one read</li>
+<li>filtering out samples with very few ASVs</li>
+<li></li>
+</ul>
+<p>We can do this after the pipeline run.</p>
+<h2 id="extra-capability">Extra capability</h2>
+<h3 id="nextflow-is-better-than-djob">Nextflow is better than DJob</h3>
+<p>Our workflow doesn’t preserve logs for individidual jobs, I can’t easily rerun tasks.</p>
+<h3 id="read-tracking--qc">Read tracking + QC</h3>
+<p>Originally</p>
+<h3 id="option-to-pool-reads-for-sample-inference">Option to pool reads for sample inference</h3>
+<p>We’ve had datasets we discarded because they didn’t return enough ASVs. Now it’s an extra option to provide to the pipeline, could be good.</p>
+<h3 id="trees-of-asvs">Trees of ASVs</h3>
+<p>We can then calculate diversity from ASV counts, taking tree structure into account. This would not bias against samples with unknown species (no bias against dark diversity) and let us distinguish “deep diversity” of samples with representation across phyla or families from samples containing many genera from a single family.</p>
+
+    </div>
+  </div>
+</body>
+
+</html>
