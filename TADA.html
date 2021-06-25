@@ -42,6 +42,7 @@ bin/VariableLenMergePairs-Pooled.R
 <p>Issue: <a href="https://github.com/h3abionet/TADA/issues/17">https://github.com/h3abionet/TADA/issues/17</a></p>
 <h3 id="batch-processing-for-assigntaxonomy.">Batch processing for assignTaxonomy().</h3>
 <p>We do it <a href="https://github.com/VEuPathDB/DJob/blob/master/DistribJobTasks/bin/dada2/mergeAsvsAndAssignToOtus.R#L35">here</a>.</p>
+<p>I’m thinking this could be solved in dada2 itself, I’ve started looking into it.</p>
 <h4 id="draft-issue-for-benjamin">Draft issue for Benjamin</h4>
 <p>I’m reviewing our dada2 wrappers for MicrobiomeDB, with the hope of maybe getting rid of them and moving on to a better way of running dada2 at scale.</p>
 <p>I have ended up with code that runs <code>assignTaxonomy</code> and <code>addSpecies</code> in chunks of up to 1500 sequences:<br>
@@ -74,18 +75,19 @@ Two datasets use this, one is “two studies merged into one” (<a href="https:
 <li>optional merging of counts by technical replicate</li>
 <li>filtering ASVs that correspond to one read</li>
 <li>filtering out samples with very few ASVs</li>
-<li></li>
 </ul>
 <p>We can do this after the pipeline run.</p>
 <h2 id="extra-capability">Extra capability</h2>
 <h3 id="nextflow-is-better-than-djob">Nextflow is better than DJob</h3>
 <p>Our workflow doesn’t preserve logs for individidual jobs, I can’t easily rerun tasks.</p>
 <h3 id="read-tracking--qc">Read tracking + QC</h3>
-<p>Originally</p>
+<p>This would be really good, right now I have no good way to check what happened to the analysis. It could be of interest to users too and we won’t have to struggle to explain sample dropout.</p>
 <h3 id="option-to-pool-reads-for-sample-inference">Option to pool reads for sample inference</h3>
 <p>We’ve had datasets we discarded because they didn’t return enough ASVs. Now it’s an extra option to provide to the pipeline, could be good.</p>
 <h3 id="trees-of-asvs">Trees of ASVs</h3>
-<p>We can then calculate diversity from ASV counts, taking tree structure into account. This would not bias against samples with unknown species (no bias against dark diversity) and let us distinguish “deep diversity” of samples with representation across phyla or families from samples containing many genera from a single family.</p>
+<p>We can then calculate diversity from ASV counts, taking tree structure into account. This would not bias against samples with unknown species (no bias against dark diversity) and let us distinguish “deep diversity” of samples with representation across phyla or families from samples containing many genera from a single family.<br>
+QDiv can do it, if added at the end of the pipeline?<br>
+<a href="https://qdiv.readthedocs.io/en/latest/Diversity%20calculations.html">https://qdiv.readthedocs.io/en/latest/Diversity calculations.html</a></p>
 
     </div>
   </div>
