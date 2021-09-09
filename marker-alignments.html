@@ -15,8 +15,9 @@
 <ul>
 <li><a href="#marker-alignments">Marker alignments</a>
 <ul>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#eukdetect-paper-and-what-i-take-from-it">EukDetect paper and what I take from it</a></li>
-<li><a href="#data-produced-by-workflow">Data produced by workflow</a></li>
+<li><a href="#workflow-overview">Workflow overview</a></li>
 <li><a href="#visualising-results-on-microbiomedb">Visualising results on MicrobiomeDB</a></li>
 <li><a href="#improving-quality-of-the-results">Improving quality of the results</a></li>
 </ul>
@@ -30,6 +31,7 @@
       <h1 id="marker-alignments">Marker alignments</h1>
 <p>data dev meeting, 09. 09. 2021</p>
 <p><em>Alignments to eukaryotic markers to detect their presence in metagenomic markers</em>.</p>
+<h2 id="introduction">Introduction</h2>
 <p>First a screenshot:</p>
 <p><img src="https://i.imgur.com/tS5hIMa.png" alt="enter image description here"></p>
 <p>I want to talk about:</p>
@@ -40,15 +42,21 @@
 </ul>
 <p>and then describe what I did to get there.</p>
 <h2 id="eukdetect-paper-and-what-i-take-from-it">EukDetect paper and what I take from it</h2>
-<p>The method comes from this paper:</p>
+<p>I am basing my work on the EukDetect paper:</p>
 <p>Lind, A.L., Pollard, K.S. Accurate and sensitive detection of microbial eukaryotes from whole metagenome shotgun sequencing. <em>Microbiome</em> <strong>9,</strong> 58 (2021). <a href="https://doi.org/10.1186/s40168-021-01015-y">https://doi.org/10.1186/s40168-021-01015-y</a></p>
 <p>I’ve copied most of their method, and I’m using the reference database.</p>
+<h3 id="eukdetect-reference">EukDetect reference</h3>
 <pre><code>We ran the BUSCO pipeline using the OrthoDB Eukaryote lineage [35]  on 3,713  172  
 eukaryotic genomes  and transcriptomes  (2,010 fungi, 596  protists, 961 non-vertebrate 173  
 metazoans, and 146 non-streptophyte archaeplastids)
 </code></pre>
 <p>It’s a bowtie2 index with half a million genes, and a list of taxa per gene. The reference was designed in such a way that bacterial reads won’t match to it (we’ll see about that).</p>
-<h2 id="data-produced-by-workflow">Data produced by workflow</h2>
+<h3 id="eukdetect-code">EukDetect code</h3>
+<p>I’m grateful it’s <a href="https://github.com/allind/EukDetect">there</a>, but it seemed hard to actually run it.<br>
+It’s a snakemake pipeline, and the conda env contains 170 dependencies - probably everything the author had on their laptop.</p>
+<h3 id="code-ive-written-instead">Code I’ve written instead</h3>
+<p>Instead I was inspired to write a Python package <a href="https://github.com/wbazant/marker_alignments">marker_alignments</a> that reads an alignment file and summarizes it on a marker / taxon level, and a Nextflow pipeline <a href="https://github.com/wbazant/marker-alignments-nextflow">marker-alignments-nextflow</a>.</p>
+<h2 id="workflow-overview">Workflow overview</h2>
 <p>For each sample, I download the fastq, run an alignment to the reference - that’s a .sam file - and I run a program I’ve written to summarize it by taxon. I get a TSV:</p>
 <pre><code>$ summarize_marker_alignments --input /home/wbazant/ncbi_eukprot_met_arch_markers.ERR2749179.sam \
   --output /dev/stdout --output-type taxon_all --num-reads 100000 \
