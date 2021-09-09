@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marker alignments</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#marker-alignments">Marker alignments</a>
+<ul>
+<li><a href="#eukdetect-paper-and-what-i-take-from-it">EukDetect paper and what I take from it</a></li>
+<li><a href="#data-produced-by-workflow">Data produced by workflow</a></li>
+<li><a href="#visualising-results-on-microbiomedb">Visualising results on MicrobiomeDB</a></li>
+<li><a href="#improving-quality-of-the-results">Improving quality of the results</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="marker-alignments">Marker alignments</h1>
+<p>data dev meeting, 09. 09. 2021</p>
+<p><em>Alignments to eukaryotic markers to detect their presence in metagenomic markers</em>.</p>
+<p>First a screenshot:</p>
+<p><img src="https://i.imgur.com/tS5hIMa.png" alt="enter image description here"></p>
+<p>I want to talk about:</p>
+<ul>
+<li>what the data is</li>
+<li>why it’s a yes/no thing added to the sample details</li>
+<li>what the status of this work is</li>
+</ul>
+<p>and then describe what I did to get there.</p>
+<h2 id="eukdetect-paper-and-what-i-take-from-it">EukDetect paper and what I take from it</h2>
+<p>The method comes from this paper:</p>
+<p>Lind, A.L., Pollard, K.S. Accurate and sensitive detection of microbial eukaryotes from whole metagenome shotgun sequencing. <em>Microbiome</em> <strong>9,</strong> 58 (2021). <a href="https://doi.org/10.1186/s40168-021-01015-y">https://doi.org/10.1186/s40168-021-01015-y</a></p>
+<p>I’ve copied most of their method, and I’m using the reference database.</p>
+<pre><code>We ran the BUSCO pipeline using the OrthoDB Eukaryote lineage [35]  on 3,713  172  
+eukaryotic genomes  and transcriptomes  (2,010 fungi, 596  protists, 961 non-vertebrate 173  
+metazoans, and 146 non-streptophyte archaeplastids)
+</code></pre>
+<p>It’s a bowtie2 index with half a million genes, and a list of taxa per gene. The reference was designed in such a way that bacterial reads won’t match to it (we’ll see about that).</p>
+<h2 id="data-produced-by-workflow">Data produced by workflow</h2>
+<p>For each sample, I download the fastq, run an alignment to the reference - that’s a .sam file - and I run a program I’ve written to summarize it by taxon. I get a TSV:</p>
+<pre><code>$ summarize_marker_alignments --input /home/wbazant/ncbi_eukprot_met_arch_markers.ERR2749179.sam \
+  --output /dev/stdout --output-type taxon_all --num-reads 100000 \
+   --refdb-format eukprot --refdb-marker-to-taxon-path ~/busco_taxid_link.txt
+   
+taxon	coverage	cpm	taxon_num_reads	taxon_num_markers	taxon_max_reads_in_marker
+1076696|Entamoeba_nuttalli_P19	0.033076	0.330755	0.500000	1	0.500000
+108355|Myriosclerotinia_duriaeana	0.047796	0.477960	1.000000	1	1.000000
+1344418|Ascoidea_rubescens_DSM_1968	0.037252	0.372520	1.000000	1	1.000000
+185578|Anopheles_nili	0.146552	1.465520	2.000000	1	2.000000
+2082957|Cochlonema_odontosperma	0.018877	0.188770	1.000000	1	1.000000
+294381|Entamoeba_histolytica_HM-1IMSS	0.045155	0.451547	6.500000	6	2.000000
+36035|Saccharomycodes_ludwigii	0.041667	0.416670	2.500000	1	2.500000
+370354|Entamoeba_dispar_SAW760	0.070696	0.706958	16.500000	17	2.000000
+418940|Scyphosphaera_apsteinii	0.023714	0.237140	1.000000	1	1.000000
+44447|Pseudo-nitzschia_delicatissima	0.033260	0.332600	1.000000	1	1.000000
+4920|Millerozyma_farinosa	0.463206	4.632056	19.500176	1	19.500176
+515487|Stephanopyxis_turris	0.022802	0.228020	1.000000	1	1.000000
+52066|Steinernema_feltiae	0.055919	0.559190	1.000000	1	1.000000
+559292|Saccharomyces_cerevisiae_S288C	0.012834	0.128340	0.500000	1	0.500000
+5758|Entamoeba	0.050625	0.506250	1.000000	1	1.000000
+7200|Lutzomyia_longipalpis	1.742792	17.427920	26.000000	1	26.000000
+77020|Malassezia_pachydermatis	0.021587	0.215870	1.000000	1	1.000000
+933994|Spencermartinsiella_europaea	0.108726	1.087261	9.493378	1	9.493378
+944160|Blastocystis_sp_subtype_2	0.074007	0.740069	18.459526	13	3.459526
+944168|Blastocystis_sp_subtype_3	0.070026	0.700263	4.000000	4	1.000000
+</code></pre>
+<p>These <code>cpm</code> (copies per million) and other columns in the output were a reason for me to write the <code>marker_alignments</code> package instead of running the EukDetect software. I thought quantitative data would be better - we’ll see about that.</p>
+<h2 id="visualising-results-on-microbiomedb">Visualising results on MicrobiomeDB</h2>
+<p>I’ve made some uploads of the data as user datasets:<br>
+<a href="https://microbiomedb.org/mbio/app/search/sample/UserSampleByMetadata?param.biom_dataset=4040862">https://microbiomedb.org/mbio/app/search/sample/UserSampleByMetadata?param.biom_dataset=4040862</a></p>
+<p>I realised it’s not very good to add eukaryotes to the bacteria data because I can’t compare the units. They’re also not complete enough to stand on their own - most samples don’t report any eukaryotes.</p>
+<p>So this is why I’m adding the data as sample details. Yes/no in a multifilter lets you kind-of visualise other sample details too. I also wanted to add numeric data so that e.g. the correlation apps work - it’s still planned for EDA but meanwhile I’ve kind of lost heart.</p>
+<h2 id="improving-quality-of-the-results">Improving quality of the results</h2>
+<p>This is still ongoing!</p>
+<h3 id="need-for-filtering">Need for filtering</h3>
+<p>Let’s look at the above data again. These entries have quite a strong signal:</p>
+<pre><code>taxon	coverage	cpm	taxon_num_reads	taxon_num_markers	taxon_max_reads_in_marker
+370354|Entamoeba_dispar_SAW760	0.070696	0.706958	16.500000	17	2.000000
+944160|Blastocystis_sp_subtype_2	0.074007	0.740069	18.459526	13	3.459526
+</code></pre>
+<p>on the other hand,</p>
+<pre><code>
+52066|Steinernema_feltiae	0.055919	0.559190	1.000000	1	1.000000
+</code></pre>
+<p>is implausible - <em>Steinernema feltiae</em> is a badly sequenced free-living nematode that hunts mosquitoes.</p>
+<p>Overall I got this much data:</p>
+<pre><code>[wbazant@node153 data]$ wc -l */*Euk*/results*/cpms.tsv
+     14 otuDADA2_BONUS_RSRC/Eukdetect_BONUS/results/cpms.tsv
+    109 otuDADA2_DIABIMMUNE_WGS_RSRC/Eukdetect_DIABIMMUNE_WGS/results/cpms.tsv
+    104 otuDADA2_HMPWgs_RSRC/Eukdetect_HMPWgs/results/cpms.tsv
+   3500 otuDADA2_NICUNEC_RSRC/Eukdetect_NICUNEC-paired/results-paired/cpms.tsv
+   2700 otuDADA2_NICUNEC_RSRC/Eukdetect_NICUNEC/results-single/cpms.tsv
+     56 otuDADA2_ResistomeWgs_RSRC/Eukdetect_ResistomeWgs/results/cpms.tsv
+</code></pre>
+<p>3500 taxa from a reference of 4000, is not a very good result for a dataset.</p>
+<h3 id="filtering-rules">Filtering rules</h3>
+<p>originally: “four reads in two markers to keep a taxon”.</p>
+<h4 id="requiring-certain-quality-of-each-read">requiring certain quality of each read</h4>
+<p>EukDetect asks for min read length 60, and filters out “low complexity sequences”. I didn’t even try these, I think they’re not right.</p>
+<h4 id="requiring-certain-quality-of-each-alignment">requiring certain quality of each alignment</h4>
+<p>Eukdetect asks for min mapping quality 30, as bowtie2 reported MAPQ. I also thought it’s just</p>
+<h4 id="requiring-four-reads">requiring four reads</h4>
+<p>I’ve verified it is not a good rule, it degrades to “four markers” because in good signal there are only 1/2 reads per marker.</p>
+<h4 id="requiring-two-markers">requiring two markers</h4>
+<p>is right. I spent slightly less than two weeks coming to that conclusion because I wanted to try some statistical modelling to know when to increase the cutoff. It turns out to not help, in the NICU NEC dataset even requiring twenty markers passes absurd results through.</p>
+<h4 id="requiring-three-taxon-appearances-in-the-whole-dataset">requiring three taxon appearances in the whole dataset</h4>
+<p>is what I came up with, it removes the long tail of weak results and makes the data easier to use.</p>
+<h4 id="not-looking-for-plants-and-metazoans-at-all">not looking for plants and metazoans at all</h4>
+<p>was suggested at the meeting, and I like it. They have the dodgiest genomes, because they’re relatively complex and relatively obscure. Even a bad genome of e.g. that mosquito catching nematode is useful to <em>S. feltiae</em> researchers, and more power to them, but I don’t want it in my data.</p>
+<h4 id="skipping-bad-studies-or-only-taking-parts-of-them">skipping bad studies or only taking parts of them</h4>
+<p>I tried this idea - just take the part that I think is trustworthy from the bad studies, instead of skipping them completely - but it’s totally desperate and people at the meeting rightfully pointed out that it’s not good to do.</p>
+<h3 id="where-this-work-was-at-earlier-this-week">Where this work was at earlier this week</h3>
+<p>I guess a fairly grim place: I didn’t trust the data, some stuff I tried has failed.</p>
+<p>On Tuesday when making this doc I’ve looked at my bad dataset, and realised that the query length segments are very short.</p>
+<h4 id="aside---cigar-format">Aside - CIGAR format</h4>
+<p><a href="https://drive5.com/usearch/manual/cigar.html">https://drive5.com/usearch/manual/cigar.html</a> is a neat guide.</p>
+<p>Now that you know how to read CIGAR strings, have a look at <a href="https://github.com/wbazant/marker-alignments-nextflow/issues/1#issuecomment-914361542">https://github.com/wbazant/marker-alignments-nextflow/issues/1#issuecomment-914361542</a> with me.</p>
+<h3 id="alignment-filters">Alignment filters</h3>
+<p>I don’t know what a good alignment length is - I am setting forty bases as minimum, and I’m also looking at reported qualities.</p>
+<p>I tested different filters on NICU-NEC single end part of the alignments. I only got the reasonable number of 30 reported taxa for a dataset after applying both a match length filter and the mapping quality filter.<br>
+Asking for four reads per taxon in additional to two markers doesn’t really help, skipping the mapping quality filter seems inappropriate too.</p>
+<pre><code>Alignment Reads/taxon Markers/taxon Results
+m100q30 - 2 30
+m40 - 2 250
+- 4 2 2700
+q30 - 2 2947
+- - 2 3634
+</code></pre>
+<p>Setting match length to 100 after this particular dataset was possible because I looked at the stats, and saw they’re a mixture of 100 and 150 length single-end reads. I think I would like to require “alignments of the whole read only” or something like that, but I don’t know how to configure it.</p>
+<h3 id="how-good-nextflow-is">How good Nextflow is</h3>
+<p>It’s very good at rerunning just the right things. On Wednesday I’ve decided I need an extra process to run <code>samtools stats</code> on each alignment, an extra filter, and to report those results:<br>
+<a href="https://github.com/wbazant/marker-alignments-nextflow/commit/ffd5a61b4400b">https://github.com/wbazant/marker-alignments-nextflow/commit/ffd5a61b4400b</a></p>
+<p>Then I can do <code>nextflow pull wbazant/marker-alignments-nextflow</code> on PMACS to get the newest version. I go to a directory of a workflow I wish to redo, and issue a run command.</p>
+<p>When I run it, it knows to reuse the previous downloads and alignments, but it needs to do the stats and to re-filter. I <code>tail -f</code> the output to see such updates:</p>
+<pre><code>executor &gt;  lsf (1688)
+[e8/1824b8] process &gt; downloadPairedSra (520)        [100%] 520 of 520, cache...
+[81/1dd6a2] process &gt; bowtie2Paired (520)            [100%] 520 of 520, cache...
+[af/84df1a] process &gt; alignmentStats (520)           [100%] 520 of 520 ✔
+[3e/df3e41] process &gt; filterAlignments (519)         [100%] 520 of 520 ✔
+[76/81fc4d] process &gt; summarizeAlignmentsIntoMark... [ 46%] 238 of 520
+[41/2eb86c] process &gt; summarizeAlignmentsIntoTaxa... [ 46%] 237 of 520
+[c5/b0c86a] process &gt; filterPostSummarize (93)       [ 31%] 73 of 237
+[-        ] process &gt; makeTsv   
+</code></pre>
+<p>We can actually see if it finished now!</p>
+
+    </div>
+  </div>
+</body>
+
+</html>
