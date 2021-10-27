@@ -15,7 +15,7 @@
 <ul>
 <li><a href="#nextflow-you-may-or-may-not-need-it">Nextflow: you may or may not need it</a>
 <ul>
-<li><a href="#nextflow">Nextflow</a></li>
+<li><a href="#what-is-nextflow">What is Nextflow?</a></li>
 <li><a href="#you-may-not-need-nextflow">You may not need Nextflow</a></li>
 <li><a href="#a-larger-example">A larger example</a></li>
 <li><a href="#actually-nextflow-is-pretty-good">Actually, Nextflow is pretty good</a></li>
@@ -28,15 +28,16 @@
   <div class="stackedit__right">
     <div class="stackedit__html">
       <h1 id="nextflow-you-may-or-may-not-need-it">Nextflow: you may or may not need it</h1>
-<h2 id="nextflow">Nextflow</h2>
-<p>Nextflow allows you to write a computational pipeline by making it simpler to put together many different tasks.<br>
+<h2 id="what-is-nextflow">What is Nextflow?</h2>
+<p>Nextflow is a tool for writing and running pipelines. It helps you write a computational pipeline by making it simpler to put together many different tasks.<br>
 <a href="https://www.nextflow.io/">https://www.nextflow.io/</a></p>
 <h2 id="you-may-not-need-nextflow">You may not need Nextflow</h2>
 <p>Tools are there to solve problems. If you don’t have a problem a tool is trying to solve, you don’t need the tool.</p>
-<p>Here is Nextflow’s own example:</p>
-<p><img src="https://www.nextflow.io/img/home-dsl2.png" alt="nextflow's own example"></p>
-<h3 id="groovy-and-the-dsl">Groovy and the DSL</h3>
-<p>The domain-specific language is nice but for the task at hand you can just write some Bash. This was my first go:</p>
+<h3 id="small-example">Small example</h3>
+<p>Here is Nextflow’s own example of what Nextflow can be used for:</p>
+<p><img src="https://www.nextflow.io/img/home-dsl2.png" alt="nextflow's own example"><br>
+We will try to achieve the same results with just Bash.</p>
+<p>This was my first attempt:</p>
 <pre><code>#!/usr/bin/bash
 
 sayHello(){
@@ -50,13 +51,14 @@ for greeting in Ciao Hello Hola; do
 </code></pre>
 <h4 id="does-it-run">Does it run?</h4>
 <p><img src="https://c.tenor.com/MJllhXXzl0YAAAAC/seth-meyers-spoiler-alert.gif5" alt="spoilers"></p>
-<p>It really doesn’t. This is the error when I run it:</p>
+<p>It doesn’t. This is the error when I run it:</p>
 <pre><code>line 9: syntax error near unexpected token `$greeting'
 line 9: `  sayHello($greeting)'
 </code></pre>
-<h4 id="shellcheck-gives-better-errors">Shellcheck gives better errors</h4>
-<p>Checks your scripts, and teaches you how to write more robust shell scripts. Let’s paste it in:</p>
-<p><a href="https://www.shellcheck.net/">https://www.shellcheck.net/</a></p>
+<h4 id="introducing-shellcheck">Introducing ShellCheck</h4>
+<p>ShellCheck is a linter. Checks your scripts, and teaches you how to write more robust shell scripts.</p>
+<p>Let’s paste our program into the web version and see what it says:<br>
+<a href="https://www.shellcheck.net/">https://www.shellcheck.net/</a></p>
 <h2 id="a-larger-example">A larger example</h2>
 <p>“Nextflow allows you to write a computational pipeline by making it simpler to put together many different tasks.”</p>
 <p>Here’s a slightly larger example, something I did last week.</p>
@@ -72,17 +74,20 @@ for readLength in 100 150 200 250 300; do
 
   grep -v '^@' ${readLength}.wgsim.sam | cut -f 5 | sort -n | uniq -c &gt; ${readLength}.wgsim.sam.mapq.tsv
 done
+
+head -n50 *.wgsim.sam.mapq.tsv | less
 </code></pre>
-<p>There are some things that are basically good here!</p>
+<p>There are some things that are working for me well here!</p>
 <ul>
-<li>I have the commands in one place (instead of just typing them into the terminal and forgetting)</li>
+<li>I have my commands in one place (instead of just typing them into the terminal and forgetting)</li>
 <li>I can use file names to separate different inputs and outputs</li>
+<li>I am keeping the outputs together with the source code</li>
 </ul>
-<p>On the other hand, it’s inflexible:</p>
+<p>On the other hand, some things make iterating on this program more difficult:</p>
 <ul>
-<li>If I want to change it, I have to rerun the whole thing</li>
-<li>If I want to give the program to someone, they have to change the variable on the top.</li>
-<li>No versioning</li>
+<li>If I want to change parts of the program, I have to run it from scratch</li>
+<li>It’s not flexible - the variable on the top is part of the script, etc.</li>
+<li>I can’t have multiple versions and compare results</li>
 </ul>
 <h3 id="adding-conditional-reruns">Adding conditional reruns</h3>
 <p>To only rerun something when the file doesn’t exist, there’s a pattern:</p>
@@ -98,7 +103,7 @@ fi
 /bin/[
 </code></pre>
 <h3 id="adding-versioning">Adding versioning</h3>
-<p>If I want to make a different version, I actually just move everything to a folder named “1”, make a new folder named “2”, copy the script from 1 to 2, change it a bit, and rerun it the new folder. Let me show you:</p>
+<p>If I want to make a different version of the code, I actually just move everything to a folder named “1”, make a new folder named “2”, copy the script from 1 to 2, change it a bit, and rerun it the new folder. Let me show you:</p>
 <pre><code>[wbazant@node155 mapq]$ pwd
 /project/eupathdblab/devWorkflows/MicrobiomeDB/mapq
 [wbazant@node155 mapq]$ ls
@@ -123,12 +128,12 @@ fi
 100.wgsim.sam   150.wgsim.log           200.wgsim_2.fq          250.wgsim_1.fq          250.wgsim.sam.mapq.tsv  300.wgsim.sam   bsub.e
 
 </code></pre>
-<p>So maybe you can get by without Nextflow!</p>
+<p>That’s enough time spent on Bash scripting. But what I wanted to show is maybe you can get by without tools like Nextflow!</p>
 <p><img src="https://i.imgflip.com/5rqbu2.jpg" alt="comparison"></p>
 <h2 id="actually-nextflow-is-pretty-good">Actually, Nextflow is pretty good</h2>
-<p>Also based on Linux - individual tasks get Bash wrappers that set their environment, run them in their own folders, and manage outputs.</p>
-<p>It organises task runs and their outputs in a special <code>work</code> directory - no need for special file names!</p>
-<p>When something goes wrong the pipeline stops and tell you where to look. Easy to fix and resume execution - it works out what to rerun based on hashes (both inputs, and versions of the program).</p>
+<p>Anyone who used Linux will be more or less at home, because it’s based on Linux. Individual tasks get Bash wrappers that set their environment, run them in their own folders, and manage outputs.</p>
+<p>It organises task runs and their outputs in a special <code>work</code> directory - no need to organize that through file names!</p>
+<p>When something goes wrong the pipeline stops and tell you where to look. It’s easy to fix and resume execution - it works out what to rerun based on hashes (both inputs, and versions of the program).</p>
 <p>It shows you a nice summary of what’s happening:</p>
 <pre><code>executor &gt;  lsf (1688)
 [e8/1824b8] process &gt; downloadPairedSra (520)        [100%] 520 of 520, cache...
@@ -140,9 +145,10 @@ fi
 [c5/b0c86a] process &gt; filterPostSummarize (93)       [ 31%] 73 of 237
 [-        ] process &gt; makeTsv   
 </code></pre>
-<p>It’s good for running tasks on the cluster. It’s also good for reproducibility: there are containers and such.</p>
-<p>There are many standard pipelines in nf core:</p>
-<p><a href="https://nf-co.re">https://nf-co.re</a></p>
+<p>It’s good for running tasks on the cluster.</p>
+<p>It’s good for reproducibility: there are containers and such.</p>
+<p>There are many standard pipelines in nf core:<br>
+<a href="https://nf-co.re">https://nf-co.re</a></p>
 
     </div>
   </div>
